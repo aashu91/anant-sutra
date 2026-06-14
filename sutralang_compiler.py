@@ -138,27 +138,32 @@ class SutraCompiler:
         loop_header = None
         loop_sutras = []
 
-        for line in lines:
+        for line_num, line in enumerate(lines, 1):
             line_str = line.strip()
-            if not line_str:
+            if not line_str or line_str.startswith(';'):
                 continue
 
             # Detect Loop Start (Pravahanam)
-            # Examples: "loop chalao jab tak i 5 se chota ho"
-            # "loop: i up to 3"
+            # Support variables or values as the limit/seema parameter
             match_loop = re.search(
-                r'(?:loop\s+chalao\s+jab\s+tak\s+(\w+)\s+(\d+)\s+se\s+chota|while\s+(\w+)\s+is\s+less\s+than\s+(\d+))',
-                line_str.lower()
+                r'(?:loop\s+chalao\s+jab\s+tak\s+(\w+)\s+((?:"[^"]*")|[\w\d]+)\s+se\s+chota|while\s+(\w+)\s+is\s+less\s+than\s+((?:"[^"]*")|[\w\d]+))',
+                line_str, re.IGNORECASE
             )
             if match_loop:
+                if in_loop:
+                    raise ValueError(f"Line {line_num}: Nested loops not supported in this version.")
                 in_loop = True
                 groups = [g for g in match_loop.groups() if g is not None]
-                loop_header = {"var": groups[0], "limit": int(groups[1])}
+                limit_val = groups[1]
+                try:
+                    limit_val = int(limit_val)
+                except ValueError:
+                    pass
+                loop_header = {"var": groups[0], "limit": limit_val}
                 continue
 
             # Detect Loop End
-            if in_loop and ("end loop" in line_str.lower() or "loop khatam" in line_str.lower()):
-                # Construct Pravahanam Kriya
+            if in_loop and ("end loop" in line_str.lower() or "loop khatam" in line_str.lower() or "loop_khatam" in line_str.lower()):
                 program.append({
                     "Kriya": "Pravahanam",
                     "Adhikarana": loop_header["var"],
@@ -177,7 +182,10 @@ class SutraCompiler:
                 else:
                     program.append(ast_step)
             else:
-                self.log(f"\033[93mSkipped line (could not parse): '{line_str}'\033[0m")
+                raise SyntaxError(f"Line {line_num}: Invalid syntax. Could not compile: '{line_str}'")
+
+        if in_loop:
+            raise SyntaxError("Unterminated loop block at end of file.")
 
         return program
 
