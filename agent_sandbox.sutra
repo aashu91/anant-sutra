@@ -1,0 +1,24 @@
+; SutraLang AI Agent Sandbox: Enforcing Trust Boundaries
+; Ensures an AI agent cannot bypass API quotas or fabricate execution states.
+
+ek variable api_quota value 3
+ek variable api_calls value 0
+
+; Loop simulating sequential agent tool execution
+loop_counter + sruj(maan=0)
+loop_counter + pravah(seema=4)
+  print "Agent attempting to trigger API call..."
+  
+  ; Trust Boundary Gate: Check if api_calls < api_quota
+  agar api_calls api_quota se chota ho
+    api_calls ko 1 se badhao
+    print "System: API execution permitted. Logged successfully."
+  sankalpa khatam
+
+  ; Violation Detection Gate: Check if quota has been reached
+  agar api_calls api_quota ke barabar ho
+    print "Security Alert: API call blocked! Agent quota exceeded."
+  sankalpa khatam
+
+  loop_counter ko 1 se badhao
+loop_khatam

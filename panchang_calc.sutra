@@ -1,0 +1,12 @@
+; Panchang Tithi Calculator written in natural vibe coding
+; Calculation rule: 1 Tithi corresponds to exactly 12 degrees of Sun-Moon separation.
+
+ek variable banao elongation value 144
+print elongation
+
+; Compute Tithi: Copy elongation value, then divide it by 12
+ek variable tithi value 0
+tithi me elongation jod do
+tithi ko 12 se bhag do
+
+print tithi

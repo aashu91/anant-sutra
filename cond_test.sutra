@@ -1,0 +1,14 @@
+; Test script for Sankalpa (conditionals) in natural vibe coding
+
+ek variable score value 85
+print score
+
+; If score > 50, print success message
+agar score 50 se bada ho
+  print "Success: Score is greater than 50"
+sankalpa khatam
+
+; If score == 100, print perfect score message
+agar score 100 ke barabar ho
+  print "Perfect: score is exactly 100"
+sankalpa khatam

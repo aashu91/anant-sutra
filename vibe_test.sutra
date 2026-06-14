@@ -1,0 +1,8 @@
+; Vibe coding test script: Pure natural language sentences
+; Translates to Sanskrit logic structures at compile time
+
+ek variable banao score value 100
+score ko 25 se badhao
+print score
+score ko 50 se kam karo
+score ko dikhao

@@ -1,0 +1,9 @@
+# Compiled binaries
+sutra
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Local PDF downloads or outputs if any
+*.pdf

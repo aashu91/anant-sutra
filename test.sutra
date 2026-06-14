@@ -1,0 +1,11 @@
+; Test program written in pure Paninian SutraLang syntax
+; Implements state variable creation, mathematical kriya, and loop flow
+
+counter + sruj(maan=0)
+i + sruj(maan=0)
+
+i + pravah(seema=3)
+  counter + vrdh(karana=5)
+  counter + drsh()
+  i + vrdh(karana=1)
+pravah_khatam
