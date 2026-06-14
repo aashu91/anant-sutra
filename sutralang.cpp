@@ -778,19 +778,324 @@ void save_program_to_bytecode(const std::vector<Instruction>& program, const std
     out.close();
 }
 
+void print_value_json(const Instruction::Value& val) {
+    if (val.type == TAG_INT) {
+        std::cout << val.int_val;
+    } else if (val.type == TAG_STR) {
+        std::cout << "\"" << val.str_val << "\"";
+    } else {
+        // TAG_VAR
+        std::cout << "\"" << val.str_val << "\"";
+    }
+}
+
+void print_instruction_json(const Instruction& inst) {
+    std::cout << "{";
+    if (inst.opcode == OP_SRUJ) {
+        std::cout << "\"Kriya\":\"Srujana\",\"Karta\":\"" << inst.karta << "\",\"Maan\":";
+        print_value_json(inst.op1);
+    } else if (inst.opcode == OP_VRDH) {
+        std::cout << "\"Kriya\":\"Vardhanam\",\"Karma\":\"" << inst.karta << "\",\"Karana\":";
+        print_value_json(inst.op1);
+    } else if (inst.opcode == OP_HRAS) {
+        std::cout << "\"Kriya\":\"Hrasanam\",\"Karma\":\"" << inst.karta << "\",\"Karana\":";
+        print_value_json(inst.op1);
+    } else if (inst.opcode == OP_DRSH) {
+        std::cout << "\"Kriya\":\"Darshanam\",\"Karma\":";
+        print_value_json(inst.op1);
+    } else if (inst.opcode == OP_YOG) {
+        std::cout << "\"Kriya\":\"Yog\",\"Karta\":\"" << inst.karta << "\",\"Karana\":";
+        print_value_json(inst.op1);
+        std::cout << ",\"Sahakarana\":";
+        print_value_json(inst.op2);
+    } else if (inst.opcode == OP_ANTR) {
+        std::cout << "\"Kriya\":\"Antar\",\"Karta\":\"" << inst.karta << "\",\"Karana\":";
+        print_value_json(inst.op1);
+        std::cout << ",\"Sahakarana\":";
+        print_value_json(inst.op2);
+    } else if (inst.opcode == OP_GUNAN) {
+        std::cout << "\"Kriya\":\"Gunan\",\"Karta\":\"" << inst.karta << "\",\"Karana\":";
+        print_value_json(inst.op1);
+        std::cout << ",\"Sahakarana\":";
+        print_value_json(inst.op2);
+    } else if (inst.opcode == OP_BHAGAPHALAM) {
+        std::cout << "\"Kriya\":\"Bhagaphalam\",\"Karta\":\"" << inst.karta << "\",\"Karana\":";
+        print_value_json(inst.op1);
+        std::cout << ",\"Sahakarana\":";
+        print_value_json(inst.op2);
+    } else if (inst.opcode == OP_GUN) {
+        std::cout << "\"Kriya\":\"Guna\",\"Karma\":\"" << inst.karta << "\",\"Karana\":";
+        print_value_json(inst.op1);
+    } else if (inst.opcode == OP_BHAG) {
+        std::cout << "\"Kriya\":\"Bhaga\",\"Karma\":\"" << inst.karta << "\",\"Karana\":";
+        print_value_json(inst.op1);
+    } else if (inst.opcode == OP_SANDH) {
+        std::cout << "\"Kriya\":\"Sandh\",\"Karta\":\"" << inst.karta << "\",\"Karana\":";
+        print_value_json(inst.op1);
+        std::cout << ",\"Sahakarana\":";
+        print_value_json(inst.op2);
+    } else if (inst.opcode == OP_SANKALPA) {
+        std::cout << "\"Kriya\":\"Sankalpa\",\"Karta\":\"" << inst.karta << "\",\"Sharta\":";
+        if (inst.sharta_tag == COMP_BADA) std::cout << "\"bada\"";
+        else if (inst.sharta_tag == COMP_CHOTA) std::cout << "\"chota\"";
+        else std::cout << "\"barabar\"";
+        std::cout << ",\"Karana\":";
+        print_value_json(inst.op1);
+        std::cout << ",\"Sutras\":[";
+        for (size_t i = 0; i < inst.sub_instructions.size(); ++i) {
+            print_instruction_json(inst.sub_instructions[i]);
+            if (i + 1 < inst.sub_instructions.size()) std::cout << ",";
+        }
+        std::cout << "]";
+    } else if (inst.opcode == OP_PRAVAH) {
+        std::cout << "\"Kriya\":\"Pravahanam\",\"Adhikarana\":\"" << inst.karta << "\",\"Seema\":";
+        print_value_json(inst.op1);
+        std::cout << ",\"Sutras\":[";
+        for (size_t i = 0; i < inst.sub_instructions.size(); ++i) {
+            print_instruction_json(inst.sub_instructions[i]);
+            if (i + 1 < inst.sub_instructions.size()) std::cout << ",";
+        }
+        std::cout << "]";
+    }
+    std::cout << "}";
+}
+
+void print_program_ast_json(const std::vector<Instruction>& program) {
+    std::cout << "[";
+    bool first = true;
+    for (const auto& inst : program) {
+        if (inst.opcode == 0) continue;
+        if (!first) std::cout << ",";
+        print_instruction_json(inst);
+        first = false;
+    }
+    std::cout << "]" << std::endl;
+}
+
+// Semicolon-separated or newline-separated translation
+void translate_string(const std::string& input) {
+    std::stringstream ss(input);
+    std::string line;
+    while (std::getline(ss, line, ';')) {
+        std::string trimmed = trim(line);
+        if (trimmed.empty()) continue;
+        
+        std::stringstream ss2(trimmed);
+        std::string subline;
+        while (std::getline(ss2, subline, '\n')) {
+            std::string subtrimmed = trim(subline);
+            if (subtrimmed.empty()) continue;
+            
+            if (subtrimmed.find('+') == std::string::npos && subtrimmed != "pravah_khatam" && subtrimmed != "sankalpa_khatam") {
+                std::string translated = translate_natural_prompt(subtrimmed);
+                std::cout << translated << std::endl;
+            } else {
+                std::cout << subtrimmed << std::endl;
+            }
+        }
+    }
+}
+
+// Compile semicolon-separated string of statements
+std::vector<Instruction> compile_string(const std::string& input) {
+    std::vector<Instruction> program;
+    std::vector<Instruction*> loop_stack;
+    std::stringstream ss(input);
+    std::string line;
+    int line_num = 0;
+    
+    while (std::getline(ss, line, ';')) {
+        std::string trimmed = trim(line);
+        if (trimmed.empty()) continue;
+        
+        std::stringstream ss2(trimmed);
+        std::string subline;
+        while (std::getline(ss2, subline, '\n')) {
+            std::string subtrimmed = trim(subline);
+            if (subtrimmed.empty()) continue;
+            line_num++;
+            
+            SutraCompiler compiler;
+            Instruction inst = compiler.compile_line(subtrimmed, line_num);
+            if (inst.opcode == 0) continue;
+            
+            if (inst.opcode == OP_END_BLOCK) {
+                if (loop_stack.empty()) {
+                    throw std::runtime_error("Orphan block end without matching block start.");
+                }
+                loop_stack.pop_back();
+            } else if (inst.opcode == OP_PRAVAH || inst.opcode == OP_SANKALPA) {
+                if (loop_stack.empty()) {
+                    program.push_back(inst);
+                    loop_stack.push_back(&program.back());
+                } else {
+                    loop_stack.back()->sub_instructions.push_back(inst);
+                    loop_stack.push_back(&(loop_stack.back()->sub_instructions.back()));
+                }
+            } else {
+                if (loop_stack.empty()) {
+                    program.push_back(inst);
+                } else {
+                    loop_stack.back()->sub_instructions.push_back(inst);
+                }
+            }
+        }
+    }
+    
+    if (!loop_stack.empty()) {
+        throw std::runtime_error("Unterminated loop/conditional block at end of statement string.");
+    }
+    return program;
+}
+
 int main(int argc, char* argv[]) {
-    std::cout << COLOR_CYAN << "==========================================" << COLOR_RESET << std::endl;
-    std::cout << COLOR_CYAN << "  SUTRA: Pure Paninian C++ Compiler/VM   " << COLOR_RESET << std::endl;
-    std::cout << COLOR_CYAN << "==========================================" << COLOR_RESET << std::endl;
+    // Suppress header for clean machine-to-machine integrations (e.g. CLI agent or Server calls)
+    // if flags like --translate-line, --compile-line are used.
+    bool show_header = true;
+    for (int i = 1; i < argc; ++i) {
+        if (std::string(argv[i]) == "--translate-line" || 
+            std::string(argv[i]) == "--compile-line" ||
+            std::string(argv[i]) == "--run-line" ||
+            std::string(argv[i]) == "--compile" ||
+            std::string(argv[i]) == "-c" ||
+            std::string(argv[i]) == "--run" ||
+            std::string(argv[i]) == "-r" ||
+            std::string(argv[i]) == "--ast-line") {
+            show_header = false;
+        }
+    }
+
+    if (show_header) {
+        std::cout << COLOR_CYAN << "==========================================" << COLOR_RESET << std::endl;
+        std::cout << COLOR_CYAN << "  SUTRA: Pure Paninian C++ Compiler/VM   " << COLOR_RESET << std::endl;
+        std::cout << COLOR_CYAN << "==========================================" << COLOR_RESET << std::endl;
+    }
 
     if (argc < 2) {
-        std::cout << "Usage: ./sutra <filename.sutra | filename.sutrab>" << std::endl;
+        std::cout << "Usage:" << std::endl;
+        std::cout << "  ./sutra <filename.sutra | filename.sutrab>           (Compile & Run / Run)" << std::endl;
+        std::cout << "  ./sutra --compile <input.sutra> <output.sutrab>      (Compile text file to bytecode)" << std::endl;
+        std::cout << "  ./sutra --run <input.sutrab>                         (Run bytecode directly)" << std::endl;
+        std::cout << "  ./sutra --translate-line \"<prompt>\"                  (Translate Hinglish/English vibe code to SutraLang)" << std::endl;
+        std::cout << "  ./sutra --compile-line \"<code_statements>\" <out.sutrab> (Compile code string to bytecode)" << std::endl;
+        std::cout << "  ./sutra --run-line \"<code_statements>\"              (Compile code string and run it)" << std::endl;
         return 1;
     }
 
-    std::string filename = argv[1];
-    
-    // Check if binary or text
+    std::string arg1 = argv[1];
+
+    if (arg1 == "--ast-line") {
+        if (argc < 3) {
+            std::cerr << "Error: Usage: --ast-line \"<statements>\"" << std::endl;
+            return 1;
+        }
+        try {
+            std::vector<Instruction> program = compile_string(argv[2]);
+            print_program_ast_json(program);
+        } catch (const std::exception& e) {
+            std::cerr << "AST Compilation Error: " << e.what() << std::endl;
+            return 1;
+        }
+        return 0;
+    }
+
+    if (arg1 == "--translate-line") {
+        if (argc < 3) {
+            std::cerr << "Error: Missing prompt text." << std::endl;
+            return 1;
+        }
+        translate_string(argv[2]);
+        return 0;
+    }
+
+    if (arg1 == "--compile-line") {
+        if (argc < 4) {
+            std::cerr << "Error: Usage: --compile-line \"<statements>\" <output.sutrab>" << std::endl;
+            return 1;
+        }
+        try {
+            std::vector<Instruction> program = compile_string(argv[2]);
+            save_program_to_bytecode(program, argv[3]);
+        } catch (const std::exception& e) {
+            std::cerr << "Compilation Error: " << e.what() << std::endl;
+            return 1;
+        }
+        return 0;
+    }
+
+    if (arg1 == "--run-line") {
+        if (argc < 3) {
+            std::cerr << "Error: Usage: --run-line \"<statements>\"" << std::endl;
+            return 1;
+        }
+        try {
+            std::vector<Instruction> program = compile_string(argv[2]);
+            SutraVM vm;
+            vm.execute(program);
+        } catch (const std::exception& e) {
+            std::cerr << "Execution Error: " << e.what() << std::endl;
+            return 1;
+        }
+        return 0;
+    }
+
+    if (arg1 == "--compile" || arg1 == "-c") {
+        if (argc < 4) {
+            std::cerr << "Error: Usage: --compile <input.sutra> <output.sutrab>" << std::endl;
+            return 1;
+        }
+        SutraCompiler compiler;
+        try {
+            std::vector<Instruction> program = compiler.compile_program(argv[2]);
+            save_program_to_bytecode(program, argv[3]);
+        } catch (const std::exception& e) {
+            std::cerr << "Compilation Failed: " << e.what() << std::endl;
+            return 1;
+        }
+        return 0;
+    }
+
+    if (arg1 == "--run" || arg1 == "-r") {
+        if (argc < 3) {
+            std::cerr << "Error: Usage: --run <input.sutrab>" << std::endl;
+            return 1;
+        }
+        std::vector<Instruction> program;
+        std::ifstream in(argv[2], std::ios::binary);
+        if (!in.is_open()) {
+            std::cerr << "Error: Could not open file: " << argv[2] << std::endl;
+            return 1;
+        }
+        char magic[4] = {0};
+        in.read(magic, 4);
+        if (std::string(magic, 4) != "SUTR") {
+            std::cerr << "Error: Not a valid Sutra bytecode file." << std::endl;
+            in.close();
+            return 1;
+        }
+        uint8_t version = 0;
+        in.read(reinterpret_cast<char*>(&version), 1);
+        try {
+            program = read_bytecode(in);
+        } catch (const std::exception& e) {
+            std::cerr << "Bytecode Load Error: " << e.what() << std::endl;
+            in.close();
+            return 1;
+        }
+        in.close();
+
+        SutraVM vm;
+        try {
+            vm.execute(program);
+        } catch (const std::exception& e) {
+            std::cerr << "Execution Runtime Error: " << e.what() << std::endl;
+            return 1;
+        }
+        return 0;
+    }
+
+    // Default legacy run path (compile-and-run or run-bytecode depending on header detection)
+    std::string filename = arg1;
     std::ifstream check_file(filename, std::ios::binary);
     if (!check_file.is_open()) {
         std::cerr << COLOR_RED << "Error: Could not open file: " << filename << COLOR_RESET << std::endl;
@@ -805,9 +1110,8 @@ int main(int argc, char* argv[]) {
     std::vector<Instruction> program;
     
     if (is_binary) {
-        std::cout << COLOR_BLUE << "[VM] Loading binary bytecode file..." << COLOR_RESET << std::endl;
+        if (show_header) std::cout << COLOR_BLUE << "[VM] Loading binary bytecode file..." << COLOR_RESET << std::endl;
         std::ifstream in(filename, std::ios::binary);
-        // Skip header (5 bytes)
         in.seekg(5);
         try {
             program = read_bytecode(in);
@@ -818,22 +1122,20 @@ int main(int argc, char* argv[]) {
         }
         in.close();
     } else {
-        std::cout << COLOR_BLUE << "[Compiler] Compiling source file to bytecode..." << COLOR_RESET << std::endl;
+        if (show_header) std::cout << COLOR_BLUE << "[Compiler] Compiling source file to bytecode..." << COLOR_RESET << std::endl;
         SutraCompiler compiler;
         try {
             program = compiler.compile_program(filename);
-            
-            // Save bytecode to filename + "b" (e.g. test.sutra -> test.sutrab)
             std::string out_filename = filename + "b";
             save_program_to_bytecode(program, out_filename);
-            std::cout << COLOR_GREEN << "[Compiler] Bytecode successfully generated & written to: " << out_filename << COLOR_RESET << std::endl;
+            if (show_header) std::cout << COLOR_GREEN << "[Compiler] Bytecode successfully generated & written to: " << out_filename << COLOR_RESET << std::endl;
         } catch (const std::exception& e) {
             std::cerr << COLOR_RED << "Compilation Failed: " << e.what() << COLOR_RESET << std::endl;
             return 1;
         }
     }
     
-    std::cout << COLOR_BLUE << "[VM] Executing program instructions..." << COLOR_RESET << std::endl;
+    if (show_header) std::cout << COLOR_BLUE << "[VM] Executing program instructions..." << COLOR_RESET << std::endl;
     SutraVM vm;
     try {
         vm.execute(program);
@@ -842,6 +1144,6 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     
-    std::cout << COLOR_GREEN << "[VM] Execution finished successfully." << COLOR_RESET << std::endl;
+    if (show_header) std::cout << COLOR_GREEN << "[VM] Execution finished successfully." << COLOR_RESET << std::endl;
     return 0;
 }

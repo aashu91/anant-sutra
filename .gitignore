@@ -11,3 +11,6 @@ __pycache__/
 # Compiled bytecode binaries
 *.sutrab
 
+# Local database
+rules_db/
+

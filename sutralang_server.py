@@ -4,8 +4,6 @@ import json
 import subprocess
 import os
 import urllib.request
-from sutralang_compiler import SutraCompiler
-from sutralang_bytecode import compile_source_to_bytecode
 from sutra_os import ExpanderScheduler, NyayaPageTable
 
 PORT = 8000
@@ -60,20 +58,31 @@ class SutraHubHandler(http.server.SimpleHTTPRequestHandler):
                 
                 # Check mode
                 if mode == "vibe":
-                    # Call local Ollama LLM to translate (querying via sutralang_neuro compile_neuro_prompt)
-                    import sutralang_neuro
+                    # Use sovereign deterministic Paninian C++ compiler to translate
+                    cpp_vm_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sutra")
                     try:
-                        translated_code = sutralang_neuro.compile_neuro_prompt(prompt)
+                        res = subprocess.run([cpp_vm_path, "--translate-line", prompt], capture_output=True, text=True, timeout=5)
+                        if res.returncode != 0:
+                            raise Exception(res.stderr.strip())
+                        translated_code = res.stdout.strip()
                     except Exception as e:
                         self.send_error_response(f"Translation failed: {e}")
                         return
                 else:
                     translated_code = prompt
 
-                # Compile AST using our compiler
-                compiler = SutraCompiler()
+                # Compile AST using C++ compiler
+                cpp_vm_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sutra")
+                if not os.path.exists(cpp_vm_path):
+                    # Compile sutralang.cpp if binary missing
+                    cpp_src = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sutralang.cpp")
+                    subprocess.run(["g++", "-O3", "-std=c++17", cpp_src, "-o", cpp_vm_path])
+                
                 try:
-                    ast_json = compiler.compile_program(translated_code)
+                    res_ast = subprocess.run([cpp_vm_path, "--ast-line", translated_code], capture_output=True, text=True, timeout=5)
+                    if res_ast.returncode != 0:
+                        raise Exception(res_ast.stderr.strip())
+                    ast_json = json.loads(res_ast.stdout.strip())
                 except Exception as e:
                     self.send_response(200)
                     self.send_header('Content-Type', 'application/json')
@@ -86,15 +95,15 @@ class SutraHubHandler(http.server.SimpleHTTPRequestHandler):
                     }).encode('utf-8'))
                     return
                 
-                # Compile to binary bytecode (.sutrab)
+                # Compile to binary bytecode (.sutrab) using C++ compiler
+                bytecode_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "temp_web.sutrab")
                 try:
-                    bytecode_bytes = compile_source_to_bytecode(translated_code)
+                    res_compile = subprocess.run([cpp_vm_path, "--compile-line", translated_code, bytecode_path], capture_output=True, text=True, timeout=5)
+                    if res_compile.returncode != 0:
+                        raise Exception(res_compile.stderr.strip())
+                    with open(bytecode_path, "rb") as f:
+                        bytecode_bytes = f.read()
                     bytecode_hex = bytecode_bytes.hex()
-                    
-                    # Write bytecode to temp file
-                    bytecode_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "temp_web.sutrab")
-                    with open(bytecode_path, "wb") as f:
-                        f.write(bytecode_bytes)
                 except Exception as e:
                     self.send_error_response(f"Bytecode generation failed: {e}")
                     return
