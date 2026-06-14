@@ -47,43 +47,89 @@ std::string translate_natural_prompt(const std::string& line) {
         return "sankalpa_khatam";
     }
 
-    std::regex create_pat1(R"(ek\s+variable\s+banao\s+(\w+)\s+(?:value|maan)\s+(\d+))");
-    std::regex create_pat2(R"(create\s+variable\s+(\w+)\s+with\s+(?:value|maan)\s+(\d+))");
-    std::regex create_pat3(R"(banao\s+variable\s+(\w+)\s+(?:value|maan)\s+(\d+))");
-    std::regex create_pat4(R"(ek\s+variable\s+(\w+)\s+(?:value|maan)\s+(\d+))");
+    std::regex create_pat1(R"(ek\s+variable\s+banao\s+(\w+)\s+(?:value|maan)\s+((?:"[^"]*")|[\w\d]+))");
+    std::regex create_pat2(R"(create\s+variable\s+(\w+)\s+with\s+(?:value|maan)\s+((?:"[^"]*")|[\w\d]+))");
+    std::regex create_pat3(R"(banao\s+variable\s+(\w+)\s+(?:value|maan)\s+((?:"[^"]*")|[\w\d]+))");
+    std::regex create_pat4(R"(ek\s+variable\s+(\w+)\s+(?:value|maan)\s+((?:"[^"]*")|[\w\d]+))");
     
     std::smatch match;
+    auto orig = [&](int idx) -> std::string {
+        return l.substr(match.position(idx), match.length(idx));
+    };
+
     if (std::regex_search(lower_l, match, create_pat1) || 
         std::regex_search(lower_l, match, create_pat2) ||
         std::regex_search(lower_l, match, create_pat3) ||
         std::regex_search(lower_l, match, create_pat4)) {
-        return std::string(match[1]) + " + sruj(maan=" + std::string(match[2]) + ")";
+        return orig(1) + " + sruj(maan=" + orig(2) + ")";
+    }
+
+    // Yog (Addition)
+    std::regex yog_pat1(R"((\w+)\s+ko\s+(\w+)\s+aur\s+(\w+)\s+ka\s+yog\s+rkho)");
+    std::regex yog_pat2(R"(set\s+(\w+)\s+as\s+sum\s+of\s+(\w+)\s+and\s+(\w+))");
+    if (std::regex_search(lower_l, match, yog_pat1) ||
+        std::regex_search(lower_l, match, yog_pat2)) {
+        return orig(1) + " + yog(karana=" + orig(2) + ", sahakarana=" + orig(3) + ")";
+    }
+
+    // Antar (Subtraction)
+    std::regex antar_pat1(R"((\w+)\s+ko\s+(\w+)\s+aur\s+(\w+)\s+ka\s+antar\s+rkho)");
+    std::regex antar_pat2(R"(set\s+(\w+)\s+as\s+difference\s+of\s+(\w+)\s+and\s+(\w+))");
+    if (std::regex_search(lower_l, match, antar_pat1) ||
+        std::regex_search(lower_l, match, antar_pat2)) {
+        return orig(1) + " + antar(karana=" + orig(2) + ", sahakarana=" + orig(3) + ")";
+    }
+
+    // Gunan (Multiplication)
+    std::regex gunan_pat1(R"((\w+)\s+ko\s+(\w+)\s+aur\s+(\w+)\s+ka\s+gunan\s+rkho)");
+    std::regex gunan_pat2(R"(set\s+(\w+)\s+as\s+product\s+of\s+(\w+)\s+and\s+(\w+))");
+    if (std::regex_search(lower_l, match, gunan_pat1) ||
+        std::regex_search(lower_l, match, gunan_pat2)) {
+        return orig(1) + " + gunan(karana=" + orig(2) + ", sahakarana=" + orig(3) + ")";
+    }
+
+    // Bhagaphalam (Division)
+    std::regex bhagaphalam_pat1(R"((\w+)\s+ko\s+(\w+)\s+aur\s+(\w+)\s+ka\s+bhagaphalam\s+rkho)");
+    std::regex bhagaphalam_pat2(R"(set\s+(\w+)\s+as\s+division\s+of\s+(\w+)\s+and\s+(\w+))");
+    if (std::regex_search(lower_l, match, bhagaphalam_pat1) ||
+        std::regex_search(lower_l, match, bhagaphalam_pat2)) {
+        return orig(1) + " + bhagaphalam(karana=" + orig(2) + ", sahakarana=" + orig(3) + ")";
+    }
+
+    // Sandh (String Concatenation)
+    std::regex sandh_pat1(R"((\w+)\s+ko\s+((?:"[^"]*")|\w+)\s+aur\s+((?:"[^"]*")|\w+)\s+se\s+jodo)");
+    std::regex sandh_pat2(R"((\w+)\s+ko\s+((?:"[^"]*")|\w+)\s+aur\s+((?:"[^"]*")|\w+)\s+ka\s+sandhi\s+rkho)");
+    std::regex sandh_pat3(R"(set\s+(\w+)\s+as\s+concatenation\s+of\s+((?:"[^"]*")|\w+)\s+and\s+((?:"[^"]*")|\w+))");
+    if (std::regex_search(lower_l, match, sandh_pat1) ||
+        std::regex_search(lower_l, match, sandh_pat2) ||
+        std::regex_search(lower_l, match, sandh_pat3)) {
+        return orig(1) + " + sandh(karana=" + orig(2) + ", sahakarana=" + orig(3) + ")";
     }
 
     std::regex inc_pat1(R"((\w+)\s+ko\s+(\w+)\s+se\s+badhao)");
     std::regex inc_pat2(R"(add\s+(\w+)\s+to\s+(\w+))");
     std::regex inc_pat3(R"((\w+)\s+me\s+(\w+)\s+(?:jod|add))");
     if (std::regex_search(lower_l, match, inc_pat1)) {
-        return std::string(match[1]) + " + vrdh(karana=" + std::string(match[2]) + ")";
+        return orig(1) + " + vrdh(karana=" + orig(2) + ")";
     }
     if (std::regex_search(lower_l, match, inc_pat2)) {
-        return std::string(match[2]) + " + vrdh(karana=" + std::string(match[1]) + ")";
+        return orig(2) + " + vrdh(karana=" + orig(1) + ")";
     }
     if (std::regex_search(lower_l, match, inc_pat3)) {
-        return std::string(match[1]) + " + vrdh(karana=" + std::string(match[2]) + ")";
+        return orig(1) + " + vrdh(karana=" + orig(2) + ")";
     }
 
     std::regex dec_pat1(R"((\w+)\s+ko\s+(\w+)\s+se\s+kam\s+karo)");
     std::regex dec_pat2(R"(subtract\s+(\w+)\s+from\s+(\w+))");
     std::regex dec_pat3(R"((\w+)\s+se\s+(\w+)\s+(?:kam|minus|ghata))");
     if (std::regex_search(lower_l, match, dec_pat1)) {
-        return std::string(match[1]) + " + hras(karana=" + std::string(match[2]) + ")";
+        return orig(1) + " + hras(karana=" + orig(2) + ")";
     }
     if (std::regex_search(lower_l, match, dec_pat2)) {
-        return std::string(match[2]) + " + hras(karana=" + std::string(match[1]) + ")";
+        return orig(2) + " + hras(karana=" + orig(1) + ")";
     }
     if (std::regex_search(lower_l, match, dec_pat3)) {
-        return std::string(match[1]) + " + hras(karana=" + std::string(match[2]) + ")";
+        return orig(1) + " + hras(karana=" + orig(2) + ")";
     }
 
     std::regex show_pat1(R"((.+)\s+ko\s+(?:dikhao|darshan|print))");
@@ -94,28 +140,28 @@ std::string translate_natural_prompt(const std::string& line) {
         std::regex_search(lower_l, match, show_pat2) ||
         std::regex_search(lower_l, match, show_pat3) ||
         std::regex_search(lower_l, match, show_pat4)) {
-        return std::string(match[1]) + " + drsh()";
+        return orig(1) + " + drsh()";
     }
 
     std::regex loop_pat1(R"(loop\s+chalao\s+jab\s+tak\s+(\w+)\s+(\w+)\s+se\s+chota)");
     std::regex loop_pat2(R"(while\s+(\w+)\s+is\s+less\s+than\s+(\w+))");
     if (std::regex_search(lower_l, match, loop_pat1) ||
         std::regex_search(lower_l, match, loop_pat2)) {
-        return std::string(match[1]) + " + pravah(seema=" + std::string(match[2]) + ")";
+        return orig(1) + " + pravah(seema=" + orig(2) + ")";
     }
 
     std::regex mult_pat1(R"((\w+)\s+ko\s+(\w+)\s+se\s+guna\s+karo)");
     std::regex mult_pat2(R"(multiply\s+(\w+)\s+by\s+(\w+))");
     if (std::regex_search(lower_l, match, mult_pat1) ||
         std::regex_search(lower_l, match, mult_pat2)) {
-        return std::string(match[1]) + " + gun(karana=" + std::string(match[2]) + ")";
+        return orig(1) + " + gun(karana=" + orig(2) + ")";
     }
 
     std::regex div_pat1(R"((\w+)\s+ko\s+(\w+)\s+se\s+bhag\s+do)");
     std::regex div_pat2(R"(divide\s+(\w+)\s+by\s+(\w+))");
     if (std::regex_search(lower_l, match, div_pat1) ||
         std::regex_search(lower_l, match, div_pat2)) {
-        return std::string(match[1]) + " + bhag(karana=" + std::string(match[2]) + ")";
+        return orig(1) + " + bhag(karana=" + orig(2) + ")";
     }
 
     std::regex cond_pat1(R"(agar\s+(\w+)\s+(\w+)\s+se\s+bada\s+ho)");
@@ -126,13 +172,13 @@ std::string translate_natural_prompt(const std::string& line) {
     std::regex cond_pat6(R"(if\s+(\w+)\s+is\s+equal\s+to\s+(\w+))");
     
     if (std::regex_search(lower_l, match, cond_pat1) || std::regex_search(lower_l, match, cond_pat4)) {
-        return std::string(match[1]) + " + sankalpa(sharta=bada, karana=" + std::string(match[2]) + ")";
+        return orig(1) + " + sankalpa(sharta=bada, karana=" + orig(2) + ")";
     }
     if (std::regex_search(lower_l, match, cond_pat2) || std::regex_search(lower_l, match, cond_pat5)) {
-        return std::string(match[1]) + " + sankalpa(sharta=chota, karana=" + std::string(match[2]) + ")";
+        return orig(1) + " + sankalpa(sharta=chota, karana=" + orig(2) + ")";
     }
     if (std::regex_search(lower_l, match, cond_pat3) || std::regex_search(lower_l, match, cond_pat6)) {
-        return std::string(match[1]) + " + sankalpa(sharta=barabar, karana=" + std::string(match[2]) + ")";
+        return orig(1) + " + sankalpa(sharta=barabar, karana=" + orig(2) + ")";
     }
 
     return l; 
@@ -268,10 +314,17 @@ public:
     }
 };
 
+// Variable type supporting either int or string
+struct Variable {
+    bool is_string = false;
+    int int_val = 0;
+    std::string str_val = "";
+};
+
 // SutraVM: C++ execution runtime from scratch
 class SutraVM {
 private:
-    std::unordered_map<std::string, int> karta_registry;
+    std::unordered_map<std::string, Variable> karta_registry;
 
     void log(const std::string& msg) {
         std::cout << COLOR_YELLOW << "[SutraVM] " << COLOR_RESET << msg << std::endl;
@@ -279,7 +332,14 @@ private:
 
     int resolve_value(const std::string& arg) {
         if (karta_registry.find(arg) != karta_registry.end()) {
-            return karta_registry[arg];
+            if (karta_registry[arg].is_string) {
+                try {
+                    return std::stoi(karta_registry[arg].str_val);
+                } catch (...) {
+                    return 0;
+                }
+            }
+            return karta_registry[arg].int_val;
         }
         try {
             return std::stoi(arg);
@@ -288,16 +348,47 @@ private:
         }
     }
 
+    std::string resolve_string(const std::string& arg) {
+        if (karta_registry.find(arg) != karta_registry.end()) {
+            if (karta_registry[arg].is_string) {
+                return karta_registry[arg].str_val;
+            }
+            return std::to_string(karta_registry[arg].int_val);
+        }
+        std::string s = arg;
+        if (s.size() >= 2 && s.front() == '"' && s.back() == '"') {
+            s = s.substr(1, s.size() - 2);
+        }
+        return s;
+    }
+
 public:
     void execute(const std::vector<Instruction>& program) {
         for (const auto& inst : program) {
             if (inst.kriya == "sruj") { // Srujana - Create variable
-                int initial_val = 0;
+                Variable var;
                 if (inst.args.find("maan") != inst.args.end()) {
-                    initial_val = resolve_value(inst.args.at("maan"));
+                    std::string val_str = inst.args.at("maan");
+                    if (val_str.size() >= 2 && val_str.front() == '"' && val_str.back() == '"') {
+                        var.is_string = true;
+                        var.str_val = val_str.substr(1, val_str.size() - 2);
+                    } else if (karta_registry.find(val_str) != karta_registry.end()) {
+                        var = karta_registry[val_str];
+                    } else {
+                        try {
+                            var.int_val = std::stoi(val_str);
+                        } catch (...) {
+                            var.is_string = true;
+                            var.str_val = val_str;
+                        }
+                    }
                 }
-                karta_registry[inst.karta] = initial_val;
-                log("Srujana: Created variable '" + inst.karta + "' with Maan = " + std::to_string(initial_val));
+                karta_registry[inst.karta] = var;
+                if (var.is_string) {
+                    log("Srujana: Created variable '" + inst.karta + "' with Maan = \"" + var.str_val + "\"");
+                } else {
+                    log("Srujana: Created variable '" + inst.karta + "' with Maan = " + std::to_string(var.int_val));
+                }
             }
             else if (inst.kriya == "vrdh") { // Vardhanam - Increment/Add
                 if (karta_registry.find(inst.karta) == karta_registry.end()) {
@@ -307,8 +398,8 @@ public:
                 if (inst.args.find("karana") != inst.args.end()) {
                     add_val = resolve_value(inst.args.at("karana"));
                 }
-                karta_registry[inst.karta] += add_val;
-                log("Vardhanam: '" + inst.karta + "' increased by " + std::to_string(add_val) + ". New Maan = " + std::to_string(karta_registry[inst.karta]));
+                karta_registry[inst.karta].int_val += add_val;
+                log("Vardhanam: '" + inst.karta + "' increased by " + std::to_string(add_val) + ". New Maan = " + std::to_string(karta_registry[inst.karta].int_val));
             }
             else if (inst.kriya == "hras") { // Hrasanam - Decrement/Subtract
                 if (karta_registry.find(inst.karta) == karta_registry.end()) {
@@ -318,12 +409,16 @@ public:
                 if (inst.args.find("karana") != inst.args.end()) {
                     sub_val = resolve_value(inst.args.at("karana"));
                 }
-                karta_registry[inst.karta] -= sub_val;
-                log("Hrasanam: '" + inst.karta + "' decreased by " + std::to_string(sub_val) + ". New Maan = " + std::to_string(karta_registry[inst.karta]));
+                karta_registry[inst.karta].int_val -= sub_val;
+                log("Hrasanam: '" + inst.karta + "' decreased by " + std::to_string(sub_val) + ". New Maan = " + std::to_string(karta_registry[inst.karta].int_val));
             }
             else if (inst.kriya == "drsh") { // Darshanam - Display
                 if (karta_registry.find(inst.karta) != karta_registry.end()) {
-                    std::cout << COLOR_GREEN << "➔ [DARSHANAM] " << inst.karta << " = " << karta_registry[inst.karta] << COLOR_RESET << std::endl;
+                    if (karta_registry[inst.karta].is_string) {
+                        std::cout << COLOR_GREEN << "➔ [DARSHANAM] " << inst.karta << " = \"" << karta_registry[inst.karta].str_val << "\"" << COLOR_RESET << std::endl;
+                    } else {
+                        std::cout << COLOR_GREEN << "➔ [DARSHANAM] " << inst.karta << " = " << karta_registry[inst.karta].int_val << COLOR_RESET << std::endl;
+                    }
                 } else {
                     std::string out = inst.karta;
                     if (out.size() >= 2 && out.front() == '"' && out.back() == '"') {
@@ -340,8 +435,8 @@ public:
                 if (inst.args.find("karana") != inst.args.end()) {
                     mult_val = resolve_value(inst.args.at("karana"));
                 }
-                karta_registry[inst.karta] *= mult_val;
-                log("Guna: '" + inst.karta + "' multiplied by " + std::to_string(mult_val) + ". New Maan = " + std::to_string(karta_registry[inst.karta]));
+                karta_registry[inst.karta].int_val *= mult_val;
+                log("Guna: '" + inst.karta + "' multiplied by " + std::to_string(mult_val) + ". New Maan = " + std::to_string(karta_registry[inst.karta].int_val));
             }
             else if (inst.kriya == "bhag") { // Bhaga - Divide
                 if (karta_registry.find(inst.karta) == karta_registry.end()) {
@@ -354,8 +449,52 @@ public:
                 if (div_val == 0) {
                     throw std::runtime_error("Mathematical error: Division by zero is not allowed.");
                 }
-                karta_registry[inst.karta] /= div_val;
-                log("Bhaga: '" + inst.karta + "' divided by " + std::to_string(div_val) + ". New Maan = " + std::to_string(karta_registry[inst.karta]));
+                karta_registry[inst.karta].int_val /= div_val;
+                log("Bhaga: '" + inst.karta + "' divided by " + std::to_string(div_val) + ". New Maan = " + std::to_string(karta_registry[inst.karta].int_val));
+            }
+            else if (inst.kriya == "yog") { // Yog - Complex Addition / Set value to sum of two operands
+                Variable var;
+                int val1 = resolve_value(inst.args.at("karana"));
+                int val2 = resolve_value(inst.args.at("sahakarana"));
+                var.int_val = val1 + val2;
+                karta_registry[inst.karta] = var;
+                log("Yog: Set '" + inst.karta + "' to " + std::to_string(val1) + " + " + std::to_string(val2) + " = " + std::to_string(var.int_val));
+            }
+            else if (inst.kriya == "antar") { // Antar - Subtraction / Set value to difference of two operands
+                Variable var;
+                int val1 = resolve_value(inst.args.at("karana"));
+                int val2 = resolve_value(inst.args.at("sahakarana"));
+                var.int_val = val1 - val2;
+                karta_registry[inst.karta] = var;
+                log("Antar: Set '" + inst.karta + "' to " + std::to_string(val1) + " - " + std::to_string(val2) + " = " + std::to_string(var.int_val));
+            }
+            else if (inst.kriya == "gunan") { // Gunan - Multiplication / Set value to product of two operands
+                Variable var;
+                int val1 = resolve_value(inst.args.at("karana"));
+                int val2 = resolve_value(inst.args.at("sahakarana"));
+                var.int_val = val1 * val2;
+                karta_registry[inst.karta] = var;
+                log("Gunan: Set '" + inst.karta + "' to " + std::to_string(val1) + " * " + std::to_string(val2) + " = " + std::to_string(var.int_val));
+            }
+            else if (inst.kriya == "bhagaphalam") { // Bhagaphalam - Division / Set value to division of two operands
+                Variable var;
+                int val1 = resolve_value(inst.args.at("karana"));
+                int val2 = resolve_value(inst.args.at("sahakarana"));
+                if (val2 == 0) {
+                    throw std::runtime_error("Mathematical error: Division by zero in Bhagaphalam.");
+                }
+                var.int_val = val1 / val2;
+                karta_registry[inst.karta] = var;
+                log("Bhagaphalam: Set '" + inst.karta + "' to " + std::to_string(val1) + " / " + std::to_string(val2) + " = " + std::to_string(var.int_val));
+            }
+            else if (inst.kriya == "sandh") { // Sandh - String Concatenation / Set value to concatenation of two strings
+                Variable var;
+                var.is_string = true;
+                std::string s1 = resolve_string(inst.args.at("karana"));
+                std::string s2 = resolve_string(inst.args.at("sahakarana"));
+                var.str_val = s1 + s2;
+                karta_registry[inst.karta] = var;
+                log("Sandh: Concatenated \"" + s1 + "\" and \"" + s2 + "\" to set '" + inst.karta + "' = \"" + var.str_val + "\"");
             }
             else if (inst.kriya == "sankalpa") { // Sankalpa - Conditional Branching
                 if (karta_registry.find(inst.karta) == karta_registry.end()) {
@@ -387,7 +526,7 @@ public:
                 int limit = resolve_value(inst.args.at("seema"));
                 log("Pravahanam: Starting loop on '" + inst.karta + "' up to seema " + std::to_string(limit));
 
-                while (karta_registry[inst.karta] < limit) {
+                while (karta_registry[inst.karta].int_val < limit) {
                     execute(inst.sub_instructions);
                 }
                 log("Pravahanam: Loop ended.");

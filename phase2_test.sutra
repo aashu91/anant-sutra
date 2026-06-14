@@ -1,0 +1,33 @@
+; Phase 2 Test Script for Math (Yogaphalam) & Strings (Sandhanam)
+
+; 1. Math Tests (yog, antar, gunan, bhagaphalam)
+ek variable a value 10
+ek variable b value 5
+
+ek variable sum_result value 0
+sum_result ko a aur b ka yog rkho
+print sum_result
+
+ek variable diff_result value 0
+diff_result ko a aur b ka antar rkho
+print diff_result
+
+ek variable prod_result value 0
+prod_result ko a aur b ka gunan rkho
+print prod_result
+
+ek variable div_result value 0
+div_result ko a aur b ka bhagaphalam rkho
+print div_result
+
+; 2. String Concatenation Tests (sandh)
+ek variable first_name value "Ashutosh"
+ek variable last_name value "Singh"
+ek variable space value " "
+
+ek variable temp_name value ""
+temp_name ko first_name aur space se jodo
+
+ek variable full_name value ""
+full_name ko temp_name aur last_name se jodo
+print full_name

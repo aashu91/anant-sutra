@@ -10,58 +10,97 @@ class SutraCompiler:
         print(f"[\033[96mSutraCompiler\033[0m] {message}")
 
     def compile_line(self, line):
-        line = line.strip().lower()
+        line = line.strip()
         if not line:
             return None
 
         # Pattern 1: Variable Creation (Srujana)
-        # Examples: "ek variable banao jiska naam counter ho aur value 0 ho"
-        # "create variable score with value 10"
-        # "x variable banao value 5 rkho"
         match_create = re.search(
-            r'(?:variable\s+(\w+)\s+banao|ek\s+variable\s+banao\s+jiska\s+naam\s+(\w+)\s+ho|create\s+variable\s+(\w+)|ek\s+variable\s+banao\s+(\w+))'
-            r'.*?(?:value|maan)\s+(\d+)', 
-            line
+            r'ek\s+variable\s+banao\s+(\w+)\s+(?:value|maan)\s+((?:"[^"]*")|[\w\d]+)',
+            line, re.IGNORECASE
         ) or re.search(
-            r'(?:banao|create)\s+variable\s+(\w+)\s+with\s+(?:value|maan)\s+(\d+)',
-            line
+            r'create\s+variable\s+(\w+)\s+with\s+(?:value|maan)\s+((?:"[^"]*")|[\w\d]+)',
+            line, re.IGNORECASE
+        ) or re.search(
+            r'banao\s+variable\s+(\w+)\s+(?:value|maan)\s+((?:"[^"]*")|[\w\d]+)',
+            line, re.IGNORECASE
+        ) or re.search(
+            r'ek\s+variable\s+(\w+)\s+(?:value|maan)\s+((?:"[^"]*")|[\w\d]+)',
+            line, re.IGNORECASE
         )
         if match_create:
-            # Extract variable name and value
-            groups = [g for g in match_create.groups() if g is not None]
-            if len(groups) >= 2:
-                name = groups[0]
-                val = int(groups[1])
-                return {"Kriya": "Srujana", "Karta": name, "Maan": val}
+            name = match_create.group(1)
+            val_str = match_create.group(2)
+            if val_str.startswith('"') and val_str.endswith('"'):
+                val = val_str[1:-1]
+            else:
+                try:
+                    val = int(val_str)
+                except ValueError:
+                    val = val_str
+            return {"Kriya": "Srujana", "Karta": name, "Maan": val}
+
+        # Yog (Addition)
+        match_yog = re.search(r'(\w+)\s+ko\s+(\w+)\s+aur\s+(\w+)\s+ka\s+yog\s+rkho', line, re.IGNORECASE) or \
+                    re.search(r'set\s+(\w+)\s+as\s+sum\s+of\s+(\w+)\s+and\s+(\w+)', line, re.IGNORECASE)
+        if match_yog:
+            return {"Kriya": "Yog", "Karta": match_yog.group(1), "Karana": match_yog.group(2), "Sahakarana": match_yog.group(3)}
+
+        # Antar (Subtraction)
+        match_antar = re.search(r'(\w+)\s+ko\s+(\w+)\s+aur\s+(\w+)\s+ka\s+antar\s+rkho', line, re.IGNORECASE) or \
+                      re.search(r'set\s+(\w+)\s+as\s+difference\s+of\s+(\w+)\s+and\s+(\w+)', line, re.IGNORECASE)
+        if match_antar:
+            return {"Kriya": "Antar", "Karta": match_antar.group(1), "Karana": match_antar.group(2), "Sahakarana": match_antar.group(3)}
+
+        # Gunan (Multiplication)
+        match_gunan = re.search(r'(\w+)\s+ko\s+(\w+)\s+aur\s+(\w+)\s+ka\s+gunan\s+rkho', line, re.IGNORECASE) or \
+                      re.search(r'set\s+(\w+)\s+as\s+product\s+of\s+(\w+)\s+and\s+(\w+)', line, re.IGNORECASE)
+        if match_gunan:
+            return {"Kriya": "Gunan", "Karta": match_gunan.group(1), "Karana": match_gunan.group(2), "Sahakarana": match_gunan.group(3)}
+
+        # Bhagaphalam (Division)
+        match_bhag = re.search(r'(\w+)\s+ko\s+(\w+)\s+aur\s+(\w+)\s+ka\s+bhagaphalam\s+rkho', line, re.IGNORECASE) or \
+                     re.search(r'set\s+(\w+)\s+as\s+division\s+of\s+(\w+)\s+and\s+(\w+)', line, re.IGNORECASE)
+        if match_bhag:
+            return {"Kriya": "Bhagaphalam", "Karta": match_bhag.group(1), "Karana": match_bhag.group(2), "Sahakarana": match_bhag.group(3)}
+
+        # Sandh (String Concatenation)
+        match_sandh = re.search(r'(\w+)\s+ko\s+((?:"[^"]*")|\w+)\s+aur\s+((?:"[^"]*")|\w+)\s+se\s+jodo', line, re.IGNORECASE) or \
+                      re.search(r'(\w+)\s+ko\s+((?:"[^"]*")|\w+)\s+aur\s+((?:"[^"]*")|\w+)\s+ka\s+sandhi\s+rkho', line, re.IGNORECASE) or \
+                      re.search(r'set\s+(\w+)\s+as\s+concatenation\s+of\s+((?:"[^"]*")|\w+)\s+and\s+((?:"[^"]*")|\w+)', line, re.IGNORECASE)
+        if match_sandh:
+            def clean_arg(s):
+                if s.startswith('"') and s.endswith('"'):
+                    return s[1:-1]
+                return s
+            return {"Kriya": "Sandh", "Karta": match_sandh.group(1), "Karana": clean_arg(match_sandh.group(2)), "Sahakarana": clean_arg(match_sandh.group(3))}
 
         # Pattern 2: Increment (Vardhanam)
-        # Examples: "counter ko 1 se badhao", "add 5 to score", "x me 2 jod do"
         match_inc = re.search(
-            r'(?:(\w+)\s+ko\s+(\d+)\s+se\s+badhao|add\s+(\d+)\s+to\s+(\w+)|(\w+)\s+me\s+(\d+)\s+(?:jod|add))',
-            line
+            r'(?:(\w+)\s+ko\s+(\w+)\s+se\s+badhao|add\s+(\w+)\s+to\s+(\w+)|(\w+)\s+me\s+(\w+)\s+(?:jod|add))',
+            line, re.IGNORECASE
         )
         if match_inc:
             groups = [g for g in match_inc.groups() if g is not None]
             if len(groups) >= 2:
-                # Determine which group is variable and which is value
-                # Case 1: counter (group 0), 1 (group 1)
                 if groups[0].isalpha() and groups[1].isdigit():
                     name = groups[0]
                     val = int(groups[1])
-                # Case 2: 5 (group 0), score (group 1)
                 elif groups[0].isdigit() and groups[1].isalpha():
                     val = int(groups[0])
                     name = groups[1]
                 else:
                     name = groups[0]
-                    val = int(groups[1])
+                    try:
+                        val = int(groups[1])
+                    except ValueError:
+                        val = groups[1]
                 return {"Kriya": "Vardhanam", "Karma": name, "Karana": val}
 
         # Pattern 3: Decrement (Hrasanam)
-        # Examples: "counter ko 1 se kam karo", "subtract 2 from x", "score se 5 ghata do"
         match_dec = re.search(
-            r'(?:(\w+)\s+ko\s+(\d+)\s+se\s+kam\s+karo|subtract\s+(\d+)\s+from\s+(\w+)|(\w+)\s+se\s+(\d+)\s+(?:kam|minus|ghata))',
-            line
+            r'(?:(\w+)\s+ko\s+(\w+)\s+se\s+kam\s+karo|subtract\s+(\w+)\s+from\s+(\w+)|(\w+)\s+se\s+(\w+)\s+(?:kam|minus|ghata))',
+            line, re.IGNORECASE
         )
         if match_dec:
             groups = [g for g in match_dec.groups() if g is not None]
@@ -74,14 +113,16 @@ class SutraCompiler:
                     name = groups[1]
                 else:
                     name = groups[0]
-                    val = int(groups[1])
+                    try:
+                        val = int(groups[1])
+                    except ValueError:
+                        val = groups[1]
                 return {"Kriya": "Hrasanam", "Karma": name, "Karana": val}
 
         # Pattern 4: Display (Darshanam)
-        # Examples: "counter ko dikhao", "print score", "x show karo"
         match_show = re.search(
             r'(?:(\w+)\s+ko\s+(?:dikhao|darshan|print)|show\s+(\w+)|print\s+(\w+)|(\w+)\s+(?:show|print)\s+karo)',
-            line
+            line, re.IGNORECASE
         )
         if match_show:
             groups = [g for g in match_show.groups() if g is not None]
