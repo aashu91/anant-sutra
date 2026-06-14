@@ -147,4 +147,119 @@ document.addEventListener("DOMContentLoaded", () => {
             bytecodeHexBox.appendChild(span);
         }
     }
+
+    // SutraOS Simulator Frontend Logic
+    const coreGridVisualizer = document.getElementById("core-grid-visualizer");
+    const taskNameInput = document.getElementById("task-name-input");
+    const addTaskBtn = document.getElementById("add-task-btn");
+    const tickSchedBtn = document.getElementById("tick-sched-btn");
+    
+    const allocProcInput = document.getElementById("alloc-proc-input");
+    const allocSizeInput = document.getElementById("alloc-size-input");
+    const allocLimitInput = document.getElementById("alloc-limit-input");
+    const allocMemBtn = document.getElementById("alloc-mem-btn");
+    const nyayaSyllogismOutput = document.getElementById("nyaya-syllogism-output");
+
+    async function updateOSStatus() {
+        try {
+            const res = await fetch("/api/os/status");
+            const data = await res.json();
+            
+            // Render Cores Load
+            coreGridVisualizer.innerHTML = "";
+            for (let i = 0; i < 8; i++) {
+                const tasks = data.load[i] || [];
+                const card = document.createElement("div");
+                card.className = "core-card" + (tasks.length > 0 ? " active" : "");
+                
+                const name = document.createElement("div");
+                name.className = "core-name";
+                name.innerText = `CORE ${i}`;
+                
+                const load = document.createElement("div");
+                load.className = "core-load";
+                load.innerText = tasks.length > 0 ? tasks.join(", ") : "Idle";
+                
+                card.appendChild(name);
+                card.appendChild(load);
+                coreGridVisualizer.appendChild(card);
+            }
+        } catch (err) {
+            console.error("Failed to fetch OS status:", err);
+        }
+    }
+
+    const osTabBtn = document.querySelector('[data-target="sutraos-sim"]');
+    if (osTabBtn) {
+        osTabBtn.addEventListener("click", () => {
+            updateOSStatus();
+        });
+    }
+
+    addTaskBtn.addEventListener("click", async () => {
+        const name = taskNameInput.value.trim();
+        if (!name) return;
+        
+        try {
+            await fetch("/api/os/task/add", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name: name })
+            });
+            updateOSStatus();
+        } catch (err) {
+            console.error(err);
+        }
+    });
+
+    tickSchedBtn.addEventListener("click", async () => {
+        try {
+            const res = await fetch("/api/os/tick", { method: "POST" });
+            const data = await res.json();
+            
+            terminalStdout.innerHTML = "";
+            const divHeader = document.createElement("div");
+            divHeader.className = "terminal-line";
+            divHeader.innerText = "// Ramanujan Scheduler Expander Walk Ticked:";
+            terminalStdout.appendChild(divHeader);
+            
+            data.movements.forEach(m => {
+                const div = document.createElement("div");
+                div.className = "terminal-line";
+                div.innerText = `  ${m}`;
+                terminalStdout.appendChild(div);
+            });
+            
+            updateOSStatus();
+        } catch (err) {
+            console.error(err);
+        }
+    });
+
+    allocMemBtn.addEventListener("click", async () => {
+        const proc = allocProcInput.value.trim();
+        const size = parseInt(allocSizeInput.value) || 0;
+        const limit = parseInt(allocLimitInput.value) || 0;
+        if (!proc) return;
+        
+        try {
+            const res = await fetch("/api/os/allocate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ process: proc, size: size, limit: limit })
+            });
+            const data = await res.json();
+            
+            nyayaSyllogismOutput.innerHTML = "";
+            data.syllogism.forEach(step => {
+                const div = document.createElement("div");
+                div.className = "nyaya-line" + (data.success ? " success" : " error");
+                div.innerText = step;
+                nyayaSyllogismOutput.appendChild(div);
+            });
+        } catch (err) {
+            console.error(err);
+        }
+    });
 });
+

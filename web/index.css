@@ -634,3 +634,144 @@ pre {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--border-glass-focus);
 }
+
+/* OS Simulator Layout Styling */
+.os-sim-section {
+    background: rgba(11, 15, 25, 0.4);
+    border: 1px solid var(--border-glass);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.os-sim-section h3 {
+    margin-bottom: 0.6rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 4px;
+    font-size: 0.95rem;
+    color: var(--text-cream);
+}
+
+.scheduler-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0.8rem;
+}
+
+.highlight-val {
+    color: var(--primary-light);
+    font-weight: 600;
+}
+
+.scheduler-actions, .allocator-inputs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.scheduler-actions input, .allocator-inputs input {
+    flex: 1;
+    min-width: 120px;
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid var(--border-glass);
+    border-radius: 4px;
+    padding: 6px 10px;
+    color: var(--text-cream);
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    outline: none;
+}
+
+.num-inputs {
+    display: flex;
+    gap: 0.4rem;
+    flex: 1.5;
+    min-width: 150px;
+}
+
+.action-btn-sm {
+    background: rgba(217, 119, 6, 0.1);
+    border: 1px solid var(--primary);
+    color: var(--primary-light);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.78rem;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.action-btn-sm:hover {
+    background: var(--primary);
+    color: var(--text-cream);
+    box-shadow: 0 0 10px rgba(217, 119, 6, 0.25);
+}
+
+.core-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin-top: 0.8rem;
+}
+
+.core-card {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 6px;
+    padding: 8px;
+    text-align: center;
+    transition: var(--transition-smooth);
+}
+
+.core-card.active {
+    border-color: var(--primary);
+    background: rgba(217, 119, 6, 0.05);
+}
+
+.core-name {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.core-load {
+    font-size: 0.78rem;
+    color: var(--text-cream);
+    font-family: var(--font-mono);
+    min-height: 1.2rem;
+}
+
+.nyaya-syllogism-box {
+    background: rgba(3, 5, 8, 0.6);
+    border: 1px dashed var(--primary);
+    border-radius: 6px;
+    padding: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    line-height: 1.5;
+    color: var(--primary-light);
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.nyaya-line {
+    margin-bottom: 0.4rem;
+}
+
+.nyaya-line.success {
+    color: #10b981;
+}
+
+.nyaya-line.error {
+    color: #ef4444;
+}
+
+.placeholder-text {
+    color: rgba(148, 163, 184, 0.4);
+}
+

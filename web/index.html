@@ -38,6 +38,7 @@
                     <button class="tab-btn active" data-target="sutralang-ref">SutraLang Ref</button>
                     <button class="tab-btn" data-target="research-papers">Research Vault</button>
                     <button class="tab-btn" data-target="agent-registry">Agent Registry</button>
+                    <button class="tab-btn" data-target="sutraos-sim">SutraOS Simulator</button>
                 </div>
                 <div class="pane-content">
                     <!-- Tab 1: SutraLang Reference -->
@@ -130,6 +131,46 @@ sankalpa khatam</pre>
                                 <h4>Chiransh Voice Shell</h4>
                             </div>
                             <p>Local-first offline voice interface companion. Translates speech raw inputs using Vosk speech models directly into Vyakarana VM commands.</p>
+                        </div>
+                    </div>
+
+                    <!-- Tab 4: SutraOS Simulator -->
+                    <div id="sutraos-sim" class="tab-panel">
+                        <h2>SutraOS Logic & Graph Simulator</h2>
+                        <p class="intro-p">Simulate decentralized process scheduling via Ramanujan Expander Graphs and memory page safety verification using Nyaya Syllogisms.</p>
+                        
+                        <div class="os-sim-section">
+                            <h3>1. Ramanujan Expander Scheduler</h3>
+                            <div class="scheduler-stats">
+                                <div>Spectral Gap: <span id="sched-gap" class="highlight-val">2.0 (d=3)</span></div>
+                                <div>Ramanujan Bound: <span id="sched-bound" class="highlight-val">2.828</span></div>
+                                <div>Is Ramanujan: <span id="sched-ramanujan" class="highlight-val">True</span></div>
+                            </div>
+                            
+                            <div class="scheduler-actions">
+                                <input type="text" id="task-name-input" placeholder="Process name..." value="ExploitThread">
+                                <button id="add-task-btn" class="action-btn-sm">Add Task</button>
+                                <button id="tick-sched-btn" class="action-btn-sm">Tick Scheduler</button>
+                            </div>
+                            
+                            <div class="core-grid" id="core-grid-visualizer">
+                                <!-- 8 cores rendering load -->
+                            </div>
+                        </div>
+
+                        <div class="os-sim-section">
+                            <h3>2. Nyaya Memory Allocator</h3>
+                            <div class="allocator-inputs">
+                                <input type="text" id="alloc-proc-input" placeholder="Proc name..." value="ExploitThread">
+                                <div class="num-inputs">
+                                    <input type="number" id="alloc-size-input" placeholder="Size" value="128">
+                                    <input type="number" id="alloc-limit-input" placeholder="Limit" value="512">
+                                </div>
+                                <button id="alloc-mem-btn" class="action-btn-sm">Request Alloc</button>
+                            </div>
+                            <div class="nyaya-syllogism-box" id="nyaya-syllogism-output">
+                                <span class="placeholder-text">// Syllogism proof will display here...</span>
+                            </div>
                         </div>
                     </div>
                 </div>
