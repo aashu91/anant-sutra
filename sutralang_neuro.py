@@ -172,18 +172,37 @@ def compile_neuro_prompt(prompt):
                 print(f"  {line}")
 
     print(f"\033[92m[Verification] Program successfully validated and compiled to AST!\033[0m")
-    return verified_ast
+    return program_text
 
 if __name__ == "__main__":
+    import subprocess
+    from sutralang_bytecode import compile_source_to_bytecode
+    
     if len(sys.argv) < 2:
         test_prompt = "Create a name variable with value 'Aashu' and print it, then create a counter starting at 0, loop 3 times, inside the loop add 1 to the counter and print the counter."
         print(f"No prompt provided. Running default neuro-symbolic test: '{test_prompt}'\n")
     else:
         test_prompt = sys.argv[1]
         
-    ast = compile_neuro_prompt(test_prompt)
+    program_text = compile_neuro_prompt(test_prompt)
     
-    # Execute the AST on VM
-    from sutralang_vm import SutraVM
-    vm = SutraVM()
-    vm.execute(ast)
+    # Compile text to binary bytecode
+    print(f"\n\033[94m[Neuro-Symbolic] Compiling verified program to binary bytecode...\033[0m")
+    try:
+        bytecode_bytes = compile_source_to_bytecode(program_text)
+        bytecode_path = "temp_neuro.sutrab"
+        with open(bytecode_path, "wb") as f:
+            f.write(bytecode_bytes)
+        print(f"\033[92m[Compiler] Compiled bytecode successfully written to '{bytecode_path}'\033[0m")
+    except Exception as e:
+        print(f"\033[91mBytecode compilation failed: {e}\033[0m")
+        sys.exit(1)
+        
+    # Execute natively on the optimized C++ VM
+    print(f"\033[94m[Neuro-Symbolic] Spawning optimized C++ VM natively...\033[0m")
+    try:
+        res = subprocess.run(["./sutra", bytecode_path], capture_output=False, text=True)
+    except Exception as e:
+        print(f"\033[91mC++ VM execution failed: {e}\033[0m")
+        sys.exit(1)
+

@@ -7,3 +7,7 @@ __pycache__/
 
 # Local PDF downloads or outputs if any
 *.pdf
+
+# Compiled bytecode binaries
+*.sutrab
+
