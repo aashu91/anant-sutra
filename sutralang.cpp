@@ -81,10 +81,10 @@ std::string translate_natural_prompt(const std::string& line) {
         return "sankalpa_khatam";
     }
 
-    std::regex create_pat1(R"(ek\s+variable\s+banao\s+(\w+)\s+(?:value|maan)\s+((?:"[^"]*")|[\w\d]+))");
-    std::regex create_pat2(R"(create\s+variable\s+(\w+)\s+with\s+(?:value|maan)\s+((?:"[^"]*")|[\w\d]+))");
-    std::regex create_pat3(R"(banao\s+variable\s+(\w+)\s+(?:value|maan)\s+((?:"[^"]*")|[\w\d]+))");
-    std::regex create_pat4(R"(ek\s+variable\s+(\w+)\s+(?:value|maan)\s+((?:"[^"]*")|[\w\d]+))");
+    std::regex create_pat1(R"(ek\s+variable\s+banao\s+(\w+)\s+(?:value|maan)\s+((?:"[^"]*")|-?[\w\d]+))");
+    std::regex create_pat2(R"(create\s+variable\s+(\w+)\s+with\s+(?:value|maan)\s+((?:"[^"]*")|-?[\w\d]+))");
+    std::regex create_pat3(R"(banao\s+variable\s+(\w+)\s+(?:value|maan)\s+((?:"[^"]*")|-?[\w\d]+))");
+    std::regex create_pat4(R"(ek\s+variable\s+(\w+)\s+(?:value|maan)\s+((?:"[^"]*")|-?[\w\d]+))");
     
     std::smatch match;
     auto orig = [&](int idx) -> std::string {
@@ -99,24 +99,24 @@ std::string translate_natural_prompt(const std::string& line) {
     }
 
     // Yog (Addition)
-    std::regex yog_pat1(R"((\w+)\s+ko\s+((?:"[^"]*")|[\w\d]+)\s+aur\s+((?:"[^"]*")|[\w\d]+)\s+ka\s+yog\s+rkho)");
-    std::regex yog_pat2(R"(set\s+(\w+)\s+as\s+sum\s+of\s+((?:"[^"]*")|[\w\d]+)\s+and\s+((?:"[^"]*")|[\w\d]+))");
+    std::regex yog_pat1(R"((\w+)\s+ko\s+((?:"[^"]*")|-?[\w\d]+)\s+aur\s+((?:"[^"]*")|-?[\w\d]+)\s+ka\s+yog\s+rkho)");
+    std::regex yog_pat2(R"(set\s+(\w+)\s+as\s+sum\s+of\s+((?:"[^"]*")|-?[\w\d]+)\s+and\s+((?:"[^"]*")|-?[\w\d]+))");
     if (std::regex_search(lower_l, match, yog_pat1) ||
         std::regex_search(lower_l, match, yog_pat2)) {
         return orig(1) + " + yog(karana=" + orig(2) + ", sahakarana=" + orig(3) + ")";
     }
 
     // Antar (Subtraction)
-    std::regex antar_pat1(R"((\w+)\s+ko\s+((?:"[^"]*")|[\w\d]+)\s+aur\s+((?:"[^"]*")|[\w\d]+)\s+ka\s+antar\s+rkho)");
-    std::regex antar_pat2(R"(set\s+(\w+)\s+as\s+difference\s+of\s+((?:"[^"]*")|[\w\d]+)\s+and\s+((?:"[^"]*")|[\w\d]+))");
+    std::regex antar_pat1(R"((\w+)\s+ko\s+((?:"[^"]*")|-?[\w\d]+)\s+aur\s+((?:"[^"]*")|-?[\w\d]+)\s+ka\s+antar\s+rkho)");
+    std::regex antar_pat2(R"(set\s+(\w+)\s+as\s+difference\s+of\s+((?:"[^"]*")|-?[\w\d]+)\s+and\s+((?:"[^"]*")|-?[\w\d]+))");
     if (std::regex_search(lower_l, match, antar_pat1) ||
         std::regex_search(lower_l, match, antar_pat2)) {
         return orig(1) + " + antar(karana=" + orig(2) + ", sahakarana=" + orig(3) + ")";
     }
 
     // Gunan (Multiplication)
-    std::regex gunan_pat1(R"((\w+)\s+ko\s+((?:"[^"]*")|[\w\d]+)\s+aur\s+((?:"[^"]*")|[\w\d]+)\s+ka\s+gunan\s+rkho)");
-    std::regex gunan_pat2(R"(set\s+(\w+)\s+as\s+product\s+of\s+((?:"[^"]*")|[\w\d]+)\s+and\s+((?:"[^"]*")|[\w\d]+))");
+    std::regex gunan_pat1(R"((\w+)\s+ko\s+((?:"[^"]*")|-?[\w\d]+)\s+aur\s+((?:"[^"]*")|-?[\w\d]+)\s+ka\s+gunan\s+rkho)");
+    std::regex gunan_pat2(R"(set\s+(\w+)\s+as\s+product\s+of\s+((?:"[^"]*")|-?[\w\d]+)\s+and\s+((?:"[^"]*")|-?[\w\d]+))");
     if (std::regex_search(lower_l, match, gunan_pat1) ||
         std::regex_search(lower_l, match, gunan_pat2)) {
         return orig(1) + " + gunan(karana=" + orig(2) + ", sahakarana=" + orig(3) + ")";
