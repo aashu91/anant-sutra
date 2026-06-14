@@ -13,9 +13,9 @@ Build a lightweight, offline-first programming language where conversational Hin
 - [x] Run end-to-end loop test demonstrating code execution.
 
 ### Phase 2: Parser Expansion & Sanskrit Validation
-- [ ] Add more Kriyas: `Tulanā` (Comparison), `Yogaphalam` (Arithmetic expressions), and `Sandhanam` (String concatenation).
-- [ ] Implement Panini-style prefix/suffix checking (Dhatu + Pratyaya mapping) to validate variable types and memory allocation.
-- [ ] Support complex conditions (`Adhikarana` branching like If-Else).
+- [x] Add more Kriyas: `Yogaphalam` (Arithmetic expressions) and `Sandhanam` (String concatenation).
+- [ ] Add `Tulanā` (Comparison) and Panini-style prefix/suffix checking (Dhatu + Pratyaya mapping) to validate variable types and memory allocation.
+- [x] Support complex conditions (`Adhikarana` branching like If-Else / Sankalpa).
 
 ### Phase 3: Neuro-Symbolic Integration (LLM to AST Compiler)
 - [ ] Write a script that uses a small local model (e.g., Gemma 2B via Ollama / Llama.cpp) to convert complex, free-form conversational prompt strings into the exact JSON-based Vyakarana AST.
