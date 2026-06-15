@@ -41,10 +41,10 @@ def translate_natural_prompt(line):
         return "sankalpa_khatam"
 
     # Creation
-    create_pat1 = r'ek\s+variable\s+banao\s+(\w+)\s+(?:value|maan)\s+((?:"[^"]*")|[\w\d]+)'
-    create_pat2 = r'create\s+variable\s+(\w+)\s+with\s+(?:value|maan)\s+((?:"[^"]*")|[\w\d]+)'
-    create_pat3 = r'banao\s+variable\s+(\w+)\s+(?:value|maan)\s+((?:"[^"]*")|[\w\d]+)'
-    create_pat4 = r'ek\s+variable\s+(\w+)\s+(?:value|maan)\s+((?:"[^"]*")|[\w\d]+)'
+    create_pat1 = r'ek\s+variable\s+banao\s+(\w+)\s+(?:value|maan)\s+((?:"[^"]*")|-?[\w\d]+)'
+    create_pat2 = r'create\s+variable\s+(\w+)\s+with\s+(?:value|maan)\s+((?:"[^"]*")|-?[\w\d]+)'
+    create_pat3 = r'banao\s+variable\s+(\w+)\s+(?:value|maan)\s+((?:"[^"]*")|-?[\w\d]+)'
+    create_pat4 = r'ek\s+variable\s+(\w+)\s+(?:value|maan)\s+((?:"[^"]*")|-?[\w\d]+)'
     
     for pat in (create_pat1, create_pat2, create_pat3, create_pat4):
         m = re.search(pat, l, re.IGNORECASE)
@@ -52,32 +52,32 @@ def translate_natural_prompt(line):
             return f"{m.group(1)} + sruj(maan={m.group(2)})"
 
     # Yog (Addition)
-    yog_pat1 = r'(\w+)\s+ko\s+((?:"[^"]*")|[\w\d]+)\s+aur\s+((?:"[^"]*")|[\w\d]+)\s+ka\s+yog\s+rkho'
-    yog_pat2 = r'set\s+(\w+)\s+as\s+sum\s+of\s+((?:"[^"]*")|[\w\d]+)\s+and\s+((?:"[^"]*")|[\w\d]+)'
+    yog_pat1 = r'(\w+)\s+ko\s+((?:"[^"]*")|-?[\w\d]+)\s+aur\s+((?:"[^"]*")|-?[\w\d]+)\s+ka\s+yog\s+rkho'
+    yog_pat2 = r'set\s+(\w+)\s+as\s+sum\s+of\s+((?:"[^"]*")|-?[\w\d]+)\s+and\s+((?:"[^"]*")|-?[\w\d]+)'
     for pat in (yog_pat1, yog_pat2):
         m = re.search(pat, l, re.IGNORECASE)
         if m:
             return f"{m.group(1)} + yog(karana={m.group(2)}, sahakarana={m.group(3)})"
 
     # Antar (Subtraction)
-    antar_pat1 = r'(\w+)\s+ko\s+((?:"[^"]*")|[\w\d]+)\s+aur\s+((?:"[^"]*")|[\w\d]+)\s+ka\s+antar\s+rkho'
-    antar_pat2 = r'set\s+(\w+)\s+as\s+difference\s+of\s+((?:"[^"]*")|[\w\d]+)\s+and\s+((?:"[^"]*")|[\w\d]+)'
+    antar_pat1 = r'(\w+)\s+ko\s+((?:"[^"]*")|-?[\w\d]+)\s+aur\s+((?:"[^"]*")|-?[\w\d]+)\s+ka\s+antar\s+rkho'
+    antar_pat2 = r'set\s+(\w+)\s+as\s+difference\s+of\s+((?:"[^"]*")|-?[\w\d]+)\s+and\s+((?:"[^"]*")|-?[\w\d]+)'
     for pat in (antar_pat1, antar_pat2):
         m = re.search(pat, l, re.IGNORECASE)
         if m:
             return f"{m.group(1)} + antar(karana={m.group(2)}, sahakarana={m.group(3)})"
 
     # Gunan (Multiplication)
-    gunan_pat1 = r'(\w+)\s+ko\s+((?:"[^"]*")|[\w\d]+)\s+aur\s+((?:"[^"]*")|[\w\d]+)\s+ka\s+gunan\s+rkho'
-    gunan_pat2 = r'set\s+(\w+)\s+as\s+product\s+of\s+((?:"[^"]*")|[\w\d]+)\s+and\s+((?:"[^"]*")|[\w\d]+)'
+    gunan_pat1 = r'(\w+)\s+ko\s+((?:"[^"]*")|-?[\w\d]+)\s+aur\s+((?:"[^"]*")|-?[\w\d]+)\s+ka\s+gunan\s+rkho'
+    gunan_pat2 = r'set\s+(\w+)\s+as\s+product\s+of\s+((?:"[^"]*")|-?[\w\d]+)\s+and\s+((?:"[^"]*")|-?[\w\d]+)'
     for pat in (gunan_pat1, gunan_pat2):
         m = re.search(pat, l, re.IGNORECASE)
         if m:
             return f"{m.group(1)} + gunan(karana={m.group(2)}, sahakarana={m.group(3)})"
 
     # Bhagaphalam (Division)
-    bhag_pat1 = r'(\w+)\s+ko\s+((?:"[^"]*")|[\w\d]+)\s+aur\s+((?:"[^"]*")|[\w\d]+)\s+ka\s+bhagaphalam\s+rkho'
-    bhag_pat2 = r'set\s+(\w+)\s+as\s+division\s+of\s+((?:"[^"]*")|[\w\d]+)\s+and\s+((?:"[^"]*")|[\w\d]+)'
+    bhag_pat1 = r'(\w+)\s+ko\s+((?:"[^"]*")|-?[\w\d]+)\s+aur\s+((?:"[^"]*")|-?[\w\d]+)\s+ka\s+bhagaphalam\s+rkho'
+    bhag_pat2 = r'set\s+(\w+)\s+as\s+division\s+of\s+((?:"[^"]*")|-?[\w\d]+)\s+and\s+((?:"[^"]*")|-?[\w\d]+)'
     for pat in (bhag_pat1, bhag_pat2):
         m = re.search(pat, l, re.IGNORECASE)
         if m:
@@ -93,9 +93,9 @@ def translate_natural_prompt(line):
             return f"{m.group(1)} + sandh(karana={m.group(2)}, sahakarana={m.group(3)})"
 
     # Vardhanam (Increment)
-    inc_pat1 = r'(\w+)\s+ko\s+((?:"[^"]*")|[\w\d]+)\s+se\s+badhao'
-    inc_pat2 = r'add\s+((?:"[^"]*")|[\w\d]+)\s+to\s+(\w+)'
-    inc_pat3 = r'(\w+)\s+me\s+((?:"[^"]*")|[\w\d]+)\s+(?:jod|add)'
+    inc_pat1 = r'(\w+)\s+ko\s+((?:"[^"]*")|-?[\w\d]+)\s+se\s+badhao'
+    inc_pat2 = r'add\s+((?:"[^"]*")|-?[\w\d]+)\s+to\s+(\w+)'
+    inc_pat3 = r'(\w+)\s+me\s+((?:"[^"]*")|-?[\w\d]+)\s+(?:jod|add)'
     m = re.search(inc_pat1, l, re.IGNORECASE)
     if m: return f"{m.group(1)} + vrdh(karana={m.group(2)})"
     m = re.search(inc_pat2, l, re.IGNORECASE)
@@ -104,9 +104,9 @@ def translate_natural_prompt(line):
     if m: return f"{m.group(1)} + vrdh(karana={m.group(2)})"
 
     # Hrasanam (Decrement)
-    dec_pat1 = r'(\w+)\s+ko\s+((?:"[^"]*")|[\w\d]+)\s+se\s+kam\s+karo'
-    dec_pat2 = r'subtract\s+((?:"[^"]*")|[\w\d]+)\s+from\s+(\w+)'
-    dec_pat3 = r'(\w+)\s+se\s+((?:"[^"]*")|[\w\d]+)\s+(?:kam|minus|ghata)'
+    dec_pat1 = r'(\w+)\s+ko\s+((?:"[^"]*")|-?[\w\d]+)\s+se\s+kam\s+karo'
+    dec_pat2 = r'subtract\s+((?:"[^"]*")|-?[\w\d]+)\s+from\s+(\w+)'
+    dec_pat3 = r'(\w+)\s+se\s+((?:"[^"]*")|-?[\w\d]+)\s+(?:kam|minus|ghata)'
     m = re.search(dec_pat1, l, re.IGNORECASE)
     if m: return f"{m.group(1)} + hras(karana={m.group(2)})"
     m = re.search(dec_pat2, l, re.IGNORECASE)
@@ -125,36 +125,36 @@ def translate_natural_prompt(line):
             return f"{m.group(1)} + drsh()"
 
     # Pravahanam (Loop)
-    loop_pat1 = r'loop\s+chalao\s+jab\s+tak\s+(\w+)\s+((?:"[^"]*")|[\w\d]+)\s+se\s+chota'
-    loop_pat2 = r'while\s+(\w+)\s+is\s+less\s+than\s+((?:"[^"]*")|[\w\d]+)'
+    loop_pat1 = r'loop\s+chalao\s+jab\s+tak\s+(\w+)\s+((?:"[^"]*")|-?[\w\d]+)\s+se\s+chota'
+    loop_pat2 = r'while\s+(\w+)\s+is\s+less\s+than\s+((?:"[^"]*")|-?[\w\d]+)'
     for pat in (loop_pat1, loop_pat2):
         m = re.search(pat, l, re.IGNORECASE)
         if m:
             return f"{m.group(1)} + pravah(seema={m.group(2)})"
 
     # Guna (Inline multiply)
-    mult_pat1 = r'(\w+)\s+ko\s+((?:"[^"]*")|[\w\d]+)\s+se\s+guna\s+karo'
-    mult_pat2 = r'multiply\s+(\w+)\s+by\s+((?:"[^"]*")|[\w\d]+)'
+    mult_pat1 = r'(\w+)\s+ko\s+((?:"[^"]*")|-?[\w\d]+)\s+se\s+guna\s+karo'
+    mult_pat2 = r'multiply\s+(\w+)\s+by\s+((?:"[^"]*")|-?[\w\d]+)'
     for pat in (mult_pat1, mult_pat2):
         m = re.search(pat, l, re.IGNORECASE)
         if m:
             return f"{m.group(1)} + gun(karana={m.group(2)})"
 
     # Bhaga (Inline divide)
-    div_pat1 = r'(\w+)\s+ko\s+((?:"[^"]*")|[\w\d]+)\s+se\s+bhag\s+do'
-    div_pat2 = r'divide\s+(\w+)\s+by\s+((?:"[^"]*")|[\w\d]+)'
+    div_pat1 = r'(\w+)\s+ko\s+((?:"[^"]*")|-?[\w\d]+)\s+se\s+bhag\s+do'
+    div_pat2 = r'divide\s+(\w+)\s+by\s+((?:"[^"]*")|-?[\w\d]+)'
     for pat in (div_pat1, div_pat2):
         m = re.search(pat, l, re.IGNORECASE)
         if m:
             return f"{m.group(1)} + bhag(karana={m.group(2)})"
 
     # Sankalpa (Conditionals)
-    cond_pat1 = r'agar\s+(\w+)\s+((?:"[^"]*")|[\w\d]+)\s+se\s+bada\s+ho'
-    cond_pat2 = r'agar\s+(\w+)\s+((?:"[^"]*")|[\w\d]+)\s+se\s+chota\s+ho'
-    cond_pat3 = r'agar\s+(\w+)\s+((?:"[^"]*")|[\w\d]+)\s+(?:ke\s+barabar|barabar)\s+ho'
-    cond_pat4 = r'if\s+(\w+)\s+is\s+greater\s+than\s+((?:"[^"]*")|[\w\d]+)'
-    cond_pat5 = r'if\s+(\w+)\s+is\s+less\s+than\s+((?:"[^"]*")|[\w\d]+)'
-    cond_pat6 = r'if\s+(\w+)\s+is\s+equal\s+to\s+((?:"[^"]*")|[\w\d]+)'
+    cond_pat1 = r'agar\s+(\w+)\s+((?:"[^"]*")|-?[\w\d]+)\s+se\s+bada\s+ho'
+    cond_pat2 = r'agar\s+(\w+)\s+((?:"[^"]*")|-?[\w\d]+)\s+se\s+chota\s+ho'
+    cond_pat3 = r'agar\s+(\w+)\s+((?:"[^"]*")|-?[\w\d]+)\s+(?:ke\s+barabar|barabar)\s+ho'
+    cond_pat4 = r'if\s+(\w+)\s+is\s+greater\s+than\s+((?:"[^"]*")|-?[\w\d]+)'
+    cond_pat5 = r'if\s+(\w+)\s+is\s+less\s+than\s+((?:"[^"]*")|-?[\w\d]+)'
+    cond_pat6 = r'if\s+(\w+)\s+is\s+equal\s+to\s+((?:"[^"]*")|-?[\w\d]+)'
     
     for pat, sharta in ((cond_pat1, "bada"), (cond_pat4, "bada")):
         m = re.search(pat, l, re.IGNORECASE)
