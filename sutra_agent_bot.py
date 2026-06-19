@@ -1,33 +1,28 @@
-import http.server
-import socketserver
-import json
-import subprocess
+# SutraAgentBot: Conversational agent running local LLM and executing tools via SutraLang VM
 import os
+import sys
+import json
+import re
 import urllib.request
 import urllib.parse
-import re
+import subprocess
 from pypdf import PdfReader
-from sutra_os import ExpanderScheduler, NyayaPageTable
 
 # Imports from sutralang codebase
 from sutralang_compiler import SutraCompiler
 from sutralang_vm import SutraVM
 
-PORT = 8000
-DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web")
-
-# Global OS simulation instances
-scheduler = ExpanderScheduler()
-page_table = NyayaPageTable()
-
-# Seed with some initial tasks
-scheduler.add_task("VyakaranaVM")
-scheduler.add_task("PostizPublisher")
-scheduler.add_task("PolyBhaiTrading")
-
-# Configuration for Ollama
-MODEL_NAME = "hf.co/bartowski/gemma-2-2b-it-abliterated-GGUF:Q4_K_M"
+# Configuration
+MODEL_NAME = "sutra-agent:latest"
 OLLAMA_API_URL = "http://localhost:11434/api/generate"
+
+COLOR_RESET = "\033[0m"
+COLOR_YELLOW = "\033[93m"
+COLOR_GREEN = "\033[92m"
+COLOR_BLUE = "\033[94m"
+COLOR_CYAN = "\033[96m"
+COLOR_RED = "\033[91m"
+COLOR_MAGENTA = "\033[95m"
 
 SYSTEM_PROMPT = """You are the SutraLang Semantic Compiler and Agent Coordinator. Your task is to translate the user's natural language request into a formal SutraLang script.
 
@@ -93,36 +88,60 @@ print code_res
 
 Output ONLY the formal SutraLang statements, one per line. Do not include any explanations, markdown code blocks, comments, or extra text."""
 
+def query_ollama(prompt):
+    data = {
+        "model": MODEL_NAME,
+        "prompt": prompt,
+        "system": SYSTEM_PROMPT,
+        "stream": False,
+        "options": {
+            "temperature": 0.1
+        }
+    }
+    req = urllib.request.Request(OLLAMA_API_URL)
+    req.add_header('Content-Type', 'application/json')
+    try:
+        response = urllib.request.urlopen(req, json.dumps(data).encode('utf-8'), timeout=90)
+        res_data = json.loads(response.read().decode('utf-8'))
+        return res_data.get("response", "").strip()
+    except Exception as e:
+        print(f"{COLOR_RED}Error calling Ollama API: {e}{COLOR_RESET}")
+        return None
+
 # Web search tool using DuckDuckGo HTML parser
 def web_search(query):
     try:
         url = "https://html.duckduckgo.com/html/?q=" + urllib.parse.quote(query)
         headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
         }
         req = urllib.request.Request(url, headers=headers)
         with urllib.request.urlopen(req, timeout=10) as response:
             html = response.read().decode('utf-8')
         
+        # Parse duckduckgo results using regex
         snippets = re.findall(r'<a class="result__snippet"[^>]*>(.*?)</a>', html, re.DOTALL)
         if not snippets:
             snippets = re.findall(r'<td class="result-snippet"[^>]*>(.*?)</td>', html, re.DOTALL)
             
         results = []
         for snip in snippets[:3]:
+            # Strip html tags
             clean = re.sub(r'<[^>]*>', '', snip)
+            # Unescape html entities
             clean = clean.replace('&quot;', '"').replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>').replace('&#x27;', "'")
             results.append(clean.strip())
             
         if results:
             return " | ".join(results)
-        return "No search results found."
+        return "No search results found on DuckDuckGo."
     except Exception as e:
         return f"Web search failed: {str(e)}"
 
 # PDF read tool using pypdf
 def read_pdf(file_path, query=""):
     try:
+        # Resolve absolute or relative path
         if not os.path.exists(file_path):
             return f"Error: PDF file '{file_path}' does not exist."
             
@@ -139,6 +158,7 @@ def read_pdf(file_path, query=""):
         if not query:
             return text[:400] + "... [Truncated]"
             
+        # Match query keywords in paragraphs
         paragraphs = text.split("\n\n")
         if len(paragraphs) < 3:
             paragraphs = text.split("\n")
@@ -324,9 +344,10 @@ class SutraAgentCompiler(SutraCompiler):
         if not line:
             return None
             
-        # 1. Web Search pattern: result ko "query" se khojo
-        match_khaj = re.search(r'(\w+)\s+ko\s+((?:"[^"]*")|[\w\d]+)\s+se\s+khojo', line, re.IGNORECASE) or \
-                     re.search(r'search\s+((?:"[^"]*")|[\w\d]+)\s+into\s+(\w+)', line, re.IGNORECASE)
+        # 1. Web Search pattern
+        # result ko "query" se khojo
+        match_khaj = re.search(r'(\w+)\s+ko\s+((?:"[^"]*")|\w+)\s+se\s+khojo', line, re.IGNORECASE) or \
+                     re.search(r'search\s+((?:"[^"]*")|\w+)\s+into\s+(\w+)', line, re.IGNORECASE)
         if match_khaj:
             if "se khojo" in line.lower():
                 karta = match_khaj.group(1)
@@ -339,9 +360,10 @@ class SutraAgentCompiler(SutraCompiler):
                 query = query[1:-1]
             return {"Kriya": "Khaj", "Karta": karta, "Query": query}
             
-        # 2. PDF read pattern: result ko "file" aur "query" se padho
-        match_path = re.search(r'(\w+)\s+ko\s+((?:"[^"]*")|[\w\d]+)\s+aur\s+((?:"[^"]*")|[\w\d]+)\s+se\s+padho', line, re.IGNORECASE) or \
-                     re.search(r'read\s+pdf\s+((?:"[^"]*")|[\w\d]+)\s+with\s+((?:"[^"]*")|[\w\d]+)\s+into\s+(\w+)', line, re.IGNORECASE)
+        # 2. PDF read pattern
+        # result ko "file" aur "query" se padho
+        match_path = re.search(r'(\w+)\s+ko\s+((?:"[^"]*")|\w+)\s+aur\s+((?:"[^"]*")|\w+)\s+se\s+padho', line, re.IGNORECASE) or \
+                     re.search(r'read\s+pdf\s+((?:"[^"]*")|\w+)\s+with\s+((?:"[^"]*")|\w+)\s+into\s+(\w+)', line, re.IGNORECASE)
         if match_path:
             if "se padho" in line.lower():
                 karta = match_path.group(1)
@@ -358,9 +380,10 @@ class SutraAgentCompiler(SutraCompiler):
                 query = query[1:-1]
             return {"Kriya": "Path", "Karta": karta, "File": file_path, "Query": query}
             
-        # 3. Shell Execution pattern: result ko "command" se shodh_karo
-        match_shodh = re.search(r'(\w+)\s+ko\s+((?:"[^"]*")|[\w\d]+)\s+se\s+shodh_karo', line, re.IGNORECASE) or \
-                      re.search(r'execute\s+shell\s+((?:"[^"]*")|[\w\d]+)\s+into\s+(\w+)', line, re.IGNORECASE)
+        # 3. Shell Execution pattern
+        # result ko "command" se shodh_karo
+        match_shodh = re.search(r'(\w+)\s+ko\s+((?:"[^"]*")|\w+)\s+se\s+shodh_karo', line, re.IGNORECASE) or \
+                      re.search(r'execute\s+shell\s+((?:"[^"]*")|\w+)\s+into\s+(\w+)', line, re.IGNORECASE)
         if match_shodh:
             if "se shodh_karo" in line.lower():
                 karta = match_shodh.group(1)
@@ -394,16 +417,7 @@ class SutraAgentCompiler(SutraCompiler):
 
 # Custom SutraVM for Agent Tools
 class SutraAgentVM(SutraVM):
-    def __init__(self):
-        super().__init__()
-        self.logs = []
-
-    def log(self, message):
-        # Override log to capture logs internally
-        clean_msg = re.sub(r'\033\[[0-9;]*m', '', message)
-        self.logs.append(clean_msg)
-        print(f"[SutraAgentVM] {message}")
-
+    # Overriding execute to handle our custom compiled Dhatus
     def execute(self, ast_program):
         self.log("Initializing Sanskrit Agent AST execution...")
         for step in ast_program:
@@ -416,18 +430,22 @@ class SutraAgentVM(SutraVM):
                 method = getattr(self, method_name)
                 method(step)
             else:
+                # Fallback to base class
                 super().execute([step])
         self.log("Agent AST execution completed.")
 
+    # Implementation of Khaj Dhatu (Web Search)
     def kriya_khaj(self, step):
         karta = step.get("Karta")
         query_val = step.get("Query")
+        # Resolve if it is variable reference
         resolved_query = self.resolve_string(query_val)
         self.log(f"Khaj Dhatu: Performing web search for '{resolved_query}'...")
         search_result = web_search(resolved_query)
         self.karta_registry[karta] = search_result
         self.log(f"Khaj: Web search completed. Stored results in '{karta}'.")
 
+    # Implementation of Path Dhatu (Read PDF)
     def kriya_path(self, step):
         karta = step.get("Karta")
         file_val = step.get("File")
@@ -439,6 +457,7 @@ class SutraAgentVM(SutraVM):
         self.karta_registry[karta] = pdf_result
         self.log(f"Path: PDF read completed. Stored results in '{karta}'.")
 
+    # Implementation of Shodh Dhatu (Shell Exec)
     def kriya_shodh(self, step):
         karta = step.get("Karta")
         command_val = step.get("Command")
@@ -448,6 +467,7 @@ class SutraAgentVM(SutraVM):
         self.karta_registry[karta] = shell_result
         self.log(f"Shodh: Shell command completed. Stored results in '{karta}'.")
 
+    # Implementation of Chhav Dhatu (Codebase Search)
     def kriya_chhav(self, step):
         karta = step.get("Karta")
         query_val = step.get("Query")
@@ -457,281 +477,83 @@ class SutraAgentVM(SutraVM):
         self.karta_registry[karta] = search_result
         self.log(f"Chhav: Codebase search completed. Stored results in '{karta}'.")
 
-    def kriya_darshanam(self, step):
-        # Override to capture Darshanam outputs for front-end
-        karma = step.get("Karma")
-        val = ""
-        if karma in self.karta_registry:
-            val = str(self.karta_registry[karma])
-        else:
-            val = str(karma)
-            if val.startswith('"') and val.endswith('"'):
-                val = val[1:-1]
-        self.log(f"➔ [DARSHANAM OUTPUT] {val}")
 
+def main():
+    compiler = SutraAgentCompiler()
+    vm = SutraAgentVM()
 
-def query_ollama(prompt):
-    data = {
-        "model": MODEL_NAME,
-        "prompt": prompt,
-        "system": SYSTEM_PROMPT,
-        "stream": False,
-        "options": {
-            "temperature": 0.1
-        }
-    }
-    req = urllib.request.Request(OLLAMA_API_URL)
-    req.add_header('Content-Type', 'application/json')
-    try:
-        response = urllib.request.urlopen(req, json.dumps(data).encode('utf-8'), timeout=90)
-        res_data = json.loads(response.read().decode('utf-8'))
-        return res_data.get("response", "").strip()
-    except Exception as e:
-        print(f"Error calling Ollama API: {e}")
-        return None
+    # CLI Single query execution mode
+    if len(sys.argv) > 1:
+        user_query = " ".join(sys.argv[1:])
+        sutra_code = query_ollama(user_query)
+        if not sutra_code:
+            print(f"Error: Could not compile query to SutraLang. Check if Ollama server is running.")
+            sys.exit(1)
+        
+        # Output compiled code
+        print(f"[Compiled SutraLang Program]")
+        print("-" * 50)
+        print(sutra_code)
+        print("-" * 50)
+        
+        # Execute program
+        try:
+            ast = compiler.compile_program(sutra_code)
+            vm.karta_registry = {}
+            vm.execute(ast)
+            sys.exit(0)
+        except Exception as e:
+            print(f"Execution failed: {e}")
+            sys.exit(1)
 
+    # REPL Interactive Console mode
+    print(f"{COLOR_CYAN}====================================================================={COLOR_RESET}")
+    print(f"{COLOR_YELLOW}   ____  _   _ _____ ____    _       ____   ___ _____                {COLOR_RESET}")
+    print(f"{COLOR_YELLOW}  / ___|| | | |_   _|  _ \\  / \\     | __ ) / _ \\_   _|               {COLOR_RESET}")
+    print(f"{COLOR_YELLOW}  \\___ \\| | | | | | | |_) |/ _ \\    |  _ \\| | | || |                 {COLOR_RESET}")
+    print(f"{COLOR_YELLOW}   ___) | |_| | | | |  _ </ ___ \\   | |_) | |_| || |                 {COLOR_RESET}")
+    print(f"{COLOR_YELLOW}  |____/ \\___/  |_| |_| \\_/_/   \\_\\  |____/ \\___/ |_|                 {COLOR_RESET}")
+    print(f"{COLOR_CYAN}====================================================================={COLOR_RESET}")
+    print(f"{COLOR_GREEN}SutraLang Sovereign Neuro-Symbolic Agent Bot (sutra-agent + Web + PDF + Shell){COLOR_RESET}")
+    print(f"Type {COLOR_YELLOW}exit{COLOR_RESET} to quit. Ask anything!\n")
 
-class SutraHubHandler(http.server.SimpleHTTPRequestHandler):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, directory=DIRECTORY, **kwargs)
-
-    def do_GET(self):
-        if self.path == "/api/os/status":
-            status_data = {
-                "spectral_gap": scheduler.get_spectral_gap(),
-                "load": scheduler.load,
-                "cores": scheduler.cores,
-                "history": scheduler.history,
-                "allocations": page_table.allocations,
-                "logs": page_table.logs
-            }
-            self.send_response(200)
-            self.send_header('Content-Type', 'application/json')
-            self.send_header('Access-Control-Allow-Origin', '*')
-            self.end_headers()
-            self.wfile.write(json.dumps(status_data).encode('utf-8'))
-        else:
-            super().do_GET()
-
-    def do_POST(self):
-        if self.path == "/api/chat":
-            content_length = int(self.headers['Content-Length'])
-            post_data = self.rfile.read(content_length)
+    while True:
+        try:
+            user_query = input(f"{COLOR_MAGENTA}sutra_bot> {COLOR_RESET}").strip()
+        except (KeyboardInterrupt, EOFError):
+            print("\nShutting down SutraAgentBot...")
+            break
             
-            try:
-                data = json.loads(post_data.decode('utf-8'))
-                prompt = data.get("prompt", "")
-                
-                print(f"[API Chat] Query: '{prompt}'")
-                sutra_code = query_ollama(prompt)
-                if not sutra_code:
-                    self.send_error_response("Could not compile query via Ollama. Make sure Ollama server is running.")
-                    return
-                
-                # Strip markdown code blocks if the model wrapped output
-                sutra_lines = []
-                for line in sutra_code.split("\n"):
-                    line_strip = line.strip()
-                    if line_strip.startswith("```") or line_strip.endswith("```"):
-                        continue
-                    if line_strip:
-                        sutra_lines.append(line_strip)
-                sutra_clean_code = "\n".join(sutra_lines)
-
-                compiler = SutraAgentCompiler()
-                vm = SutraAgentVM()
-                
-                ast_json = []
-                success = False
-                error_msg = ""
-                
-                try:
-                    ast_json = compiler.compile_program(sutra_clean_code)
-                    vm.execute(ast_json)
-                    success = True
-                except Exception as e:
-                    error_msg = str(e)
-                    print(f"[API Chat] Execution Error: {error_msg}")
-
-                # Extract Darshanam outputs for the final user response
-                darshanam_outputs = []
-                for log_line in vm.logs:
-                    if "➔ [DARSHANAM OUTPUT]" in log_line:
-                        darshanam_outputs.append(log_line.replace("➔ [DARSHANAM OUTPUT]", "").strip())
-                
-                final_response = "\n".join(darshanam_outputs) if darshanam_outputs else "Execution completed, but no outputs were printed."
-                
-                response_data = {
-                    "success": success,
-                    "sutra_code": sutra_clean_code,
-                    "ast": ast_json,
-                    "vm_logs": vm.logs,
-                    "response": final_response,
-                    "error": error_msg
-                }
-                
-                self.send_response(200)
-                self.send_header('Content-Type', 'application/json')
-                self.send_header('Access-Control-Allow-Origin', '*')
-                self.end_headers()
-                self.wfile.write(json.dumps(response_data).encode('utf-8'))
-                
-            except Exception as e:
-                self.send_error_response(str(e))
-
-        elif self.path == "/api/run":
-            content_length = int(self.headers['Content-Length'])
-            post_data = self.rfile.read(content_length)
+        if not user_query:
+            continue
             
-            try:
-                data = json.loads(post_data.decode('utf-8'))
-                mode = data.get("mode", "raw") # "raw" or "vibe"
-                prompt = data.get("prompt", "")
-                
-                translated_code = ""
-                ast_json = []
-                bytecode_hex = ""
-                stdout_output = ""
-                error_msg = ""
-                
-                if mode == "vibe":
-                    cpp_vm_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sutra")
-                    try:
-                        res = subprocess.run([cpp_vm_path, "--translate-line", prompt], capture_output=True, text=True, timeout=5)
-                        if res.returncode != 0:
-                            raise Exception(res.stderr.strip())
-                        translated_code = res.stdout.strip()
-                    except Exception as e:
-                        self.send_error_response(f"Translation failed: {e}")
-                        return
-                else:
-                    translated_code = prompt
+        if user_query.lower() == "exit":
+            print("Shutting down SutraAgentBot...")
+            break
 
-                # Compile AST
-                compiler = SutraAgentCompiler()
-                vm = SutraAgentVM()
-                try:
-                    ast_json = compiler.compile_program(translated_code)
-                    vm.execute(ast_json)
-                    stdout_output = "\n".join(vm.logs)
-                except Exception as e:
-                    self.send_response(200)
-                    self.send_header('Content-Type', 'application/json')
-                    self.send_header('Access-Control-Allow-Origin', '*')
-                    self.end_headers()
-                    self.wfile.write(json.dumps({
-                        "success": False,
-                        "translated": translated_code,
-                        "error": f"Syntax Compiler Error: {e}"
-                     }).encode('utf-8'))
-                    return
-                
-                # Compile to binary bytecode (.sutrab) using C++ compiler if available
-                cpp_vm_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sutra")
-                if os.path.exists(cpp_vm_path):
-                    bytecode_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "temp_web.sutrab")
-                    try:
-                        res_compile = subprocess.run([cpp_vm_path, "--compile-line", translated_code, bytecode_path], capture_output=True, text=True, timeout=5)
-                        if res_compile.returncode == 0:
-                            with open(bytecode_path, "rb") as f:
-                                bytecode_bytes = f.read()
-                            bytecode_hex = bytecode_bytes.hex()
-                    except Exception:
-                        pass
+        print(f"\n{COLOR_BLUE}[SutraBot] Querying local LLM for SutraLang compilation...{COLOR_RESET}")
+        sutra_code = query_ollama(user_query)
+        if not sutra_code:
+            print(f"{COLOR_RED}Could not compile query to SutraLang. Check if Ollama server is running.{COLOR_RESET}\n")
+            continue
 
-                response_data = {
-                    "success": error_msg == "",
-                    "translated": translated_code,
-                    "ast": ast_json,
-                    "bytecode": bytecode_hex,
-                    "stdout": stdout_output,
-                    "error": error_msg
-                }
+        print(f"\n{COLOR_CYAN}[Generated Unambiguous SutraLang Program]{COLOR_RESET}")
+        print("-" * 50)
+        print(sutra_code)
+        print("-" * 50)
 
-                self.send_response(200)
-                self.send_header('Content-Type', 'application/json')
-                self.send_header('Access-Control-Allow-Origin', '*')
-                self.end_headers()
-                self.wfile.write(json.dumps(response_data).encode('utf-8'))
-                
-            except Exception as e:
-                self.send_error_response(str(e))
-                
-        elif self.path == "/api/os/task/add":
-            content_length = int(self.headers['Content-Length'])
-            post_data = self.rfile.read(content_length)
-            try:
-                data = json.loads(post_data.decode('utf-8'))
-                task_name = data.get("name", "UnnamedTask")
-                core_assigned = scheduler.add_task(task_name)
-                
-                self.send_response(200)
-                self.send_header('Content-Type', 'application/json')
-                self.send_header('Access-Control-Allow-Origin', '*')
-                self.end_headers()
-                self.wfile.write(json.dumps({"success": True, "core": core_assigned}).encode('utf-8'))
-            except Exception as e:
-                self.send_error_response(str(e))
-                
-        elif self.path == "/api/os/tick":
-            try:
-                movements = scheduler.tick()
-                self.send_response(200)
-                self.send_header('Content-Type', 'application/json')
-                self.send_header('Access-Control-Allow-Origin', '*')
-                self.end_headers()
-                self.wfile.write(json.dumps({"success": True, "movements": movements}).encode('utf-8'))
-            except Exception as e:
-                self.send_error_response(str(e))
-                
-        elif self.path == "/api/os/allocate":
-            content_length = int(self.headers['Content-Length'])
-            post_data = self.rfile.read(content_length)
-            try:
-                data = json.loads(post_data.decode('utf-8'))
-                proc = data.get("process", "Anonymous")
-                size = data.get("size", 0)
-                limit = data.get("limit", 0)
-                
-                log_entry = page_table.allocate(proc, size, limit)
-                
-                self.send_response(200)
-                self.send_header('Content-Type', 'application/json')
-                self.send_header('Access-Control-Allow-Origin', '*')
-                self.end_headers()
-                self.wfile.write(json.dumps(log_entry).encode('utf-8'))
-            except Exception as e:
-                self.send_error_response(str(e))
-        else:
-            self.send_response(404)
-            self.end_headers()
-
-    def send_error_response(self, msg):
-        self.send_response(200)
-        self.send_header('Content-Type', 'application/json')
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.end_headers()
-        self.wfile.write(json.dumps({
-            "success": False,
-            "error": msg
-        }).encode('utf-8'))
-
-    def do_OPTIONS(self):
-        self.send_response(200)
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
-        self.end_headers()
+        # Parse program logic
+        try:
+            print(f"\n{COLOR_BLUE}[SutraBot] Compiling program to Vyakarana AST...{COLOR_RESET}")
+            ast = compiler.compile_program(sutra_code)
+            
+            print(f"{COLOR_BLUE}[SutraBot] Executing in SutraLang VM...{COLOR_RESET}")
+            # Reset variable memory registry per query run
+            vm.karta_registry = {}
+            vm.execute(ast)
+            print()
+        except Exception as e:
+            print(f"{COLOR_RED}Compilation/Execution Failed: {e}{COLOR_RESET}\n")
 
 if __name__ == "__main__":
-    os.makedirs(DIRECTORY, exist_ok=True)
-    socketserver.TCPServer.allow_reuse_address = True
-    with socketserver.TCPServer(("", PORT), SutraHubHandler) as httpd:
-        print(f"\033[92m====================================================\033[0m")
-        print(f"\033[92m  SUTRAAGENT CHATBOT PORTAL SERVING ON PORT {PORT}    \033[0m")
-        print(f"\033[92m  Open in browser: http://localhost:{PORT}          \033[0m")
-        print(f"\033[92m====================================================\033[0m")
-        try:
-            httpd.serve_forever()
-        except KeyboardInterrupt:
-            print("\nShutting down server...")
+    main()

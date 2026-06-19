@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anant Anaadi: Sanskrit Vyakarana AST & Bytecode Hub</title>
+    <title>Anant Anaadi: SutraLang & Neuro-Symbolic Agent Hub</title>
     <!-- Google Fonts: Noto Serif Devanagari & Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,9 +21,9 @@
         <header class="app-header">
             <div class="logo-area">
                 <span class="hindi-title">अनन्त अनादि</span>
-                <span class="sub-logo">R&D PORTAL</span>
+                <span class="sub-logo">AGENT PORTAL</span>
             </div>
-            <div class="header-tagline">Sovereign Neuro-Symbolic & Paninian Computing Engine</div>
+            <div class="header-tagline">Sovereign Neuro-Symbolic Chatbot & Paninian VM Shell</div>
             <div class="status-indicators">
                 <span class="status-badge"><span class="dot live"></span> VM Online</span>
                 <span class="status-badge"><span class="dot ollama-dot"></span> Ollama Connect</span>
@@ -32,17 +32,46 @@
 
         <!-- Main Workspace Split Pane -->
         <main class="workspace">
-            <!-- Left Pane: Research Library & Documentation -->
+            <!-- Left Pane: Chat Interface / Main Controller -->
             <section class="pane left-pane">
                 <div class="pane-header">
-                    <button class="tab-btn active" data-target="sutralang-ref">SutraLang Ref</button>
-                    <button class="tab-btn" data-target="research-papers">Research Vault</button>
-                    <button class="tab-btn" data-target="agent-registry">Agent Registry</button>
-                    <button class="tab-btn" data-target="sutraos-sim">SutraOS Simulator</button>
+                    <button class="tab-btn active" data-target="sutrabot-chat">SutraBot Chat</button>
+                    <button class="tab-btn" data-target="sutralang-ref">SutraLang Ref</button>
+                    <button class="tab-btn" data-target="sutraos-sim">SutraOS Sim</button>
                 </div>
-                <div class="pane-content">
-                    <!-- Tab 1: SutraLang Reference -->
-                    <div id="sutralang-ref" class="tab-panel active">
+                <div class="pane-content chat-pane-content">
+                    <!-- Tab 1: Chat Interface -->
+                    <div id="sutrabot-chat" class="tab-panel active chat-panel">
+                        <div class="chat-history" id="chat-history-container">
+                            <div class="message bot-message">
+                                <div class="message-sender">SutraBot</div>
+                                <div class="message-text">Namaste Ashutosh! Main tumhara local sovereign AI agent chatbot hoon. Main Gemma 2B aur SutraVM compiler ko use karke queries handle karta hoon.
+                                <br><br>Main web search (khojo), PDF read (padho) aur shell code execute (shodh_karo) kar sakta hoon. Kuch pucho!</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Chat Input Box -->
+                        <div class="chat-input-area">
+                            <div class="input-controls">
+                                <label class="control-label" title="Search web for query results">
+                                    <input type="checkbox" id="web-search-toggle"> Web Search
+                                </label>
+                                <label class="control-label" title="Search local codebase files">
+                                    <input type="checkbox" id="codebase-search-toggle"> Codebase Search
+                                </label>
+                                <div class="pdf-input-wrapper">
+                                    <input type="text" id="pdf-file-input" placeholder="file.pdf...">
+                                </div>
+                            </div>
+                            <div class="input-row">
+                                <input type="text" id="chat-prompt-input" placeholder="Type a prompt (e.g. Search DDG for Polymarket...)">
+                                <button id="chat-send-btn" class="send-btn">Send</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 2: SutraLang Reference -->
+                    <div id="sutralang-ref" class="tab-panel">
                         <h2>SutraLang Semantic Grammar</h2>
                         <p class="intro-p">SutraLang maps programming operations to Panini's traditional **Karaka-Kriya** semantic structures. In this environment, program states are created and morphed via algebraic operations (Dhatus) rather than Western assignment syntax.</p>
                         
@@ -68,73 +97,28 @@
                         </div>
 
                         <div class="ref-section">
-                            <h3>4. Pravahanam (प्रवाहनम) — Loop Flow</h3>
-                            <p class="cmd-desc">Initiates an iterative execution block bounded by a limit (Seema).</p>
-                            <pre class="code-example">
-loop chalao jab tak i 3 se chota
-  i ko 1 se badhao
-loop_khatam</pre>
+                            <h3>4. Web Search (खज् - Search)</h3>
+                            <p class="cmd-desc">Queries the web via DuckDuckGo and stores result in variable.</p>
+                            <pre class="code-example">result ko "Polymarket price" se khojo</pre>
+                            <pre class="code-pure">result + khaj(karana="Polymarket price")</pre>
                         </div>
 
                         <div class="ref-section">
-                            <h3>5. Sankalpa (सङ्कल्प) — Conditional</h3>
-                            <p class="cmd-desc">Branching logic evaluated via comparison tags (bada/chota/barabar).</p>
-                            <pre class="code-example">
-agar score 50 se bada ho
-  print "Success"
-sankalpa khatam</pre>
+                            <h3>5. PDF Reader (पठ् - Read)</h3>
+                            <p class="cmd-desc">Extracts semantic keywords from local PDF.</p>
+                            <pre class="code-example">res ko "paper.pdf" aur "data" se padho</pre>
+                            <pre class="code-pure">res + path(karana="paper.pdf", query="data")</pre>
+                        </div>
+
+                        <div class="ref-section">
+                            <h3>6. Coding Shell (शोध् - Execute)</h3>
+                            <p class="cmd-desc">Executes shell or python script natively.</p>
+                            <pre class="code-example">out ko "python -c 'print(5*5)'" se shodh_karo</pre>
+                            <pre class="code-pure">out + shodh(karana="python -c 'print(5*5)'")</pre>
                         </div>
                     </div>
 
-                    <!-- Tab 2: Research Papers -->
-                    <div id="research-papers" class="tab-panel">
-                        <h2>Research & Philosophical Foundations</h2>
-                        <div class="paper-card">
-                            <span class="paper-tag">CS-01</span>
-                            <h3>Paninian Grammars as Sovereign Compilers</h3>
-                            <p class="paper-abstract">Exploring the structural isomorphism between the Astadhyayi's context-free rule generation and modern LLVM intermediate compiler stages. By grounding language parsing in algebraic Sanskrit rules, we eliminate structural code hallucinations and achieve complete runtime execution security.</p>
-                        </div>
-                        <div class="paper-card">
-                            <span class="paper-tag">MATH-02</span>
-                            <h3>Ramanujan Expander Graph Process Scheduling</h3>
-                            <p class="paper-abstract">Replacing monolithic Linux task queues with Ramanujan expander graphs ($d$-regular graphs) where process hops maintain tight spectral bounds: $\lambda_2 \le 2\sqrt{d-1}$. This guarantees optimal bounds for context-switching latency and prevents scheduler starvation natively on mobile nodes.</p>
-                        </div>
-                        <div class="paper-card">
-                            <span class="paper-tag">LOGIC-03</span>
-                            <h3>Nyaya-Based Memory Allocation Verification</h3>
-                            <p class="paper-abstract">This paper defines a Logic Page Table for mobile kernels where page allocation is granted only upon compiler-generated proof using Nyaya Syllogisms. A program must prove safety constraints (Pratijna and Udaharana) before the OS VM registers physical memory allocation.</p>
-                        </div>
-                    </div>
-
-                    <!-- Tab 3: Agent Registry -->
-                    <div id="agent-registry" class="tab-panel">
-                        <h2>Autonomous R&D Agent Registry</h2>
-                        <p class="intro-p">Operational systems integrated into the Anant Anaadi Termux environment to support publishing and pipeline workflows.</p>
-                        
-                        <div class="agent-item">
-                            <div class="agent-title-row">
-                                <span class="agent-badge active">Active</span>
-                                <h4>Poly bhai</h4>
-                            </div>
-                            <p>Algorithmic Polymarket trading agent. Scans gamma api endpoints, coordinates news velocity, and calculates risk indices under the Kronos safety model.</p>
-                        </div>
-                        <div class="agent-item">
-                            <div class="agent-title-row">
-                                <span class="agent-badge active">Active</span>
-                                <h4>Postiz Pipeline</h4>
-                            </div>
-                            <p>Multi-channel social publisher. Integrates PIL post rendering factories (`aa_pro_factory.py`) and schedules content across 28+ networks.</p>
-                        </div>
-                        <div class="agent-item">
-                            <div class="agent-title-row">
-                                <span class="agent-badge offline">Idle</span>
-                                <h4>Chiransh Voice Shell</h4>
-                            </div>
-                            <p>Local-first offline voice interface companion. Translates speech raw inputs using Vosk speech models directly into Vyakarana VM commands.</p>
-                        </div>
-                    </div>
-
-                    <!-- Tab 4: SutraOS Simulator -->
+                    <!-- Tab 3: SutraOS Simulator -->
                     <div id="sutraos-sim" class="tab-panel">
                         <h2>SutraOS Logic & Graph Simulator</h2>
                         <p class="intro-p">Simulate decentralized process scheduling via Ramanujan Expander Graphs and memory page safety verification using Nyaya Syllogisms.</p>
@@ -176,58 +160,58 @@ sankalpa khatam</pre>
                 </div>
             </section>
 
-            <!-- Right Pane: Interactive Playground -->
+            <!-- Right Pane: Interactive Playground / Visualizer Panels -->
             <section class="pane right-pane">
-                <!-- Editor and Control Board -->
-                <div class="editor-section">
-                    <div class="editor-header">
-                        <div class="mode-select">
-                            <button class="mode-btn active" data-mode="vibe">Vibe Mode (Natural Language)</button>
-                            <button class="mode-btn" data-mode="raw">SutraLang Mode (Direct Code)</button>
-                        </div>
-                        <button id="run-btn" class="action-btn">Compile & Run</button>
-                    </div>
-                    <div class="input-area-wrapper">
-                        <textarea id="playground-input" placeholder="Enter your natural language prompt here... (e.g. Create a variable score with value 80, print it. If score is greater than 50, print Success.)">Create a score variable with value 85. If score is greater than 50, print "Success: Score is greater than 50".</textarea>
-                    </div>
+                <div class="pane-header">
+                    <button class="tab-btn active" data-target="compiler-vis">Compiler Trace</button>
+                    <button class="tab-btn" data-target="coding-shell-panel">Coding Shell</button>
+                    <button class="tab-btn" data-target="vm-console-panel">SutraVM Console</button>
                 </div>
-
-                <!-- Live Visualizer Panels -->
-                <div class="visualizer-grid">
-                    <!-- Column 1: Compiler Pipeline Details -->
-                    <div class="vis-column">
-                        <!-- Panel A: Translated Code -->
-                        <div class="vis-panel" id="translated-panel-wrapper">
-                            <div class="panel-title">Compiled SutraLang Code</div>
-                            <div class="panel-body">
-                                <pre id="translated-code-box" class="code-text">// Compile to inspect intermediate representation...</pre>
+                
+                <div class="pane-content">
+                    <!-- Right Tab 1: Compiler Visualization Details -->
+                    <div id="compiler-vis" class="tab-panel active">
+                        <div class="visualizer-grid-column">
+                            <!-- Panel A: Compiled SutraLang Code -->
+                            <div class="vis-panel">
+                                <div class="panel-title">Generated Unambiguous SutraLang Code</div>
+                                <div class="panel-body">
+                                    <pre id="translated-code-box" class="code-text">// Chat with the bot or write code to inspect...</pre>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <!-- Panel B: Vyakarana AST -->
-                        <div class="vis-panel">
-                            <div class="panel-title">Vyakarana AST Structure</div>
-                            <div class="panel-body">
-                                <pre id="ast-json-box" class="code-text">// AST JSON representation...</pre>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Column 2: VM Execution Log & Bytecode -->
-                    <div class="vis-column">
-                        <!-- Panel C: Bytecode Hex -->
-                        <div class="vis-panel">
-                            <div class="panel-title">Sutra Bytecode (.sutrab Hex Dump)</div>
-                            <div class="panel-body">
-                                <div id="bytecode-hex-box" class="hex-grid">
-                                    <span class="hex-placeholder">// Hex stream representation...</span>
+                            
+                            <!-- Panel B: Vyakarana AST -->
+                            <div class="vis-panel">
+                                <div class="panel-title">Vyakarana AST Structure</div>
+                                <div class="panel-body">
+                                    <pre id="ast-json-box" class="code-text">// AST JSON representation...</pre>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Panel D: VM Output Console -->
+                    <!-- Right Tab 2: Direct Coding Shell -->
+                    <div id="coding-shell-panel" class="tab-panel">
+                        <h2>Direct Coding Shell</h2>
+                        <p class="intro-p">Write raw SutraLang statements directly or run system shell queries without natural language translation.</p>
+                        
+                        <div class="shell-editor-area">
+                            <textarea id="raw-sutra-input" placeholder="Type raw code here... (e.g. counter + sruj(maan=0))">score + sruj(maan=85)
+score + drsh()
+
+score + sankalpa(sharta=bada, karana=50)
+  "Success: Score is greater than 50" + drsh()
+sankalpa_khatam</textarea>
+                            <div class="shell-actions">
+                                <button id="raw-run-btn" class="action-btn">Execute Program</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Tab 3: SutraVM Console Logs -->
+                    <div id="vm-console-panel" class="tab-panel">
                         <div class="vis-panel terminal-panel">
-                            <div class="panel-title">SutraVM Native execution console</div>
+                            <div class="panel-title">SutraVM Execution Trace</div>
                             <div class="panel-body terminal-body">
                                 <div id="terminal-stdout">
                                     <div class="terminal-line">// Spawning stack machine... ready.</div>

@@ -1,43 +1,33 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Tab switching logic
-    const tabButtons = document.querySelectorAll(".tab-btn");
-    const tabPanels = document.querySelectorAll(".tab-panel");
+    // ----------------------------------------------------
+    // Tab Switching Logic (Left & Right Panes)
+    // ----------------------------------------------------
+    const leftTabBtns = document.querySelectorAll(".left-pane .tab-btn");
+    const leftTabPanels = document.querySelectorAll(".left-pane .tab-panel");
+    const rightTabBtns = document.querySelectorAll(".right-pane .tab-btn");
+    const rightTabPanels = document.querySelectorAll(".right-pane .tab-panel");
 
-    tabButtons.forEach(btn => {
+    leftTabBtns.forEach(btn => {
         btn.addEventListener("click", () => {
             const target = btn.dataset.target;
-            
-            tabButtons.forEach(b => b.classList.remove("active"));
-            tabPanels.forEach(p => p.classList.remove("active"));
-            
+            leftTabBtns.forEach(b => b.classList.remove("active"));
+            leftTabPanels.forEach(p => p.classList.remove("active"));
             btn.classList.add("active");
             document.getElementById(target).classList.add("active");
+
+            if (target === "sutraos-sim") {
+                updateOSStatus();
+            }
         });
     });
 
-    // Mode toggling logic
-    const modeButtons = document.querySelectorAll(".mode-btn");
-    const playgroundInput = document.getElementById("playground-input");
-    const translatedPanelWrapper = document.getElementById("translated-panel-wrapper");
-    let currentMode = "vibe"; // "vibe" or "raw"
-
-    modeButtons.forEach(btn => {
+    rightTabBtns.forEach(btn => {
         btn.addEventListener("click", () => {
-            const mode = btn.dataset.mode;
-            currentMode = mode;
-            
-            modeButtons.forEach(b => b.classList.remove("active"));
+            const target = btn.dataset.target;
+            rightTabBtns.forEach(b => b.classList.remove("active"));
+            rightTabPanels.forEach(p => p.classList.remove("active"));
             btn.classList.add("active");
-            
-            if (mode === "vibe") {
-                playgroundInput.placeholder = "Enter your natural language prompt here... (e.g. Create a variable score with value 85. If score is greater than 50, print Success.)";
-                playgroundInput.value = 'Create a score variable with value 85. If score is greater than 50, print "Success: Score is greater than 50".';
-                translatedPanelWrapper.style.display = "flex";
-            } else {
-                playgroundInput.placeholder = "Enter raw Paninian SutraLang code here...\n\nExample:\ncounter + sruj(maan=0)\ncounter + drsh()";
-                playgroundInput.value = 'score + sruj(maan=85)\nscore + drsh()\n\nscore + sankalpa(sharta=bada, karana=50)\n  "Success: Score is greater than 50" + drsh()\nsankalpa_khatam';
-                translatedPanelWrapper.style.display = "none";
-            }
+            document.getElementById(target).classList.add("active");
         });
     });
 
@@ -51,104 +41,187 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .catch(err => {
             console.log("Ollama server not reachable directly from browser CORS:", err);
-            // We still assume it runs via backend server if direct CORS fails
+            // Will fallback to proxy status
         });
 
-    // Run / Compile action
-    const runBtn = document.getElementById("run-btn");
+    // ----------------------------------------------------
+    // SutraBot Chat Flow
+    // ----------------------------------------------------
+    const chatHistory = document.getElementById("chat-history-container");
+    const chatPromptInput = document.getElementById("chat-prompt-input");
+    const chatSendBtn = document.getElementById("chat-send-btn");
+    const webSearchToggle = document.getElementById("web-search-toggle");
+    const pdfFileInput = document.getElementById("pdf-file-input");
+
+    // Visualizer Output Elements
     const translatedCodeBox = document.getElementById("translated-code-box");
     const astJsonBox = document.getElementById("ast-json-box");
-    const bytecodeHexBox = document.getElementById("bytecode-hex-box");
     const terminalStdout = document.getElementById("terminal-stdout");
 
-    runBtn.addEventListener("click", async () => {
-        const inputVal = playgroundInput.value.trim();
-        if (!inputVal) return;
+    // Helper to append message to chat window
+    function appendMessage(sender, text, isUser = false) {
+        const messageDiv = document.createElement("div");
+        messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+        
+        const senderDiv = document.createElement("div");
+        senderDiv.className = "message-sender";
+        senderDiv.innerText = sender;
+        
+        const textDiv = document.createElement("div");
+        textDiv.className = "message-text";
+        textDiv.innerHTML = text.replace(/\n/g, "<br>");
 
-        // Reset UI boxes
-        runBtn.disabled = true;
-        runBtn.innerText = "Processing...";
-        terminalStdout.innerHTML = `<div class="terminal-line">// Querying compiler pipeline...</div>`;
+        messageDiv.appendChild(senderDiv);
+        messageDiv.appendChild(textDiv);
+        chatHistory.appendChild(messageDiv);
+        
+        // Scroll to bottom
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+        return messageDiv;
+    }
+
+    async function handleSend() {
+        let promptVal = chatPromptInput.value.trim();
+        if (!promptVal) return;
+
+        const useWebSearch = webSearchToggle.checked;
+        const useCodeSearch = document.getElementById("codebase-search-toggle").checked;
+        const pdfFile = pdfFileInput.value.trim();
+
+        // Construct enriched agent instructions based on active UI toggles
+        let apiPrompt = promptVal;
+        if (pdfFile && useWebSearch) {
+            apiPrompt = `Read PDF "${pdfFile}" about "${promptVal}" and search the web for Polymarket news, then show the summaries.`;
+        } else if (pdfFile) {
+            apiPrompt = `Read PDF "${pdfFile}" about "${promptVal}" and print the details.`;
+        } else if (useWebSearch) {
+            apiPrompt = `Search on the web for "${promptVal}" and print the results.`;
+        } else if (useCodeSearch) {
+            apiPrompt = `Search local codebase for "${promptVal}" and show it.`;
+        }
+
+        // 1. Append User Message
+        appendMessage("You", promptVal, true);
+        chatPromptInput.value = "";
+
+        // 2. Append Thinking Indicator
+        const thinkingBubble = appendMessage("SutraBot", "Thinking & compiling code... Please wait...");
         
         try {
-            const response = await fetch("/api/run", {
+            // Trigger right visualizer tab active
+            const visTab = document.querySelector('[data-target="compiler-vis"]');
+            if (visTab) visTab.click();
+
+            // 3. POST request to /api/chat
+            const response = await fetch("/api/chat", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    prompt: inputVal,
-                    mode: currentMode
-                })
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ prompt: apiPrompt })
             });
 
             const data = await response.json();
             
-            runBtn.disabled = false;
-            runBtn.innerText = "Compile & Run";
-            terminalStdout.innerHTML = ""; // Clear console
+            // Remove thinking bubble
+            thinkingBubble.remove();
 
             if (data.success) {
-                // 1. Show Translated Code (in Vibe Mode)
-                if (currentMode === "vibe") {
-                    translatedCodeBox.innerText = data.translated;
-                }
-                
-                // 2. Render AST
+                // 4. Append Bot Response
+                appendMessage("SutraBot", data.response);
+
+                // 5. Update Compiler Trace panels in Right Pane
+                translatedCodeBox.innerText = data.sutra_code;
+                astJsonBox.innerText = JSON.stringify(data.ast, null, 2);
+
+                // 6. Update SutraVM Console logs in Right Tab 3
+                updateVMConsole(data.vm_logs);
+            } else {
+                appendMessage("SutraBot", `Error compiling/executing program: ${data.error}`);
+                translatedCodeBox.innerText = data.sutra_code || "// Syntax error.";
+                astJsonBox.innerText = "// Compilation failed.";
+            }
+
+        } catch (err) {
+            thinkingBubble.remove();
+            appendMessage("SutraBot", "Failed to connect to SutraServer. Please make sure sutralang_server.py is running.");
+            console.error(err);
+        }
+    }
+
+    chatSendBtn.addEventListener("click", handleSend);
+    chatPromptInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            handleSend();
+        }
+    });
+
+    // Helper to render VM logs into the stdout console panel
+    function updateVMConsole(logs) {
+        terminalStdout.innerHTML = "";
+        logs.forEach(line => {
+            const div = document.createElement("div");
+            div.className = "terminal-line";
+            if (line.includes("[Compiler Error]") || line.includes("Error")) {
+                div.className = "terminal-line terminal-err";
+            }
+            div.innerText = line;
+            terminalStdout.appendChild(div);
+        });
+    }
+
+    // ----------------------------------------------------
+    // Direct Coding Shell Flow
+    // ----------------------------------------------------
+    const rawSutraInput = document.getElementById("raw-sutra-input");
+    const rawRunBtn = document.getElementById("raw-run-btn");
+
+    rawRunBtn.addEventListener("click", async () => {
+        const rawCode = rawSutraInput.value.trim();
+        if (!rawCode) return;
+
+        rawRunBtn.disabled = true;
+        rawRunBtn.innerText = "Executing...";
+
+        try {
+            const response = await fetch("/api/run", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ prompt: rawCode, mode: "raw" })
+            });
+
+            const data = await response.json();
+            
+            rawRunBtn.disabled = false;
+            rawRunBtn.innerText = "Execute Program";
+
+            // Switch right pane active tab to VM Console to inspect output
+            const consoleTab = document.querySelector('[data-target="vm-console-panel"]');
+            if (consoleTab) consoleTab.click();
+
+            if (data.success) {
+                translatedCodeBox.innerText = rawCode;
                 astJsonBox.innerText = JSON.stringify(data.ast, null, 2);
                 
-                // 3. Render Bytecode Hex Grid
-                renderBytecodeHex(data.bytecode);
-                
-                // 4. Show output logs
+                // VM logs
                 const lines = data.stdout.split("\n");
-                lines.forEach(line => {
-                    if (line.trim()) {
-                        const div = document.createElement("div");
-                        div.className = "terminal-line";
-                        div.innerText = line;
-                        terminalStdout.appendChild(div);
-                    }
-                });
+                updateVMConsole(lines);
             } else {
-                // Show compilation/translation error
-                if (data.translated && currentMode === "vibe") {
-                    translatedCodeBox.innerText = data.translated;
-                }
+                translatedCodeBox.innerText = rawCode;
                 astJsonBox.innerText = "// Compilation failed.";
-                bytecodeHexBox.innerHTML = `<span class="hex-placeholder">// Execution halted.</span>`;
-                
-                const errDiv = document.createElement("div");
-                errDiv.className = "terminal-line terminal-err";
-                errDiv.innerText = `Error: ${data.error}`;
-                terminalStdout.appendChild(errDiv);
+                updateVMConsole([`Error: ${data.error}`]);
             }
+
         } catch (err) {
-            runBtn.disabled = false;
-            runBtn.innerText = "Compile & Run";
-            terminalStdout.innerHTML = `<div class="terminal-line terminal-err">Network Error: Could not connect to Sutra Server. Check that sutralang_server.py is running.</div>`;
+            rawRunBtn.disabled = false;
+            rawRunBtn.innerText = "Execute Program";
+            updateVMConsole(["Network Error: Could not connect to Sutra Server."]);
             console.error(err);
         }
     });
 
-    // Helper to render hex bytes in grid
-    function renderBytecodeHex(hexString) {
-        bytecodeHexBox.innerHTML = "";
-        if (!hexString) {
-            bytecodeHexBox.innerHTML = `<span class="hex-placeholder">// Hex stream empty.</span>`;
-            return;
-        }
-        
-        for (let i = 0; i < hexString.length; i += 2) {
-            const byte = hexString.substr(i, 2).toUpperCase();
-            const span = document.createElement("span");
-            span.className = "hex-byte";
-            span.innerText = byte;
-            bytecodeHexBox.appendChild(span);
-        }
-    }
 
-    // SutraOS Simulator Frontend Logic
+    // ----------------------------------------------------
+    // SutraOS Simulator Logic
+    // ----------------------------------------------------
     const coreGridVisualizer = document.getElementById("core-grid-visualizer");
     const taskNameInput = document.getElementById("task-name-input");
     const addTaskBtn = document.getElementById("add-task-btn");
@@ -189,13 +262,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    const osTabBtn = document.querySelector('[data-target="sutraos-sim"]');
-    if (osTabBtn) {
-        osTabBtn.addEventListener("click", () => {
-            updateOSStatus();
-        });
-    }
-
     addTaskBtn.addEventListener("click", async () => {
         const name = taskNameInput.value.trim();
         if (!name) return;
@@ -217,6 +283,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const res = await fetch("/api/os/tick", { method: "POST" });
             const data = await res.json();
             
+            // Switch tab to show VM console
+            const consoleTab = document.querySelector('[data-target="vm-console-panel"]');
+            if (consoleTab) consoleTab.click();
+
             terminalStdout.innerHTML = "";
             const divHeader = document.createElement("div");
             divHeader.className = "terminal-line";
@@ -262,4 +332,3 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
-
