@@ -121,7 +121,7 @@ Provide ONLY the modified file contents. Do not explain anything, do not output 
     
     try:
         log("Querying local Ollama model for code modification...", COLOR_YELLOW)
-        with urllib.request.urlopen(req, timeout=90) as response:
+        with urllib.request.urlopen(req, timeout=240) as response:
             res_data = json.loads(response.read().decode('utf-8'))
             return res_data.get("response", "").strip()
     except Exception as e:
