@@ -90,8 +90,8 @@ def detect_test_command(repo_path):
     return None
 
 def generate_patch_with_ollama(issue_title, issue_body, codebase_context, target_file):
-    # Queries local Ollama for the patch
-    prompt = f"""You are a professional software engineer. Fix the following issue in the codebase.
+    # Queries local Ollama for the patch, using Ponytail rules
+    prompt = f"""You are a professional software engineer following the 'Ponytail' philosophy (minimalism, YAGNI, standard library first, native platform features, zero boilerplate, minimal changes). Fix the following issue in the codebase.
 
 Issue Title: {issue_title}
 Issue Description:
@@ -100,6 +100,12 @@ Issue Description:
 File to modify: {target_file}
 Current File Content / Context:
 {codebase_context}
+
+Ponytail Rules for your changes:
+1. Do not add any new dependencies or unnecessary abstractions.
+2. Use standard library or existing dependencies to solve the issue.
+3. Write the minimum amount of code that safely works.
+4. Keep modifications strictly contained to the target area.
 
 Provide ONLY the modified file contents. Do not explain anything, do not output any markdown blocks, simply output the raw file contents that should replace the current file.
 """
