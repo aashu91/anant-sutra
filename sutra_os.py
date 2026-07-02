@@ -23,7 +23,8 @@ class ExpanderScheduler:
         # Track scheduling history
         self.history = []
 
-    def get_spectral_gap(self):
+    def get_spectral_gap(self) -> dict:
+        """Returns the spectral gap metrics of the 3-regular expander hypercube graph."""
         # For a d-regular graph, the spectral gap determines the mixing rate:
         # lambda_2 <= 2 * sqrt(d - 1)
         # For our 3-regular hypercube: d = 3.
@@ -40,14 +41,16 @@ class ExpanderScheduler:
             "is_ramanujan": True
         }
 
-    def add_task(self, task_name):
+    def add_task(self, task_name: str) -> int:
+        """Spawns a task on a random core and returns the starting core ID."""
         # Place task on a random starting core
         start_core = random.randint(0, 7)
         self.load[start_core].append(task_name)
         self.history.append(f"Task '{task_name}' spawned on Core {start_core}")
         return start_core
 
-    def tick(self):
+    def tick(self) -> list:
+        """Runs one scheduling cycle using decentralized load-balancing walk on the expander."""
         # Run one scheduling step using decentralized load-balancing walk:
         # Each task evaluates neighbors and moves to the neighbor with the minimum load
         new_load = {i: [] for i in range(8)}
@@ -83,7 +86,8 @@ class NyayaPageTable:
         self.allocations = {} # Process -> Allocated Size
         self.logs = []
 
-    def allocate(self, process_name, requested_size, buffer_limit):
+    def allocate(self, process_name: str, requested_size: int, buffer_limit: int) -> dict:
+        """Allocates memory to a process using a 5-step Nyaya Pancavayava Syllogism validation."""
         requested_size = int(requested_size)
         buffer_limit = int(buffer_limit)
 

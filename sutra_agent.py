@@ -19,21 +19,25 @@ COLOR_CYAN = "\033[96m"
 COLOR_RED = "\033[91m"
 COLOR_MAGENTA = "\033[95m"
 
-def setup_db():
+def setup_db() -> None:
+    """Creates the rules database directory and initial empty catalog if missing."""
     os.makedirs(RULES_DIR, exist_ok=True)
     if not os.path.exists(CATALOG_PATH):
         with open(CATALOG_PATH, 'w', encoding='utf-8') as f:
             json.dump({}, f)
 
-def load_catalog():
+def load_catalog() -> dict:
+    """Loads and returns the rule catalog JSON mapping."""
     with open(CATALOG_PATH, 'r', encoding='utf-8') as f:
         return json.load(f)
 
-def save_catalog(catalog):
+def save_catalog(catalog: dict) -> None:
+    """Saves the rule catalog mapping to disk."""
     with open(CATALOG_PATH, 'w', encoding='utf-8') as f:
         json.dump(catalog, f, indent=2)
 
-def register_rule(name, description, source_code):
+def register_rule(name: str, description: str, source_code: str) -> bool:
+    """Compiles a SutraLang source string into native bytecode and registers it in the catalog."""
     setup_db()
     catalog = load_catalog()
     
@@ -66,7 +70,8 @@ def register_rule(name, description, source_code):
     save_catalog(catalog)
     return True
 
-def run_bytecode(bytecode_path):
+def run_bytecode(bytecode_path: str) -> None:
+    """Loads and runs a compiled bytecode file (.sutrab) on the C++ virtual machine."""
     cpp_vm = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sutra")
     if not os.path.exists(cpp_vm):
         # Compile if missing
