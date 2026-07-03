@@ -2,6 +2,7 @@
 import os
 import sys
 import json
+import ast
 import re
 import urllib.request
 import urllib.parse
@@ -199,6 +200,8 @@ def query_ollama(prompt, system_prompt=SYSTEM_PROMPT):
 # Command safety checker
 def is_command_safe(command):
     cmd_lower = command.lower()
+    home = os.path.realpath(os.path.expanduser("~"))
+    termux_home = "/data/data/com.termux/files/home"
     
     # 1. Block root-like operations and package managers
     forbidden_tokens = {'sudo', 'su', 'chown', 'chmod', 'dd', 'mkfs', 'fdisk', 'mount', 'umount', 'passwd', 'pkg', 'apt', 'npm', 'yarn', 'bun', 'pip'}
@@ -214,13 +217,13 @@ def is_command_safe(command):
     abs_paths = re.findall(r'/[a-zA-Z0-9_\-\.\/]+', command)
     for path in abs_paths:
         norm = os.path.abspath(path)
-        if not norm.startswith("/data/data/com.termux/files/home"):
+        if not (norm.startswith(home) or norm.startswith(termux_home)):
             return False, f"Access to path outside home directory is forbidden: '{path}'"
             
     # 3. Block output redirections to paths outside home
     redirections = re.findall(r'>\s*([a-zA-Z0-9_\-\.\/]+)', command)
     for target in redirections:
-        if target.startswith('/') and not target.startswith('/data/data/com.termux/files/home'):
+        if target.startswith('/') and not (target.startswith(home) or target.startswith(termux_home)):
             return False, f"Redirection to path outside home directory is forbidden: '{target}'"
             
     return True, ""
@@ -230,15 +233,22 @@ def web_search(query):
     try:
         url = "https://html.duckduckgo.com/html/?q=" + urllib.parse.quote(query)
         headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept-Encoding': 'gzip, deflate'
         }
         req = urllib.request.Request(url, headers=headers)
         with urllib.request.urlopen(req, timeout=10) as response:
-            html = response.read().decode('utf-8')
+            content = response.read()
+            if response.info().get('Content-Encoding') == 'gzip':
+                import gzip
+                content = gzip.decompress(content)
+            html = content.decode('utf-8', errors='replace')
         
         snippets = re.findall(r'<a class="result__snippet"[^>]*>(.*?)</a>', html, re.DOTALL)
         if not snippets:
             snippets = re.findall(r'<td class="result-snippet"[^>]*>(.*?)</td>', html, re.DOTALL)
+        if not snippets:
+            snippets = re.findall(r'<div class="result-snippet">(.*?)</div>', html, re.DOTALL)
             
         results = []
         for snip in snippets[:3]:
@@ -406,9 +416,51 @@ def local_code_search(query, root_dir="/data/data/com.termux/files/home"):
 def safe_path(path):
     path = os.path.expanduser(str(path).strip().strip('"'))
     norm = os.path.realpath(path)
-    if not norm.startswith("/data/data/com.termux/files/home"):
+    home = os.path.realpath(os.path.expanduser("~"))
+    termux_home = "/data/data/com.termux/files/home"
+    if not (norm.startswith(home) or norm.startswith(termux_home)):
         return None, f"Access denied: path outside home — '{path}'"
     return norm, ""
+
+# Sookshma File structure / DOM Dehydrator
+def dehydrate_file(path):
+    norm, err = safe_path(path)
+    if err:
+        return f"Security Error: {err}"
+    try:
+        if not os.path.exists(norm):
+            return f"Error: File not found — '{norm}'"
+        ext = os.path.splitext(norm)[1].lower()
+        if ext == '.py':
+            import ast
+            with open(norm, 'r', encoding='utf-8', errors='replace') as f:
+                content = f.read()
+            tree = ast.parse(content)
+            result = []
+            for node in tree.body:
+                if isinstance(node, ast.ClassDef):
+                    result.append(f"class {node.name}:")
+                    for subnode in node.body:
+                        if isinstance(subnode, ast.FunctionDef):
+                            args = [a.arg for a in subnode.args.args]
+                            result.append(f"    def {subnode.name}({', '.join(args)}): ...")
+                elif isinstance(node, ast.FunctionDef):
+                    args = [a.arg for a in node.args.args]
+                    result.append(f"def {node.name}({', '.join(args)}): ...")
+                elif isinstance(node, (ast.Import, ast.ImportFrom)):
+                    result.append(ast.unparse(node).strip())
+            return "\n".join(result) if result else "Empty Python file DOM structure."
+        else:
+            with open(norm, 'r', encoding='utf-8', errors='replace') as f:
+                lines = f.readlines()
+            result = []
+            for line in lines:
+                line_strip = line.strip()
+                if line_strip.startswith(('import ', 'from ', 'const ', 'class ', 'function ', 'def ', 'interface ', 'export ')):
+                    result.append(line_strip)
+            return "\n".join(result[:150]) if result else "Generic file structure preview."
+    except Exception as e:
+        return f"Dehydration failed: {e}"
 
 # Read File
 def read_file_tool(path):
@@ -515,6 +567,11 @@ class SutraAgentCompiler(SutraCompiler):
         if m:
             return {"Kriya": "Patho", "Karta": m.group(1), "Path": m.group(2).strip('"')}
 
+        # 5b. Sookshma — File dehydration: result ko "path" se sookshma
+        m = re.search(r'(\w+)\s+ko\s+((?:"[^"]*")|\w+)\s+se\s+sookshma', line, re.IGNORECASE)
+        if m:
+            return {"Kriya": "Sookshma", "Karta": m.group(1), "Path": m.group(2).strip('"')}
+
         # 6. Likho — File write: result ko content_var aur "path" me likho
         m = re.search(r'(\w+)\s+ko\s+(\w+)\s+aur\s+((?:"[^"]*")|\w+)\s+me\s+likho', line, re.IGNORECASE)
         if m:
@@ -580,6 +637,12 @@ class SutraAgentVM(SutraVM):
         path = self.resolve_string(step["Path"])
         self.log(f"Patho: Reading file '{path}'...")
         self.karta_registry[karta] = read_file_tool(path)
+
+    def kriya_sookshma(self, step):
+        karta = step["Karta"]
+        path = self.resolve_string(step["Path"])
+        self.log(f"Sookshma: Dehydrating structure of '{path}'...")
+        self.karta_registry[karta] = dehydrate_file(path)
 
     def kriya_likho(self, step):
         karta = step["Karta"]
