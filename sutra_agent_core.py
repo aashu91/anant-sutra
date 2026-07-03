@@ -45,10 +45,11 @@ SutraLang syntax (strictly follow):
 6. [name] ko [val1] aur [val2] se jodo  (string join)
 7. [name] ko [query] se chhavo  (search codebase)
 8. [name] ko "[filepath]" se patho  (read file)
-9. [name] ko [content_var] aur "[filepath]" me likho  (write file)
-10. [name] ko "[goal]" me sochi  (save goal)
+9. [name] ko "[filepath]" se sookshma  (read dehydrated DOM skeleton structure of file)
+10. [name] ko [content_var] aur "[filepath]" me likho  (write file)
+11. [name] ko "[goal]" me sochi  (save goal)
 
-CRITICAL: For codebase files use chhavo/patho. For run/execute use shodh_karo. For edit/write use likho. For real-time data use khojo. NEVER output anything except valid SutraLang code.
+CRITICAL: For codebase files use chhavo/patho. For code structure/outline view, use sookshma. For run/execute use shodh_karo. For edit/write use likho. For real-time data use khojo. NEVER output anything except valid SutraLang code.
 
 Examples:
 
@@ -63,6 +64,12 @@ User: Read the file sutra_agent_core.py and show it.
 Output:
 ek variable content value ""
 content ko "/data/data/com.termux/files/home/sutralang/sutra_agent_core.py" se patho
+print content
+
+User: Get the structure / outline of file sutra_agent_core.py.
+Output:
+ek variable content value ""
+content ko "/data/data/com.termux/files/home/sutralang/sutra_agent_core.py" se sookshma
 print content
 
 User: Search codebase for SutraAgentVM and show results.
@@ -87,6 +94,35 @@ def fast_path_translate(query):
     greetings = ["hello", "hi", "namaste", "hey"]
     if any(query_clean.startswith(g) for g in greetings) or "who are you" in query_clean:
         return 'ek variable reply value "Namaste! Main tumhara local sovereign AI chatbot hoon."\nprint reply'
+
+    # 1b. Hindi/Hinglish & Local File/Folder auto-detection
+    local_words = ["dekh", "show", "read", "open", "view", "patho", "file", "folder", "directory", "structure", "sookshma", "skeleton"]
+    if any(w in query_clean for w in local_words):
+        home = os.path.realpath(os.path.expanduser("~"))
+        current_dir = os.getcwd()
+        # Find potential filename/directory tokens
+        tokens = re.findall(r'[a-zA-Z0-9_\-\.\/]+', query)
+        for token in tokens:
+            token_clean = token.strip().strip('"\'')
+            if len(token_clean) < 3 or token_clean.lower() in {'the', 'file', 'folder', 'view', 'read', 'open', 'show', 'naam', 'system', 'ko', 'se', 'me', 'kya', 'hai', 'nam'}:
+                continue
+            
+            paths_to_test = []
+            if os.path.isabs(token_clean):
+                paths_to_test.append(token_clean)
+            else:
+                paths_to_test.append(os.path.join(current_dir, token_clean))
+                paths_to_test.append(os.path.join(home, token_clean))
+                
+            for test_path in paths_to_test:
+                norm_path = os.path.realpath(test_path)
+                if os.path.exists(norm_path) and (norm_path.startswith(home) or norm_path.startswith("/data/data/com.termux/files/home")):
+                    if os.path.isdir(norm_path):
+                        return f'ek variable cmd value "ls -la {norm_path}"\nek variable res value ""\nres ko cmd se shodh_karo\nprint res'
+                    else:
+                        if any(s in query_clean for s in ["sookshma", "structure", "skeleton", "outline", "classes", "functions"]):
+                            return f'ek variable content value ""\ncontent ko "{norm_path}" se sookshma\nprint content'
+                        return f'ek variable content value ""\ncontent ko "{norm_path}" se patho\nprint content'
 
         
     # 2. Web Search Query
@@ -251,13 +287,23 @@ def web_search(query):
             snippets = re.findall(r'<div class="result-snippet">(.*?)</div>', html, re.DOTALL)
             
         results = []
-        for snip in snippets[:3]:
+        for snip in snippets[:5]:
             clean = re.sub(r'<[^>]*>', '', snip)
-            clean = clean.replace('&quot;', '"').replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>').replace('&#x27;', "'")
-            results.append(clean.strip())
+            clean = clean.replace('&quot;', '"').replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>').replace('&#x27;', "'").strip()
+            
+            # Filter out search engine boilerplates
+            if any(bp in clean.lower() for bp in [
+                "google's service", "offered free of charge", "instantly translates", "enjoy the videos and music",
+                "upload original content", "share it all with friends", "detect language", "most comprehensive image search",
+                "images.google.com", "cookie consent", "javascript is disabled", "please enable javascript",
+                "ddg", "duckduckgo", "browser is not supported"
+            ]):
+                continue
+            if clean:
+                results.append(clean)
             
         if results:
-            return " | ".join(results)
+            return " | ".join(results[:3])
         return "No search results found on DuckDuckGo."
     except Exception as e:
         return f"Web search failed: {str(e)}"
