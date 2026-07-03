@@ -164,6 +164,7 @@
             <section class="pane right-pane">
                 <div class="pane-header">
                     <button class="tab-btn active" data-target="compiler-vis">Compiler Trace</button>
+                    <button class="tab-btn" data-target="debugger-panel">Debugger</button>
                     <button class="tab-btn" data-target="coding-shell-panel">Coding Shell</button>
                     <button class="tab-btn" data-target="vm-console-panel">SutraVM Console</button>
                 </div>
@@ -215,6 +216,48 @@ sankalpa_khatam</textarea>
                             <div class="panel-body terminal-body">
                                 <div id="terminal-stdout">
                                     <div class="terminal-line">// Spawning stack machine... ready.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Tab 4: Interactive Debugger -->
+                    <div id="debugger-panel" class="tab-panel">
+                        <div class="vis-panel">
+                            <div class="panel-title">SutraVM Interactive Debugger</div>
+                            <div class="panel-body">
+                                <p class="intro-p" style="margin-bottom:1rem; font-size:0.9rem;">Step through instructions and inspect memory in real-time.</p>
+                                <div class="debugger-controls" style="display:flex; align-items:center; gap:10px; margin-bottom:1.5rem; background:rgba(0,0,0,0.2); padding:10px; border-radius:8px; border:1px solid var(--border-glass);">
+                                    <button id="dbg-prev-btn" class="action-btn-sm" style="padding:6px 12px; font-weight:bold;" disabled>&lt; Prev</button>
+                                    <span id="dbg-step-info" class="debugger-info" style="font-family:var(--font-mono); font-size:0.9rem; color:var(--primary-light); min-width:80px; text-align:center;">Step 0 / 0</span>
+                                    <button id="dbg-next-btn" class="action-btn-sm" style="padding:6px 12px; font-weight:bold;" disabled>Next &gt;</button>
+                                    <button id="dbg-reset-btn" class="action-btn-sm" style="padding:6px 12px; margin-left:auto; background:rgba(219,68,85,0.2); border-color:rgba(219,68,85,0.4);">Reset</button>
+                                </div>
+                                
+                                <div class="debugger-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:1.5rem;">
+                                    <!-- Active Instruction -->
+                                    <div class="dbg-card-wrapper" style="background:rgba(0,0,0,0.15); border:1px solid var(--border-glass); border-radius:8px; padding:10px;">
+                                        <div style="font-size:0.85rem; text-transform:uppercase; color:var(--text-muted); margin-bottom:8px; font-weight:600;">Active Instruction</div>
+                                        <pre id="dbg-instr-box" class="code-text" style="font-family:var(--font-mono); font-size:0.9rem; white-space:pre-wrap; margin:0; color:var(--text-cream);">// Run code to start debugging</pre>
+                                    </div>
+                                    
+                                    <!-- Memory States (Karta Registry) -->
+                                    <div class="dbg-card-wrapper" style="background:rgba(0,0,0,0.15); border:1px solid var(--border-glass); border-radius:8px; padding:10px;">
+                                        <div style="font-size:0.85rem; text-transform:uppercase; color:var(--text-muted); margin-bottom:8px; font-weight:600;">Karta Registry (Memory)</div>
+                                        <div id="dbg-memory-box" style="display:flex; flex-direction:column; gap:6px; font-family:var(--font-mono); font-size:0.9rem;">
+                                            <span class="placeholder-text" style="color:var(--text-muted);">// No variables active</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Step Logs -->
+                                <div class="dbg-card-wrapper" style="background:rgba(0,0,0,0.15); border:1px solid var(--border-glass); border-radius:8px; padding:10px;">
+                                    <div style="font-size:0.85rem; text-transform:uppercase; color:var(--text-muted); margin-bottom:8px; font-weight:600;">Step Logs & Output</div>
+                                    <div class="terminal-body" style="background:#04060b; border:1px solid #111827; border-radius:4px; padding:8px; min-height:80px; max-height:120px; overflow-y:auto; font-family:var(--font-mono); font-size:0.85rem; color:#10b981;">
+                                        <div id="dbg-logs-box">
+                                            <div>// Step output trace...</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

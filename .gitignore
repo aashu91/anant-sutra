@@ -14,3 +14,11 @@ __pycache__/
 # Local database
 rules_db/
 
+# Local state / workspace / temp files
+.swans_stamps.json
+backtest_results.json
+sutra_memory.json
+temp.sutra
+temp_workspace/
+helpdesk_workspace/
+darshana/

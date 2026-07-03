@@ -7,7 +7,7 @@ import sys
 
 def fetch_funded_issues():
     # We query the GitHub Search API directly for issues containing Polar.sh badges
-    query = '"polar.sh" "badge.svg" is:open'
+    query = 'polar.sh pledge is:issue is:open'
     encoded_query = urllib.parse.quote(query)
     url = f"https://api.github.com/search/issues?q={encoded_query}"
     
@@ -28,20 +28,34 @@ def fetch_funded_issues():
         print(f"{'Repository':<35} | {'Issue Title'}")
         print("-" * 80)
         
-        for issue in results[:15]:
+        count = 0
+        for issue in results:
+            if "pull_request" in issue:
+                continue # Skip pull requests
+            
+            body = issue.get("body", "") or ""
+            if "polar.sh" not in body.lower():
+                continue # Skip issues without a polar link in the main description
+
             title = issue.get("title", "")
             if len(title) > 40:
                 title = title[:37] + "..."
                 
             repo_url = issue.get("repository_url", "")
-            # Extract org/repo from repository_url: https://api.github.com/repos/org/repo
             repo_full = "/".join(repo_url.split("/")[-2:])
             if len(repo_full) > 35:
                 repo_full = repo_full[:32] + "..."
                 
-            print(f"{repo_full:<35} | {title}")
+            print(f"{repo_full:<35} | {title} (#{issue.get('number')})")
+            count += 1
+            if count >= 10:
+                break
+            
+        if count == 0:
+            print("No actually funded open issues (excluding PRs and false positives) found in this page.")
             
         print("-" * 80)
+
         print("View full results by visiting their respective GitHub repository pages.")
             
     except Exception as e:

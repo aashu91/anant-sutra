@@ -134,6 +134,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // 6. Update SutraVM Console logs in Right Tab 3
                 updateVMConsole(data.vm_logs);
+
+                if (data.trace) {
+                    initDebugger(data.trace);
+                }
             } else {
                 appendMessage("SutraBot", `Error compiling/executing program: ${data.error}`);
                 translatedCodeBox.innerText = data.sutra_code || "// Syntax error.";
@@ -204,6 +208,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 // VM logs
                 const lines = data.stdout.split("\n");
                 updateVMConsole(lines);
+
+                if (data.trace) {
+                    initDebugger(data.trace);
+                }
             } else {
                 translatedCodeBox.innerText = rawCode;
                 astJsonBox.innerText = "// Compilation failed.";
@@ -216,6 +224,115 @@ document.addEventListener("DOMContentLoaded", () => {
             updateVMConsole(["Network Error: Could not connect to Sutra Server."]);
             console.error(err);
         }
+    });
+
+    // ----------------------------------------------------
+    // Interactive Debugger Logic
+    // ----------------------------------------------------
+    let debugTrace = [];
+    let currentDebugStep = 0;
+
+    const dbgPrevBtn = document.getElementById("dbg-prev-btn");
+    const dbgNextBtn = document.getElementById("dbg-next-btn");
+    const dbgResetBtn = document.getElementById("dbg-reset-btn");
+    const dbgStepInfo = document.getElementById("dbg-step-info");
+    const dbgInstrBox = document.getElementById("dbg-instr-box");
+    const dbgMemoryBox = document.getElementById("dbg-memory-box");
+    const dbgLogsBox = document.getElementById("dbg-logs-box");
+
+    function initDebugger(trace) {
+        debugTrace = trace || [];
+        currentDebugStep = 0;
+        renderDebugStep();
+        
+        // Auto-switch to debugger tab when execution trace is loaded
+        const dbgTab = document.querySelector('[data-target="debugger-panel"]');
+        if (dbgTab) dbgTab.click();
+    }
+
+    function renderDebugStep() {
+        if (!debugTrace || debugTrace.length === 0) {
+            dbgStepInfo.innerText = "Step 0 / 0";
+            dbgInstrBox.innerText = "// No instructions loaded";
+            dbgMemoryBox.innerHTML = '<span class="placeholder-text" style="color:var(--text-muted);">// No variables active</span>';
+            dbgLogsBox.innerHTML = '<div>// Step output trace...</div>';
+            dbgPrevBtn.disabled = true;
+            dbgNextBtn.disabled = true;
+            return;
+        }
+
+        dbgStepInfo.innerText = `Step ${currentDebugStep + 1} / ${debugTrace.length}`;
+        dbgPrevBtn.disabled = currentDebugStep === 0;
+        dbgNextBtn.disabled = currentDebugStep === debugTrace.length - 1;
+
+        const stepData = debugTrace[currentDebugStep];
+        
+        // Render instruction JSON
+        dbgInstrBox.innerText = JSON.stringify(stepData.instruction, null, 2);
+
+        // Render memory variables
+        dbgMemoryBox.innerHTML = "";
+        const registry = stepData.registry || {};
+        const keys = Object.keys(registry);
+        if (keys.length === 0) {
+            dbgMemoryBox.innerHTML = '<span class="placeholder-text" style="color:var(--text-muted);">// No variables in memory</span>';
+        } else {
+            keys.forEach(key => {
+                const item = document.createElement("div");
+                item.style.display = "flex";
+                item.style.justifyContent = "space-between";
+                item.style.padding = "6px 10px";
+                item.style.background = "rgba(255,255,255,0.04)";
+                item.style.borderRadius = "4px";
+                item.style.borderLeft = "3px solid var(--primary)";
+                
+                const keySpan = document.createElement("span");
+                keySpan.style.color = "var(--primary-light)";
+                keySpan.innerText = key;
+
+                const valSpan = document.createElement("span");
+                const val = registry[key];
+                valSpan.style.color = typeof val === "number" ? "#10b981" : "#60a5fa";
+                valSpan.innerText = typeof val === "string" ? `"${val}"` : val;
+
+                item.appendChild(keySpan);
+                item.appendChild(valSpan);
+                dbgMemoryBox.appendChild(item);
+            });
+        }
+
+        // Render logs for this step
+        dbgLogsBox.innerHTML = "";
+        const logs = stepData.logs || [];
+        if (logs.length === 0) {
+            dbgLogsBox.innerHTML = '<div style="color:var(--text-muted);">// No output produced in this step</div>';
+        } else {
+            logs.forEach(log => {
+                const div = document.createElement("div");
+                div.className = "terminal-line";
+                div.innerText = log;
+                dbgLogsBox.appendChild(div);
+            });
+        }
+    }
+
+    dbgPrevBtn.addEventListener("click", () => {
+        if (currentDebugStep > 0) {
+            currentDebugStep--;
+            renderDebugStep();
+        }
+    });
+
+    dbgNextBtn.addEventListener("click", () => {
+        if (currentDebugStep < debugTrace.length - 1) {
+            currentDebugStep++;
+            renderDebugStep();
+        }
+    });
+
+    dbgResetBtn.addEventListener("click", () => {
+        currentDebugStep = 0;
+        renderDebugStep();
     });
 
 

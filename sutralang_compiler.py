@@ -14,7 +14,10 @@ class SutraCompiler:
         if not line:
             return None
 
-        # Pattern 1: Variable Creation (Srujana)
+        # Strip double quotes around variable names contextually to prevent parser crash
+        line = re.sub(r'(\b(?:variable\s+banao|variable|banao\s+variable|print|show|darshan|dikhao|jab\s+tak|while)\s+)"([a-zA-Z0-9_]+)"', r'\1\2', line, flags=re.IGNORECASE)
+        line = re.sub(r'"([a-zA-Z0-9_]+)"(\s+(?:ko|me|se|aur|value|maan|with|as|sum|difference|product|division|concatenation)\b)', r'\1\2', line, flags=re.IGNORECASE)
+
         match_create = re.search(
             r'ek\s+variable\s+banao\s+(\w+)\s+(?:value|maan)\s+((?:"[^"]*")|[\w\d]+)',
             line, re.IGNORECASE
