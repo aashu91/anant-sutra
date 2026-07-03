@@ -103,20 +103,27 @@ def fast_path_translate(query):
     if any(query_clean.startswith(g) for g in greetings) or "who are you" in query_clean:
         return 'ek variable reply value "Namaste! Main tumhara local sovereign AI chatbot hoon."\nprint reply'
 
+    # Strip UI wrapping templates contextually to extract raw user query target
+    clean_target = query_clean
+    clean_target = re.sub(r'^search\s+(?:on\s+the\s+web\s+for|web\s+for|for)?\s+', '', clean_target)
+    clean_target = re.sub(r'^google\s+', '', clean_target)
+    clean_target = re.sub(r'^khojo\s+', '', clean_target)
+    clean_target = re.sub(r'^read\s+(?:the\s+)?(?:file\s+)?', '', clean_target)
+    clean_target = re.sub(r'\s+and\s+print\s+(?:the\s+)?results?\.?$', '', clean_target)
+    clean_target = clean_target.strip('"\'')
+
     # 1b. Hindi/Hinglish & Local File/Folder auto-detection
     local_words = ["dekh", "show", "read", "open", "view", "patho", "file", "folder", "directory", "structure", "sookshma", "skeleton"]
-    if any(w in query_clean for w in local_words):
+    if any(w in query_clean for w in local_words) or any(w in clean_target for w in ["scratch"]):
         home = os.path.realpath(os.path.expanduser("~"))
         current_dir = os.getcwd()
-        # Find potential filename/directory tokens
-        # Exclude common query words and punctuation to prevent partial matches like 'sutralang.cpp' from 'scratch'
-        tokens = [t for t in re.findall(r'[a-zA-Z0-9_\-\.\/]+', query) if len(t) >= 3]
+        # Find potential filename/directory tokens in clean_target
+        tokens = [t for t in re.findall(r'[a-zA-Z0-9_\-\.\/]+', clean_target) if len(t) >= 3]
         for token in tokens:
             token_clean = token.strip().strip('"\'')
             if token_clean.lower() in {'the', 'file', 'folder', 'view', 'read', 'open', 'show', 'naam', 'system', 'ko', 'se', 'me', 'kya', 'hai', 'nam'}:
                 continue
             
-            # Exact matches only to prevent false positives from substring checks
             paths_to_test = []
             if os.path.isabs(token_clean):
                 paths_to_test.append(token_clean)
@@ -127,7 +134,7 @@ def fast_path_translate(query):
             for test_path in paths_to_test:
                 norm_path = os.path.realpath(test_path)
                 if os.path.exists(norm_path) and (norm_path.startswith(home) or norm_path.startswith("/data/data/com.termux/files/home")):
-                    # Ensure basename matches token exactly to prevent parent folder directory checks
+                    # Ensure basename matches token exactly
                     if os.path.basename(norm_path).lower() == token_clean.lower() or os.path.isdir(norm_path):
                         if os.path.isdir(norm_path):
                             return f'ek variable cmd value "ls -la {norm_path}"\nek variable res value ""\nres ko cmd se shodh_karo\nprint res'
@@ -142,7 +149,7 @@ def fast_path_translate(query):
         return f'ek variable res value ""\nres ko "{action}" se swans\nprint res'
 
     # 1d. System Time Check
-    if any(t in query_clean for t in ["time check", "ab kya time", "time kya", "samay kya", "current time", "what time is it"]):
+    if any(t in query_clean for t in ["time", "date", "samay", "ghadi"]) and any(q in query_clean for q in ["kya", "what", "tell", "batao", "right now", "turant"]):
         return 'ek variable cmd value "date"\nek variable res value ""\nres ko cmd se shodh_karo\nprint res'
 
         
