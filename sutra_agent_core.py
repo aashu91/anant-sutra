@@ -46,10 +46,12 @@ SutraLang syntax (strictly follow):
 7. [name] ko [query] se chhavo  (search codebase)
 8. [name] ko "[filepath]" se patho  (read file)
 9. [name] ko "[filepath]" se sookshma  (read dehydrated DOM skeleton structure of file)
-10. [name] ko [content_var] aur "[filepath]" me likho  (write file)
-11. [name] ko "[goal]" me sochi  (save goal)
+10. [name] ko "check" se swans  (audit workspace files for changes)
+11. [name] ko "update" se swans  (re-stamp workspace files)
+12. [name] ko [content_var] aur "[filepath]" me likho  (write file)
+13. [name] ko "[goal]" me sochi  (save goal)
 
-CRITICAL: For codebase files use chhavo/patho. For code structure/outline view, use sookshma. For run/execute use shodh_karo. For edit/write use likho. For real-time data use khojo. NEVER output anything except valid SutraLang code.
+CRITICAL: For codebase files use chhavo/patho. For code structure/outline view, use sookshma. For run/execute use shodh_karo. For edit/write use likho. For real-time data use khojo. For workspace stamp verification use swans. NEVER output anything except valid SutraLang code.
 
 Examples:
 
@@ -71,6 +73,12 @@ Output:
 ek variable content value ""
 content ko "/data/data/com.termux/files/home/sutralang/sutra_agent_core.py" se sookshma
 print content
+
+User: Check workspace files for modifications.
+Output:
+ek variable audit_res value ""
+audit_res ko "check" se swans
+print audit_res
 
 User: Search codebase for SutraAgentVM and show results.
 Output:
@@ -123,6 +131,11 @@ def fast_path_translate(query):
                         if any(s in query_clean for s in ["sookshma", "structure", "skeleton", "outline", "classes", "functions"]):
                             return f'ek variable content value ""\ncontent ko "{norm_path}" se sookshma\nprint content'
                         return f'ek variable content value ""\ncontent ko "{norm_path}" se patho\nprint content'
+
+    # 1c. Swans Auto-detect
+    if any(s in query_clean for s in ["swans", "workspace status", "stamp codebase", "file tree stamp", "scan file tree", "workspace check"]):
+        action = "update" if any(x in query_clean for x in ["update", "stamp", "save"]) else "check"
+        return f'ek variable res value ""\nres ko "{action}" se swans\nprint res'
 
         
     # 2. Web Search Query
@@ -301,6 +314,24 @@ def web_search(query):
                 continue
             if clean:
                 results.append(clean)
+                
+        # Fallback to DuckDuckGo Lite if HTML search failed or returned generic boilerplates
+        if not results:
+            url_lite = "https://lite.duckduckgo.com/lite/"
+            data_lite = urllib.parse.urlencode({'q': query}).encode('utf-8')
+            req_lite = urllib.request.Request(url_lite, data=data_lite, headers=headers)
+            with urllib.request.urlopen(req_lite, timeout=10) as response_lite:
+                content_lite = response_lite.read()
+                if response_lite.info().get('Content-Encoding') == 'gzip':
+                    import gzip
+                    content_lite = gzip.decompress(content_lite)
+                html_lite = content_lite.decode('utf-8', errors='replace')
+            snippets_lite = re.findall(r'<td class="result-snippet"[^>]*>(.*?)</td>', html_lite, re.DOTALL)
+            for snip in snippets_lite[:5]:
+                clean = re.sub(r'<[^>]*>', '', snip)
+                clean = clean.replace('&quot;', '"').replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>').replace('&#x27;', "'").strip()
+                if clean and not any(bp in clean.lower() for bp in ["google's service", "offered free of charge", "duckduckgo"]):
+                    results.append(clean)
             
         if results:
             return " | ".join(results[:3])
@@ -618,6 +649,11 @@ class SutraAgentCompiler(SutraCompiler):
         if m:
             return {"Kriya": "Sookshma", "Karta": m.group(1), "Path": m.group(2).strip('"')}
 
+        # 5c. Swans — Workspace audit/stamp: result ko "action" se swans
+        m = re.search(r'(\w+)\s+ko\s+((?:"[^"]*")|\w+)\s+se\s+swans', line, re.IGNORECASE)
+        if m:
+            return {"Kriya": "Swans", "Karta": m.group(1), "Action": m.group(2).strip('"')}
+
         # 6. Likho — File write: result ko content_var aur "path" me likho
         m = re.search(r'(\w+)\s+ko\s+(\w+)\s+aur\s+((?:"[^"]*")|\w+)\s+me\s+likho', line, re.IGNORECASE)
         if m:
@@ -689,6 +725,16 @@ class SutraAgentVM(SutraVM):
         path = self.resolve_string(step["Path"])
         self.log(f"Sookshma: Dehydrating structure of '{path}'...")
         self.karta_registry[karta] = dehydrate_file(path)
+
+    def kriya_swans(self, step):
+        karta = step["Karta"]
+        action = self.resolve_string(step["Action"])
+        self.log(f"Swans: Running workspace stamp/audit with action '{action}'...")
+        import swans
+        if action == "update":
+            self.karta_registry[karta] = swans.stamp_workspace()
+        else:
+            self.karta_registry[karta] = swans.audit_workspace()
 
     def kriya_likho(self, step):
         karta = step["Karta"]
