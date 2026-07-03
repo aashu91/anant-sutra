@@ -3,6 +3,11 @@ import socketserver
 import json
 import subprocess
 import os
+import sys
+
+# Ensure script directory is in path before importing local modules
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 from sutra_os import ExpanderScheduler, NyayaPageTable
 
 # ponytail: Cleaned up redundant imports (urllib, re, PdfReader, SutraCompiler, SutraVM, and core tool helper functions)
