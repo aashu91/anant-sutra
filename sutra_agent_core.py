@@ -109,12 +109,14 @@ def fast_path_translate(query):
         home = os.path.realpath(os.path.expanduser("~"))
         current_dir = os.getcwd()
         # Find potential filename/directory tokens
-        tokens = re.findall(r'[a-zA-Z0-9_\-\.\/]+', query)
+        # Exclude common query words and punctuation to prevent partial matches like 'sutralang.cpp' from 'scratch'
+        tokens = [t for t in re.findall(r'[a-zA-Z0-9_\-\.\/]+', query) if len(t) >= 3]
         for token in tokens:
             token_clean = token.strip().strip('"\'')
-            if len(token_clean) < 3 or token_clean.lower() in {'the', 'file', 'folder', 'view', 'read', 'open', 'show', 'naam', 'system', 'ko', 'se', 'me', 'kya', 'hai', 'nam'}:
+            if token_clean.lower() in {'the', 'file', 'folder', 'view', 'read', 'open', 'show', 'naam', 'system', 'ko', 'se', 'me', 'kya', 'hai', 'nam'}:
                 continue
             
+            # Exact matches only to prevent false positives from substring checks
             paths_to_test = []
             if os.path.isabs(token_clean):
                 paths_to_test.append(token_clean)
@@ -125,17 +127,23 @@ def fast_path_translate(query):
             for test_path in paths_to_test:
                 norm_path = os.path.realpath(test_path)
                 if os.path.exists(norm_path) and (norm_path.startswith(home) or norm_path.startswith("/data/data/com.termux/files/home")):
-                    if os.path.isdir(norm_path):
-                        return f'ek variable cmd value "ls -la {norm_path}"\nek variable res value ""\nres ko cmd se shodh_karo\nprint res'
-                    else:
-                        if any(s in query_clean for s in ["sookshma", "structure", "skeleton", "outline", "classes", "functions"]):
-                            return f'ek variable content value ""\ncontent ko "{norm_path}" se sookshma\nprint content'
-                        return f'ek variable content value ""\ncontent ko "{norm_path}" se patho\nprint content'
+                    # Ensure basename matches token exactly to prevent parent folder directory checks
+                    if os.path.basename(norm_path).lower() == token_clean.lower() or os.path.isdir(norm_path):
+                        if os.path.isdir(norm_path):
+                            return f'ek variable cmd value "ls -la {norm_path}"\nek variable res value ""\nres ko cmd se shodh_karo\nprint res'
+                        else:
+                            if any(s in query_clean for s in ["sookshma", "structure", "skeleton", "outline", "classes", "functions"]):
+                                return f'ek variable content value ""\ncontent ko "{norm_path}" se sookshma\nprint content'
+                            return f'ek variable content value ""\ncontent ko "{norm_path}" se patho\nprint content'
 
     # 1c. Swans Auto-detect
     if any(s in query_clean for s in ["swans", "workspace status", "stamp codebase", "file tree stamp", "scan file tree", "workspace check"]):
         action = "update" if any(x in query_clean for x in ["update", "stamp", "save"]) else "check"
         return f'ek variable res value ""\nres ko "{action}" se swans\nprint res'
+
+    # 1d. System Time Check
+    if any(t in query_clean for t in ["time check", "ab kya time", "time kya", "samay kya", "current time", "what time is it"]):
+        return 'ek variable cmd value "date"\nek variable res value ""\nres ko cmd se shodh_karo\nprint res'
 
         
     # 2. Web Search Query
