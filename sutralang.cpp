@@ -1,3 +1,9 @@
+/*
+ * SutraLang: C++ Bytecode Engine & Paninian Generative Compiler
+ * Copyright (c) 2026 Ashutosh Singh (salvationfinder / Anant Anaadi Group)
+ * Distributed under the MIT License. See LICENSE for details.
+ */
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -8,6 +14,7 @@
 #include <stdexcept>
 #include <regex>
 #include <cstdint>
+#include <iomanip>
 
 // Termux color outputs
 #define COLOR_RESET   "\033[0m"
@@ -32,6 +39,101 @@ const uint8_t OP_PRAVAH = 0x0B;
 const uint8_t OP_END_BLOCK = 0x0C;
 const uint8_t OP_GUNAN = 0x0D;
 const uint8_t OP_BHAGAPHALAM = 0x0E;
+const uint8_t OP_MUDRA = 0x0F;
+
+namespace SHA256 {
+    // SHA-256 implementation
+    inline uint32_t rotr(uint32_t val, uint32_t shift) {
+        return (val >> shift) | (val << (32 - shift));
+    }
+    
+    inline uint32_t ch(uint32_t x, uint32_t y, uint32_t z) { return (x & y) ^ (~x & z); }
+    inline uint32_t maj(uint32_t x, uint32_t y, uint32_t z) { return (x & y) ^ (x & z) ^ (y & z); }
+    inline uint32_t ep0(uint32_t x) { return rotr(x, 2) ^ rotr(x, 13) ^ rotr(x, 22); }
+    inline uint32_t ep1(uint32_t x) { return rotr(x, 6) ^ rotr(x, 11) ^ rotr(x, 25); }
+    inline uint32_t sig0(uint32_t x) { return rotr(x, 7) ^ rotr(x, 18) ^ (x >> 3); }
+    inline uint32_t sig1(uint32_t x) { return rotr(x, 17) ^ rotr(x, 19) ^ (x >> 10); }
+
+    const uint32_t k[64] = {
+        0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+        0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+        0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+        0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+        0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+        0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+        0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+        0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
+    };
+
+    std::string hash(const std::string& input) {
+        uint32_t h0 = 0x6a09e667;
+        uint32_t h1 = 0xbb67ae85;
+        uint32_t h2 = 0x3c6ef372;
+        uint32_t h3 = 0xa54ff53a;
+        uint32_t h4 = 0x510e527f;
+        uint32_t h5 = 0x9b05688c;
+        uint32_t h6 = 0x1f83d9ab;
+        uint32_t h7 = 0x5be0cd19;
+
+        std::vector<uint8_t> msg(input.begin(), input.end());
+        uint64_t bit_len = msg.size() * 8;
+        msg.push_back(0x80);
+        while ((msg.size() + 8) % 64 != 0) {
+            msg.push_back(0x00);
+        }
+        for (int i = 7; i >= 0; --i) {
+            msg.push_back(static_cast<uint8_t>((bit_len >> (i * 8)) & 0xff));
+        }
+
+        for (size_t chunk = 0; chunk < msg.size(); chunk += 64) {
+            uint32_t w[64] = {0};
+            for (int i = 0; i < 16; ++i) {
+                w[i] = (msg[chunk + i*4] << 24) | (msg[chunk + i*4 + 1] << 16) | 
+                       (msg[chunk + i*4 + 2] << 8) | msg[chunk + i*4 + 3];
+            }
+            for (int i = 16; i < 64; ++i) {
+                w[i] = sig1(w[i-2]) + w[i-7] + sig0(w[i-15]) + w[i-16];
+            }
+
+            uint32_t a = h0;
+            uint32_t b = h1;
+            uint32_t c = h2;
+            uint32_t d = h3;
+            uint32_t e = h4;
+            uint32_t f = h5;
+            uint32_t g = h6;
+            uint32_t h_val = h7;
+
+            for (int i = 0; i < 64; ++i) {
+                uint32_t temp1 = h_val + ep1(e) + ch(e, f, g) + k[i] + w[i];
+                uint32_t temp2 = ep0(a) + maj(a, b, c);
+                h_val = g;
+                g = f;
+                f = e;
+                e = d + temp1;
+                d = c;
+                c = b;
+                b = a;
+                a = temp1 + temp2;
+            }
+
+            h0 += a;
+            h1 += b;
+            h2 += c;
+            h3 += d;
+            h4 += e;
+            h5 += f;
+            h6 += g;
+            h7 += h_val;
+        }
+
+        std::stringstream ss;
+        ss << std::hex << std::setfill('0');
+        ss << std::setw(8) << h0 << std::setw(8) << h1 << std::setw(8) << h2 << std::setw(8) << h3
+           << std::setw(8) << h4 << std::setw(8) << h5 << std::setw(8) << h6 << std::setw(8) << h7;
+        return ss.str();
+    }
+}
 
 // Comparison tag constants
 const uint8_t COMP_BADA = 0x01;
@@ -222,6 +324,16 @@ std::string translate_natural_prompt(const std::string& line) {
         return orig(1) + " + sankalpa(sharta=barabar, karana=" + orig(2) + ")";
     }
 
+    // Mudra (Hashing)
+    std::regex mudra_pat1(R"((\w+)\s+ko\s+((?:"[^"]*")|[\w\d]+)\s+se\s+mudra\s+rkho)");
+    std::regex mudra_pat2(R"((\w+)\s+ko\s+((?:"[^"]*")|[\w\d]+)\s+se\s+mudra)");
+    std::regex mudra_pat3(R"(set\s+(\w+)\s+as\s+hash\s+of\s+((?:"[^"]*")|[\w\d]+))");
+    if (std::regex_search(lower_l, match, mudra_pat1) ||
+        std::regex_search(lower_l, match, mudra_pat2) ||
+        std::regex_search(lower_l, match, mudra_pat3)) {
+        return orig(1) + " + mudra(karana=" + orig(2) + ")";
+    }
+
     return l; 
 }
 
@@ -370,6 +482,9 @@ public:
         } else if (kriya == "pravah") {
             inst.opcode = OP_PRAVAH;
             inst.op1 = parse_value_operand(args["seema"]);
+        } else if (kriya == "mudra") {
+            inst.opcode = OP_MUDRA;
+            inst.op1 = parse_value_operand(args["karana"]);
         } else {
             throw std::runtime_error("Unknown Dhatu action: '" + kriya + "'");
         }
@@ -625,6 +740,15 @@ public:
                 }
                 log("Pravahanam: Loop ended.");
             }
+            else if (inst.opcode == OP_MUDRA) { // Mudra (Hashing)
+                std::string input_val = resolve_string(inst.op1);
+                std::string hashed = SHA256::hash(input_val);
+                Variable var;
+                var.is_string = true;
+                var.str_val = hashed;
+                karta_registry[inst.karta] = var;
+                log("Mudra: Computed SHA-256 hash of \"" + input_val + "\" to set '" + inst.karta + "' = \"" + var.str_val + "\"");
+            }
         }
     }
 };
@@ -672,7 +796,7 @@ std::vector<Instruction> read_bytecode(std::istream& in) {
             return val;
         };
         
-        if (opcode == OP_SRUJ || opcode == OP_VRDH || opcode == OP_HRAS || opcode == OP_GUN || opcode == OP_BHAG) {
+        if (opcode == OP_SRUJ || opcode == OP_VRDH || opcode == OP_HRAS || opcode == OP_GUN || opcode == OP_BHAG || opcode == OP_MUDRA) {
             inst.karta = read_ident();
             inst.op1 = read_value();
         } else if (opcode == OP_DRSH) {
@@ -737,7 +861,7 @@ void write_ident(std::ostream& out, const std::string& ident) {
 void write_instruction(std::ostream& out, const Instruction& inst) {
     out.write(reinterpret_cast<const char*>(&inst.opcode), 1);
     
-    if (inst.opcode == OP_SRUJ || inst.opcode == OP_VRDH || inst.opcode == OP_HRAS || inst.opcode == OP_GUN || inst.opcode == OP_BHAG) {
+    if (inst.opcode == OP_SRUJ || inst.opcode == OP_VRDH || inst.opcode == OP_HRAS || inst.opcode == OP_GUN || inst.opcode == OP_BHAG || inst.opcode == OP_MUDRA) {
         write_ident(out, inst.karta);
         write_value(out, inst.op1);
     } else if (inst.opcode == OP_DRSH) {
@@ -834,6 +958,9 @@ void print_instruction_json(const Instruction& inst) {
         print_value_json(inst.op1);
         std::cout << ",\"Sahakarana\":";
         print_value_json(inst.op2);
+    } else if (inst.opcode == OP_MUDRA) {
+        std::cout << "\"Kriya\":\"Mudra\",\"Karta\":\"" << inst.karta << "\",\"Karana\":";
+        print_value_json(inst.op1);
     } else if (inst.opcode == OP_SANKALPA) {
         std::cout << "\"Kriya\":\"Sankalpa\",\"Karta\":\"" << inst.karta << "\",\"Sharta\":";
         if (inst.sharta_tag == COMP_BADA) std::cout << "\"bada\"";

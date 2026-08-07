@@ -1,3 +1,6 @@
+# sutralang_server.py — Local HTTP Web Gateway & REPL Portal for SutraAgent
+# Copyright (c) 2026 Ashutosh Singh (salvationfinder / Anant Anaadi Group)
+# Distributed under the MIT License. See LICENSE for details.
 import http.server
 import socketserver
 import json
@@ -8,6 +11,7 @@ import sys
 # Ensure script directory is in path before importing local modules
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+import sutra_chain
 from sutra_os import ExpanderScheduler, NyayaPageTable
 
 # ponytail: Cleaned up redundant imports (urllib, re, PdfReader, SutraCompiler, SutraVM, and core tool helper functions)
@@ -96,11 +100,173 @@ class SutraHubHandler(http.server.SimpleHTTPRequestHandler):
             self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
             self.wfile.write(json.dumps(status_data).encode('utf-8'))
+        elif self.path == "/api/chain/status":
+            st = sutra_chain.load_state()
+            peers = sutra_chain.load_peers()
+            data = {
+                "chain_length": st.get("chain_length", 0),
+                "last_block_hash": st.get("last_block_hash", ""),
+                "peers": peers,
+                "satya_points": st.get("satya_points", {})
+            }
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            self.wfile.write(json.dumps(data).encode('utf-8'))
+        elif self.path == "/api/chain/blocks":
+            blocks = sutra_chain.get_chain_json()
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            self.wfile.write(json.dumps(blocks).encode('utf-8'))
+        elif self.path.startswith("/api/chain/block/"):
+            try:
+                parts = self.path.split("/")
+                idx = int(parts[-1])
+                _, sutrab_path = sutra_chain.get_block_paths(idx)
+                if os.path.exists(sutrab_path):
+                    self.send_response(200)
+                    self.send_header('Content-Type', 'application/octet-stream')
+                    self.send_header('Access-Control-Allow-Origin', '*')
+                    self.end_headers()
+                    with open(sutrab_path, 'rb') as f:
+                        self.wfile.write(f.read())
+                else:
+                    self.send_error(404, "Block not found")
+            except Exception as e:
+                self.send_error(500, str(e))
+        elif self.path.startswith("/api/chain/block_src/"):
+            try:
+                parts = self.path.split("/")
+                idx = int(parts[-1])
+                sutra_path, _ = sutra_chain.get_block_paths(idx)
+                if os.path.exists(sutra_path):
+                    self.send_response(200)
+                    self.send_header('Content-Type', 'text/plain')
+                    self.send_header('Access-Control-Allow-Origin', '*')
+                    self.end_headers()
+                    with open(sutra_path, 'r', encoding='utf-8') as f:
+                        self.wfile.write(f.read().encode('utf-8'))
+                else:
+                    self.send_error(404, "Block source not found")
+            except Exception as e:
+                self.send_error(500, str(e))
+        elif self.path == "/api/turiya/posts":
+            turiya_json = "/data/data/com.termux/files/home/sutralang/turiya_content.json"
+            if os.path.exists(turiya_json):
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                with open(turiya_json, 'rb') as f:
+                    self.wfile.write(f.read())
+            else:
+                self.send_error(404, "Turiya content not found")
+        elif self.path.startswith("/api/turiya/slide/"):
+            try:
+                # Format: /api/turiya/slide/YYYY-MM-DD/post_idx/slide_num
+                parts = self.path.split("/")
+                date_str = parts[4]
+                post_idx = parts[5]
+                slide_num = parts[6]
+                
+                # Check for extension and strip it if present
+                if slide_num.endswith(".png"):
+                    slide_num = slide_num[:-4]
+                
+                slide_path = f"/sdcard/Download/TURIYA_FACTORY/{date_str}_post_{post_idx}/slide_{slide_num}.png"
+                if os.path.exists(slide_path):
+                    self.send_response(200)
+                    self.send_header('Content-Type', 'image/png')
+                    self.send_header('Access-Control-Allow-Origin', '*')
+                    self.end_headers()
+                    with open(slide_path, 'rb') as f:
+                        self.wfile.write(f.read())
+                else:
+                    self.send_error(404, f"Slide file not found at {slide_path}")
+            except Exception as e:
+                self.send_error(500, str(e))
         else:
             super().do_GET()
 
     def do_POST(self):
-        if self.path == "/api/chat":
+        if self.path == "/api/chain/mine":
+            content_length = int(self.headers['Content-Length'])
+            post_data = self.rfile.read(content_length)
+            try:
+                data = json.loads(post_data.decode('utf-8'))
+                x = int(data.get("x", 0))
+                y = int(data.get("y", 0))
+                z = int(data.get("z", 0))
+                status = data.get("status", "unverified")
+                claim = data.get("claim", "")
+                proof = data.get("proof", "")
+                contributor = data.get("contributor", "operator")
+                
+                success, block_hash = sutra_chain.mine_block(x, y, z, status, claim, proof, contributor)
+                
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(json.dumps({
+                    "success": success,
+                    "hash": block_hash
+                }).encode('utf-8'))
+            except Exception as e:
+                self.send_response(500)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode('utf-8'))
+        elif self.path == "/api/turiya/render":
+            content_length = int(self.headers['Content-Length'])
+            post_data = self.rfile.read(content_length)
+            try:
+                data = json.loads(post_data.decode('utf-8'))
+                date_str = data.get("date", "2026-07-22")
+                
+                import subprocess
+                res = subprocess.run(
+                    [sys.executable, "/sdcard/Download/turiya_factory.py", date_str],
+                    capture_output=True, text=True
+                )
+                
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(json.dumps({
+                    "success": res.returncode == 0,
+                    "stdout": res.stdout,
+                    "stderr": res.stderr
+                }).encode('utf-8'))
+            except Exception as e:
+                self.send_response(500)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode('utf-8'))
+        elif self.path == "/api/chain/sync":
+            try:
+                synced = sutra_chain.sync_with_peers()
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(json.dumps({
+                    "success": True,
+                    "synced_blocks": synced
+                }).encode('utf-8'))
+            except Exception as e:
+                self.send_response(500)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode('utf-8'))
+        elif self.path == "/api/chat":
             content_length = int(self.headers['Content-Length'])
             post_data = self.rfile.read(content_length)
             

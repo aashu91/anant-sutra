@@ -1,4 +1,6 @@
 # sutra_agent_core.py — Unified compiler, VM, and tools for SutraAgent
+# Copyright (c) 2026 Ashutosh Singh (salvationfinder / Anant Anaadi Group)
+# Distributed under the MIT License. See LICENSE for details.
 import os
 import sys
 import json
@@ -50,8 +52,9 @@ SutraLang syntax (strictly follow):
 11. [name] ko "update" se swans  (re-stamp workspace files)
 12. [name] ko [content_var] aur "[filepath]" me likho  (write file)
 13. [name] ko "[goal]" me sochi  (save goal)
+14. [name] ko [query] se smriti  (search Obsidian Second Brain)
 
-CRITICAL: For codebase files use chhavo/patho. For code structure/outline view, use sookshma. For run/execute use shodh_karo. For edit/write use likho. For real-time data use khojo. For workspace stamp verification use swans. NEVER output anything except valid SutraLang code.
+CRITICAL: For codebase files use chhavo/patho. For Second Brain / Obsidian notes search use smriti. For code structure/outline view, use sookshma. For run/execute use shodh_karo. For edit/write use likho. For real-time data use khojo. For workspace stamp verification use swans. NEVER output anything except valid SutraLang code.
 
 Examples:
 
@@ -102,6 +105,12 @@ def fast_path_translate(query):
     greetings = ["hello", "hi", "namaste", "hey"]
     if any(query_clean.startswith(g) for g in greetings) or "who are you" in query_clean:
         return 'ek variable reply value "Namaste! Main tumhara local sovereign AI chatbot hoon."\nprint reply'
+
+    # 1e. Second Brain / Obsidian Vault Auto-detect
+    brain_words = ["second brain", "obsidian", "note", "notes", "blueprint", "dharma", "abundance", "smriti", "operator core", "core", "siddhanta", "nishkama", "sankalpa", "anasakti", "sahaja"]
+    if any(w in query_clean for w in brain_words):
+        q_val = query.strip().strip('"\'')
+        return f'ek variable query value "{q_val}"\nek variable brain_res value ""\nbrain_res ko query se smriti\nprint brain_res'
 
     # Strip UI wrapping templates contextually to extract raw user query target
     clean_target = query_clean
@@ -504,6 +513,56 @@ def local_code_search(query, root_dir="/data/data/com.termux/files/home"):
         return "\n---\n".join(results_str)
     return "No matching code/files found."
 
+# Local search tool for Obsidian Vault (Second Brain)
+def obsidian_brain_search(query, vault_dir=None):
+    if not vault_dir:
+        if os.path.exists("/storage/emulated/0/Download/obsidian_vault"):
+            vault_dir = "/storage/emulated/0/Download/obsidian_vault"
+        else:
+            vault_dir = "/data/data/com.termux/files/home/sutra-brain/obsidian-vault"
+    query = query.strip().lower()
+    if not query:
+        return "Empty brain search query."
+    keywords = [kw for kw in re.split(r'\s+', query) if kw]
+    if not keywords:
+        return "No valid search keywords."
+    
+    matches = []
+    if not os.path.exists(vault_dir):
+        return f"Obsidian Vault not found at {vault_dir}"
+        
+    for root, dirs, files in os.walk(vault_dir):
+        for file in files:
+            if file.endswith('.md'):
+                file_path = os.path.join(root, file)
+                try:
+                    with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                        content = f.read()
+                except Exception:
+                    continue
+                content_lower = content.lower()
+                score = 0
+                for kw in keywords:
+                    score += content_lower.count(kw)
+                if score > 0:
+                    matches.append((file_path, score, content))
+                    
+    if matches:
+        matches.sort(key=lambda x: x[1], reverse=True)
+        results_str = []
+        for file_path, score, content in matches[:5]:
+            rel_path = os.path.relpath(file_path, vault_dir)
+            preview = ""
+            for line in content.split("\n"):
+                if any(kw in line.lower() for kw in keywords):
+                    preview = line.strip()
+                    break
+            if not preview:
+                preview = content[:200].strip()
+            results_str.append(f"Note: {rel_path} (relevance: {score})\nContent: {preview}")
+        return "\n---\n".join(results_str)
+    return "No matching notes found in Second Brain."
+
 # Safe path validator for file operations
 def safe_path(path):
     path = os.path.expanduser(str(path).strip().strip('"'))
@@ -679,6 +738,11 @@ class SutraAgentCompiler(SutraCompiler):
         if m:
             return {"Kriya": "Sochi", "Karta": m.group(1), "GoalText": m.group(2).strip('"')}
 
+        # 8. Smriti — Search Obsidian Second Brain: res ko "query" se smriti
+        m = re.search(r'(\w+)\s+ko\s+((?:"[^"]*")|\w+)\s+se\s+smriti', line, re.IGNORECASE)
+        if m:
+            return {"Kriya": "Smriti", "Karta": m.group(1), "Query": m.group(2).strip('"')}
+
         return super().compile_line(line)
 
 # ─────────────────────────────────────────────
@@ -764,3 +828,10 @@ class SutraAgentVM(SutraVM):
         self.log(f"Sochi: Saving goal '{goal_text}'...")
         goal_id = add_goal_to_db(goal_text)
         self.karta_registry[karta] = f"Goal saved with ID {goal_id}"
+
+    def kriya_smriti(self, step):
+        self.dynamic_tool_used = True
+        karta = step["Karta"]
+        query = self.resolve_string(step["Query"])
+        self.log(f"Smriti: Searching Obsidian Vault for '{query}'...")
+        self.karta_registry[karta] = obsidian_brain_search(query)

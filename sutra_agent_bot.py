@@ -1,4 +1,6 @@
 # SutraAgentBot: Conversational agent running local LLM and executing tools via SutraLang VM
+# Copyright (c) 2026 Ashutosh Singh (salvationfinder / Anant Anaadi Group)
+# Distributed under the MIT License. See LICENSE for details.
 import os
 import sys
 import json
