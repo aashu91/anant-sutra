@@ -1,0 +1,9 @@
+; Example 03: String Composition (Sandh) & Cryptographic Mudra (Hashing)
+; Demonstrates state hashing via SHA-256 Mudra opcode
+
+ek variable text value "SutraLang"
+print text
+
+ek variable hash_res value ""
+hash_res ko text se mudra rkho
+print hash_res

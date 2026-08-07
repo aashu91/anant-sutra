@@ -1,0 +1,10 @@
+; Example 02: Sankalpa Scoping & Conditionals
+; Demonstrates Vidhi conditional evaluation blocks
+
+ek variable alpha value 45
+print alpha
+
+agar alpha 40 se bada ho
+  alpha ko 10 se badhao
+  print alpha
+sankalpa khatam

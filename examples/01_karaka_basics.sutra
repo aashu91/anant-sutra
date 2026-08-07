@@ -1,0 +1,14 @@
+; Example 01: Karaka Memory Allocation & Arithmetic (Kriya)
+; Demonstrates state creation (Karta) and operation transformations (Yog, Antar, Gunan)
+
+ek variable score value 100
+print score
+
+; Addition (Vardhanam)
+score ko 50 se badhao
+print score
+
+; Multiplication (Gunan)
+ek variable total value 0
+total ko score aur 2 ka gunan rkho
+print total
