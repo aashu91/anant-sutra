@@ -1,0 +1,3140 @@
+{
+  "DOMAIN_1_VEDIC_LINGUISTICS": {
+    "title": "Advaita Vedanta & Vedic Linguistic Technology",
+    "concepts": {
+      "Ashtadhyayi": "Panini's 4,000 sutras forming humanity's first generative context-sensitive algebraic grammar system.",
+      "Karaka": "Relational semantic roles: Karta (Agent), Karma (Target), Karana (Instrument), Sampradana (Recipient), Apadana (Source), Adhikarana (Locus).",
+      "Dhatu": "Verbal primitive roots that define all action state transformations.",
+      "Sutra-Varga": "Six canonical rule categories: Samjna, Paribhasha, Vidhi, Adhikara, Atidesa, Niyama.",
+      "Nyaya_Logic": "Pratyaksha (Perception), Anumana (Inference), Upamana (Comparison), Shabda (Testimony)."
+    }
+  },
+  "DOMAIN_2_POLYMATH_18_BOOKS": {
+    "title": "18 Books for Polymaths Reference",
+    "teachings": {
+      "Schrodinger_What_Is_Life": "Interdisciplinary breakthroughs occur at boundaries; genetic code prediction.",
+      "Nimzowitsch_My_System": "Structural, positional play, prophylaxis, and controlling open files.",
+      "Bresson_Notes_On_Cinematographer": "Suggestion, restraint, and observation reveal hidden truths.",
+      "Dyson_Disturbing_Universe": "Science as an intellectual pursuit and moral responsibility.",
+      "Bronowski_Ascent_Of_Man": "Imagination and willingness to challenge assumptions drive human progress.",
+      "Ellul_Technological_Society": "Technique as the dominant efficiency-driven force in society."
+    }
+  },
+  "DOMAIN_3_SYSTEMS_ENGINEERING": {
+    "title": "Systems Engineering & Coding Standards",
+    "rules": {
+      "Karpathy_Rule_1": "Ask, do not assume. Clarify requirements before building.",
+      "Karpathy_Rule_2": "Simplest solution first. No unrequested abstractions.",
+      "Karpathy_Rule_3": "Do not touch unrelated code.",
+      "Karpathy_Rule_4": "Flag uncertainty explicitly.",
+      "Ponytail_Lazy_Dev": "Lazy means efficient. Code never written is best. Boring over clever.",
+      "TDD_Cycle": "RED-GREEN-REFACTOR. Write small runnable self-checks before implementation."
+    }
+  },
+  "DOMAIN_4_MATH_AND_PHYSICS": {
+    "title": "Mathematics & Physics Foundations",
+    "concepts": {
+      "Ramanujan_Expander_Graphs": "3-regular hypercube graph with maximal spectral gap for optimal decentralized load balancing.",
+      "Spectral_Gap": "Lambda2 bound 2*sqrt(degree-1) ensuring fast mixing time and communication.",
+      "Quine_Attestation": "SHA-256 self-referential code digest for state integrity and zero tamper."
+    }
+  },
+  "DOMAIN_5_GRAPHIC_DESIGN": {
+    "title": "Anant Anaadi Graphic Design & Aesthetic Rules",
+    "rules": {
+      "Palette": "Navy #0A192F (Background), Saffron Gold #FF9933 (Accent), Cream #F5F0DC (Body Text).",
+      "Typography": "NotoSerifDevanagari font for Sanskrit/Hinglish headers; high contrast, clean line spacing.",
+      "Vector_Backgrounds": "Unique vector diagrams per slide (sun_moon, chakra, yantra, wave_particle, eye, code). Never blank.",
+      "Voice_Tone": "Cool professor in kurta and sneakers \u2014 profound, evidence-backed, natural Hinglish. No cringe slang."
+    }
+  },
+  "DOMAIN_6_OPERATOR_PROJECTS": {
+    "title": "Ashutosh's Operator Ecosystem & Projects",
+    "projects": {
+      "Anant_Anaadi": "Hindi Research Journal & Instagram Brand. Profound history, science, Sanskrit, and philosophy.",
+      "Poly_bhai": "Polymarket algorithmic news & whale tracking bot. CLOB + Gamma API. DRY_RUN default.",
+      "turiya_world": "Fact-checking and misinformation debunking brand. Calm, evidence-first.",
+      "Chiransh": "Fully offline local voice companion using Vosk + Python + SQLite + termux-tts-speak."
+    }
+  },
+  "DOMAIN_7_INGESTED_BOOKS_CORPUS": {
+    "title": "Ingested Paninian & Polymathic Books Library",
+    "books": {
+      "wikibooks_systems_theory.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/wikibooks_systems_theory.txt",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "wikibooks_cognitive_psychology.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/wikibooks_cognitive_psychology.txt",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "wikibooks_linguistics.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/wikibooks_linguistics.txt",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "wikibooks_artificial_intelligence.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/wikibooks_artificial_intelligence.txt",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "standard_ebooks_james_psychology.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/standard_ebooks_james_psychology.txt",
+        "size_mb": 1.24,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "minsky_society_of_mind_summary.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/minsky_society_of_mind_summary.txt",
+        "size_mb": 0.14,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "sutraani_balamanorama.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/sutraani_balamanorama.txt",
+        "size_mb": 6.67,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "sutraani_bhashya.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/sutraani_bhashya.txt",
+        "size_mb": 5.93,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "sutraani_data.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/sutraani_data.txt",
+        "size_mb": 3.8,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "sutraani_kashika.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/sutraani_kashika.txt",
+        "size_mb": 3.63,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "vakyapadeeyam_ambakartri.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/vakyapadeeyam_ambakartri.txt",
+        "size_mb": 0.15,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "vakyapadeeyam_data.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/vakyapadeeyam_data.txt",
+        "size_mb": 0.73,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "vakyapadeeyam_swopajna.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/vakyapadeeyam_swopajna.txt",
+        "size_mb": 2.74,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "vakyapadeeyam_swopajna2.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/vakyapadeeyam_swopajna2.txt",
+        "size_mb": 0.05,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "tarkasangraha_data.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/tarkasangraha_data.txt",
+        "size_mb": 0.16,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "paribhashendushekhar_data.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/paribhashendushekhar_data.txt",
+        "size_mb": 0.33,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "dhatu_data.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/dhatu_data.txt",
+        "size_mb": 2.39,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "dhatu_dhatuforms_krut.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/dhatu_dhatuforms_krut.txt",
+        "size_mb": 1.64,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "dhatu_dhatuforms_vidyut_nich_karmani.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/dhatu_dhatuforms_vidyut_nich_karmani.txt",
+        "size_mb": 12.29,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "dhatu_dhatuforms_vidyut_nich_kartari.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/dhatu_dhatuforms_vidyut_nich_kartari.txt",
+        "size_mb": 16.78,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "dhatu_dhatuforms_vidyut_nich_krut.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/dhatu_dhatuforms_vidyut_nich_krut.txt",
+        "size_mb": 7.56,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "dhatu_dhatuforms_vidyut_san_karmani.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/dhatu_dhatuforms_vidyut_san_karmani.txt",
+        "size_mb": 13.53,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "dhatu_dhatuforms_vidyut_san_kartari.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/dhatu_dhatuforms_vidyut_san_kartari.txt",
+        "size_mb": 16.3,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "dhatu_dhatuforms_vidyut_san_krut.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/dhatu_dhatuforms_vidyut_san_krut.txt",
+        "size_mb": 10.86,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "dhatu_dhatuforms_vidyut_shuddha_karmani.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/dhatu_dhatuforms_vidyut_shuddha_karmani.txt",
+        "size_mb": 8.41,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "dhatu_dhatuforms_vidyut_shuddha_kartari.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/dhatu_dhatuforms_vidyut_shuddha_kartari.txt",
+        "size_mb": 9.21,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "shivasutra_data.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_new_books/shivasutra_data.txt",
+        "size_mb": 0.09,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "plato_republic.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_training_books/plato_republic.txt",
+        "size_mb": 1.19,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "aristotle_rhetoric.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_training_books/aristotle_rhetoric.txt",
+        "size_mb": 0.1,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "aristotle_poetics.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_training_books/aristotle_poetics.txt",
+        "size_mb": 0.12,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "marcus_aurelius_meditations.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_training_books/marcus_aurelius_meditations.txt",
+        "size_mb": 0.41,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "william_james_psychology_v1.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_training_books/william_james_psychology_v1.txt",
+        "size_mb": 0.26,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "bertrand_russell_philosophy.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_training_books/bertrand_russell_philosophy.txt",
+        "size_mb": 0.26,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "bacon_novum_organum.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_training_books/bacon_novum_organum.txt",
+        "size_mb": 0.54,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "descartes_method.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_training_books/descartes_method.txt",
+        "size_mb": 0.14,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "upanishads_max_muller.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_training_books/upanishads_max_muller.txt",
+        "size_mb": 0.6,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "bhagavad_gita_arnold.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_training_books/bhagavad_gita_arnold.txt",
+        "size_mb": 0.14,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "epictetus_discourses.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_training_books/epictetus_discourses.txt",
+        "size_mb": 0.09,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "sun_tzu_art_of_war.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_training_books/sun_tzu_art_of_war.txt",
+        "size_mb": 3.2,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "machiavelli_the_prince.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_training_books/machiavelli_the_prince.txt",
+        "size_mb": 0.29,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "adam_smith_wealth_of_nations.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_training_books/adam_smith_wealth_of_nations.txt",
+        "size_mb": 2.35,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "darwin_origin_of_species.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_training_books/darwin_origin_of_species.txt",
+        "size_mb": 1.24,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "kant_pure_reason.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_training_books/kant_pure_reason.txt",
+        "size_mb": 1.25,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "spinoza_ethics.txt": {
+        "path": "/data/data/com.termux/files/home/sutraos_training_books/spinoza_ethics.txt",
+        "size_mb": 0.51,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "polymarket_bot_upgrade.md": {
+        "path": "/sdcard/Download/Raju_Brain/polymarket_bot_upgrade.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "polymarket_fixes.md": {
+        "path": "/sdcard/Download/Raju_Brain/polymarket_fixes.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "digital_manager_protocol.md": {
+        "path": "/sdcard/Download/Raju_Brain/digital_manager_protocol.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "fal_api_setup.md": {
+        "path": "/sdcard/Download/Raju_Brain/fal_api_setup.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "raju-os-pwa.md": {
+        "path": "/sdcard/Download/Raju_Brain/raju-os-pwa.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "expand-pillars.md": {
+        "path": "/sdcard/Download/Raju_Brain/expand-pillars.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "expand-pillars-and-generate.md": {
+        "path": "/sdcard/Download/Raju_Brain/expand-pillars-and-generate.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "content-factory.md": {
+        "path": "/sdcard/Download/Raju_Brain/content-factory.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "gemini-app-pipeline.md": {
+        "path": "/sdcard/Download/Raju_Brain/gemini-app-pipeline.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "discord_agent_bridge.md": {
+        "path": "/sdcard/Download/Raju_Brain/discord_agent_bridge.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "MEMORY.md": {
+        "path": "/sdcard/Download/Raju_Brain/MEMORY.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "GEMINI.md": {
+        "path": "/sdcard/Download/Raju_Brain/GEMINI.md",
+        "size_mb": 0.02,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "styleguide.md": {
+        "path": "/sdcard/Download/Raju_Brain/styleguide.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "PLUGIN_SCHEMA_NOTES.md": {
+        "path": "/sdcard/Download/Raju_Brain/PLUGIN_SCHEMA_NOTES.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "README.md": {
+        "path": "/sdcard/Download/Raju_Brain/README.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "PULL_REQUEST_TEMPLATE.md": {
+        "path": "/sdcard/Download/Raju_Brain/PULL_REQUEST_TEMPLATE.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "CODE_OF_CONDUCT.md": {
+        "path": "/sdcard/Download/Raju_Brain/CODE_OF_CONDUCT.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "CONTRIBUTING.md": {
+        "path": "/sdcard/Download/Raju_Brain/CONTRIBUTING.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "SECURITY.md": {
+        "path": "/sdcard/Download/Raju_Brain/SECURITY.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "a11y-architect.md": {
+        "path": "/sdcard/Download/Raju_Brain/a11y-architect.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "architect.md": {
+        "path": "/sdcard/Download/Raju_Brain/architect.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "build-error-resolver.md": {
+        "path": "/sdcard/Download/Raju_Brain/build-error-resolver.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "chief-of-staff.md": {
+        "path": "/sdcard/Download/Raju_Brain/chief-of-staff.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "code-architect.md": {
+        "path": "/sdcard/Download/Raju_Brain/code-architect.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "code-explorer.md": {
+        "path": "/sdcard/Download/Raju_Brain/code-explorer.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "code-reviewer.md": {
+        "path": "/sdcard/Download/Raju_Brain/code-reviewer.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "code-simplifier.md": {
+        "path": "/sdcard/Download/Raju_Brain/code-simplifier.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "comment-analyzer.md": {
+        "path": "/sdcard/Download/Raju_Brain/comment-analyzer.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "conversation-analyzer.md": {
+        "path": "/sdcard/Download/Raju_Brain/conversation-analyzer.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "cpp-build-resolver.md": {
+        "path": "/sdcard/Download/Raju_Brain/cpp-build-resolver.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "cpp-reviewer.md": {
+        "path": "/sdcard/Download/Raju_Brain/cpp-reviewer.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "csharp-reviewer.md": {
+        "path": "/sdcard/Download/Raju_Brain/csharp-reviewer.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "dart-build-resolver.md": {
+        "path": "/sdcard/Download/Raju_Brain/dart-build-resolver.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "database-reviewer.md": {
+        "path": "/sdcard/Download/Raju_Brain/database-reviewer.md",
+        "size_mb": 0.02,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "doc-updater.md": {
+        "path": "/sdcard/Download/Raju_Brain/doc-updater.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "docs-lookup.md": {
+        "path": "/sdcard/Download/Raju_Brain/docs-lookup.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "e2e-runner.md": {
+        "path": "/sdcard/Download/Raju_Brain/e2e-runner.md",
+        "size_mb": 0.02,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "flutter-reviewer.md": {
+        "path": "/sdcard/Download/Raju_Brain/flutter-reviewer.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "gan-evaluator.md": {
+        "path": "/sdcard/Download/Raju_Brain/gan-evaluator.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "gan-generator.md": {
+        "path": "/sdcard/Download/Raju_Brain/gan-generator.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "gan-planner.md": {
+        "path": "/sdcard/Download/Raju_Brain/gan-planner.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "go-build-resolver.md": {
+        "path": "/sdcard/Download/Raju_Brain/go-build-resolver.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "go-reviewer.md": {
+        "path": "/sdcard/Download/Raju_Brain/go-reviewer.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "harness-optimizer.md": {
+        "path": "/sdcard/Download/Raju_Brain/harness-optimizer.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "healthcare-reviewer.md": {
+        "path": "/sdcard/Download/Raju_Brain/healthcare-reviewer.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "java-build-resolver.md": {
+        "path": "/sdcard/Download/Raju_Brain/java-build-resolver.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "java-reviewer.md": {
+        "path": "/sdcard/Download/Raju_Brain/java-reviewer.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "kotlin-build-resolver.md": {
+        "path": "/sdcard/Download/Raju_Brain/kotlin-build-resolver.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "kotlin-reviewer.md": {
+        "path": "/sdcard/Download/Raju_Brain/kotlin-reviewer.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "loop-operator.md": {
+        "path": "/sdcard/Download/Raju_Brain/loop-operator.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "opensource-forker.md": {
+        "path": "/sdcard/Download/Raju_Brain/opensource-forker.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "opensource-packager.md": {
+        "path": "/sdcard/Download/Raju_Brain/opensource-packager.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "opensource-sanitizer.md": {
+        "path": "/sdcard/Download/Raju_Brain/opensource-sanitizer.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "performance-optimizer.md": {
+        "path": "/sdcard/Download/Raju_Brain/performance-optimizer.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "planner.md": {
+        "path": "/sdcard/Download/Raju_Brain/planner.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "pr-test-analyzer.md": {
+        "path": "/sdcard/Download/Raju_Brain/pr-test-analyzer.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "python-reviewer.md": {
+        "path": "/sdcard/Download/Raju_Brain/python-reviewer.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "pytorch-build-resolver.md": {
+        "path": "/sdcard/Download/Raju_Brain/pytorch-build-resolver.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "refactor-cleaner.md": {
+        "path": "/sdcard/Download/Raju_Brain/refactor-cleaner.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "rust-build-resolver.md": {
+        "path": "/sdcard/Download/Raju_Brain/rust-build-resolver.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "rust-reviewer.md": {
+        "path": "/sdcard/Download/Raju_Brain/rust-reviewer.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "security-reviewer.md": {
+        "path": "/sdcard/Download/Raju_Brain/security-reviewer.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "seo-specialist.md": {
+        "path": "/sdcard/Download/Raju_Brain/seo-specialist.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "silent-failure-hunter.md": {
+        "path": "/sdcard/Download/Raju_Brain/silent-failure-hunter.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "tdd-guide.md": {
+        "path": "/sdcard/Download/Raju_Brain/tdd-guide.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "type-design-analyzer.md": {
+        "path": "/sdcard/Download/Raju_Brain/type-design-analyzer.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "typescript-reviewer.md": {
+        "path": "/sdcard/Download/Raju_Brain/typescript-reviewer.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "COMMAND-AGENT-MAP.md": {
+        "path": "/sdcard/Download/Raju_Brain/COMMAND-AGENT-MAP.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "SKILL-PLACEMENT-POLICY.md": {
+        "path": "/sdcard/Download/Raju_Brain/SKILL-PLACEMENT-POLICY.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "TERMINOLOGY.md": {
+        "path": "/sdcard/Download/Raju_Brain/TERMINOLOGY.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "VERIFICATION_GUIDE.md": {
+        "path": "/sdcard/Download/Raju_Brain/VERIFICATION_GUIDE.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "token-optimization.md": {
+        "path": "/sdcard/Download/Raju_Brain/token-optimization.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "user-GEMINI.md": {
+        "path": "/sdcard/Download/Raju_Brain/user-GEMINI.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "agents.md": {
+        "path": "/sdcard/Download/Raju_Brain/agents.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "code-review.md": {
+        "path": "/sdcard/Download/Raju_Brain/code-review.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "coding-style.md": {
+        "path": "/sdcard/Download/Raju_Brain/coding-style.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "development-workflow.md": {
+        "path": "/sdcard/Download/Raju_Brain/development-workflow.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "git-workflow.md": {
+        "path": "/sdcard/Download/Raju_Brain/git-workflow.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "hooks.md": {
+        "path": "/sdcard/Download/Raju_Brain/hooks.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "patterns.md": {
+        "path": "/sdcard/Download/Raju_Brain/patterns.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "performance.md": {
+        "path": "/sdcard/Download/Raju_Brain/performance.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "testing.md": {
+        "path": "/sdcard/Download/Raju_Brain/testing.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "design-quality.md": {
+        "path": "/sdcard/Download/Raju_Brain/design-quality.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "SKILL.md": {
+        "path": "/sdcard/Download/Raju_Brain/SKILL.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "voice-profile-schema.md": {
+        "path": "/sdcard/Download/Raju_Brain/voice-profile-schema.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "observer.md": {
+        "path": "/sdcard/Download/Raju_Brain/observer.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "STYLE_PRESETS.md": {
+        "path": "/sdcard/Download/Raju_Brain/STYLE_PRESETS.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "enrichment-agent.md": {
+        "path": "/sdcard/Download/Raju_Brain/enrichment-agent.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "mutual-mapper.md": {
+        "path": "/sdcard/Download/Raju_Brain/mutual-mapper.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "outreach-drafter.md": {
+        "path": "/sdcard/Download/Raju_Brain/outreach-drafter.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "signal-scorer.md": {
+        "path": "/sdcard/Download/Raju_Brain/signal-scorer.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "avatar-style.md": {
+        "path": "/sdcard/Download/Raju_Brain/avatar-style.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "boundary-rules.md": {
+        "path": "/sdcard/Download/Raju_Brain/boundary-rules.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "error-handling.md": {
+        "path": "/sdcard/Download/Raju_Brain/error-handling.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "identity-tension.md": {
+        "path": "/sdcard/Download/Raju_Brain/identity-tension.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "naming-system.md": {
+        "path": "/sdcard/Download/Raju_Brain/naming-system.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "output-template.md": {
+        "path": "/sdcard/Download/Raju_Brain/output-template.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "3d.md": {
+        "path": "/sdcard/Download/Raju_Brain/3d.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "animations.md": {
+        "path": "/sdcard/Download/Raju_Brain/animations.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "assets.md": {
+        "path": "/sdcard/Download/Raju_Brain/assets.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "audio.md": {
+        "path": "/sdcard/Download/Raju_Brain/audio.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "calculate-metadata.md": {
+        "path": "/sdcard/Download/Raju_Brain/calculate-metadata.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "can-decode.md": {
+        "path": "/sdcard/Download/Raju_Brain/can-decode.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "charts.md": {
+        "path": "/sdcard/Download/Raju_Brain/charts.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "compositions.md": {
+        "path": "/sdcard/Download/Raju_Brain/compositions.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "display-captions.md": {
+        "path": "/sdcard/Download/Raju_Brain/display-captions.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "extract-frames.md": {
+        "path": "/sdcard/Download/Raju_Brain/extract-frames.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "fonts.md": {
+        "path": "/sdcard/Download/Raju_Brain/fonts.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "get-audio-duration.md": {
+        "path": "/sdcard/Download/Raju_Brain/get-audio-duration.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "get-video-dimensions.md": {
+        "path": "/sdcard/Download/Raju_Brain/get-video-dimensions.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "get-video-duration.md": {
+        "path": "/sdcard/Download/Raju_Brain/get-video-duration.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "gifs.md": {
+        "path": "/sdcard/Download/Raju_Brain/gifs.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "images.md": {
+        "path": "/sdcard/Download/Raju_Brain/images.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "import-srt-captions.md": {
+        "path": "/sdcard/Download/Raju_Brain/import-srt-captions.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "lottie.md": {
+        "path": "/sdcard/Download/Raju_Brain/lottie.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "measuring-dom-nodes.md": {
+        "path": "/sdcard/Download/Raju_Brain/measuring-dom-nodes.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "measuring-text.md": {
+        "path": "/sdcard/Download/Raju_Brain/measuring-text.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "sequencing.md": {
+        "path": "/sdcard/Download/Raju_Brain/sequencing.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "tailwind.md": {
+        "path": "/sdcard/Download/Raju_Brain/tailwind.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "text-animations.md": {
+        "path": "/sdcard/Download/Raju_Brain/text-animations.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "timing.md": {
+        "path": "/sdcard/Download/Raju_Brain/timing.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "transcribe-captions.md": {
+        "path": "/sdcard/Download/Raju_Brain/transcribe-captions.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "transitions.md": {
+        "path": "/sdcard/Download/Raju_Brain/transitions.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "trimming.md": {
+        "path": "/sdcard/Download/Raju_Brain/trimming.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "videos.md": {
+        "path": "/sdcard/Download/Raju_Brain/videos.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "cloud-infrastructure-security.md": {
+        "path": "/sdcard/Download/Raju_Brain/cloud-infrastructure-security.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "api-reference.md": {
+        "path": "/sdcard/Download/Raju_Brain/api-reference.md",
+        "size_mb": 0.02,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "capture-reference.md": {
+        "path": "/sdcard/Download/Raju_Brain/capture-reference.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "capture.md": {
+        "path": "/sdcard/Download/Raju_Brain/capture.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "editor.md": {
+        "path": "/sdcard/Download/Raju_Brain/editor.md",
+        "size_mb": 0.02,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "generative.md": {
+        "path": "/sdcard/Download/Raju_Brain/generative.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "rtstream-reference.md": {
+        "path": "/sdcard/Download/Raju_Brain/rtstream-reference.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "rtstream.md": {
+        "path": "/sdcard/Download/Raju_Brain/rtstream.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "search.md": {
+        "path": "/sdcard/Download/Raju_Brain/search.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "streaming.md": {
+        "path": "/sdcard/Download/Raju_Brain/streaming.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "use-cases.md": {
+        "path": "/sdcard/Download/Raju_Brain/use-cases.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "classifier.md": {
+        "path": "/sdcard/Download/Raju_Brain/classifier.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "scenario_generator.md": {
+        "path": "/sdcard/Download/Raju_Brain/scenario_generator.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "spec_generator.md": {
+        "path": "/sdcard/Download/Raju_Brain/spec_generator.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "GEMINI_GLOBAL.md": {
+        "path": "/sdcard/Download/Raju_Brain/GEMINI_GLOBAL.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "GEMINI_GO.md": {
+        "path": "/sdcard/Download/Raju_Brain/GEMINI_GO.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "claude-style-tools.md": {
+        "path": "/sdcard/Download/Raju_Brain/claude-style-tools.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "forbidden-keys.md": {
+        "path": "/sdcard/Download/Raju_Brain/forbidden-keys.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "mcp-in-tools.md": {
+        "path": "/sdcard/Download/Raju_Brain/mcp-in-tools.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "2026-05-12.md": {
+        "path": "/sdcard/Download/Raju_Brain/2026-05-12.md",
+        "size_mb": 0.02,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "2026-05-13.md": {
+        "path": "/sdcard/Download/Raju_Brain/2026-05-13.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "2026-05-18.md": {
+        "path": "/sdcard/Download/Raju_Brain/2026-05-18.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "build-fix.md": {
+        "path": "/sdcard/Download/Raju_Brain/build-fix.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "eval.md": {
+        "path": "/sdcard/Download/Raju_Brain/eval.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "evolve.md": {
+        "path": "/sdcard/Download/Raju_Brain/evolve.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "feature-dev.md": {
+        "path": "/sdcard/Download/Raju_Brain/feature-dev.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "flutter-review.md": {
+        "path": "/sdcard/Download/Raju_Brain/flutter-review.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "go-review.md": {
+        "path": "/sdcard/Download/Raju_Brain/go-review.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "go-test.md": {
+        "path": "/sdcard/Download/Raju_Brain/go-test.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "hookify-configure.md": {
+        "path": "/sdcard/Download/Raju_Brain/hookify-configure.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "hookify-list.md": {
+        "path": "/sdcard/Download/Raju_Brain/hookify-list.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "hookify.md": {
+        "path": "/sdcard/Download/Raju_Brain/hookify.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "instinct-export.md": {
+        "path": "/sdcard/Download/Raju_Brain/instinct-export.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "instinct-import.md": {
+        "path": "/sdcard/Download/Raju_Brain/instinct-import.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "instinct-status.md": {
+        "path": "/sdcard/Download/Raju_Brain/instinct-status.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "multi-frontend.md": {
+        "path": "/sdcard/Download/Raju_Brain/multi-frontend.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "multi-workflow.md": {
+        "path": "/sdcard/Download/Raju_Brain/multi-workflow.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "orchestrate.md": {
+        "path": "/sdcard/Download/Raju_Brain/orchestrate.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "prp-commit.md": {
+        "path": "/sdcard/Download/Raju_Brain/prp-commit.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "prp-pr.md": {
+        "path": "/sdcard/Download/Raju_Brain/prp-pr.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "python-review.md": {
+        "path": "/sdcard/Download/Raju_Brain/python-review.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "review-pr.md": {
+        "path": "/sdcard/Download/Raju_Brain/review-pr.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "setup-pm.md": {
+        "path": "/sdcard/Download/Raju_Brain/setup-pm.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "skill-create.md": {
+        "path": "/sdcard/Download/Raju_Brain/skill-create.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "update-docs.md": {
+        "path": "/sdcard/Download/Raju_Brain/update-docs.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "verify.md": {
+        "path": "/sdcard/Download/Raju_Brain/verify.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "CHANGELOG.md": {
+        "path": "/sdcard/Download/Raju_Brain/CHANGELOG.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "LICENSE.md": {
+        "path": "/sdcard/Download/Raju_Brain/LICENSE.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "webgpu-operators.md": {
+        "path": "/sdcard/Download/Raju_Brain/webgpu-operators.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "HISTORY.md": {
+        "path": "/sdcard/Download/Raju_Brain/HISTORY.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "README_20210527213411.md": {
+        "path": "/sdcard/Download/Raju_Brain/README_20210527213411.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "README_20210527213803.md": {
+        "path": "/sdcard/Download/Raju_Brain/README_20210527213803.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "README_20210527214323.md": {
+        "path": "/sdcard/Download/Raju_Brain/README_20210527214323.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "best_practices.md": {
+        "path": "/sdcard/Download/Raju_Brain/best_practices.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "anaadi-bot-complete-manual.md": {
+        "path": "/sdcard/Download/Raju_Brain/anaadi-bot-complete-manual.md",
+        "size_mb": 0.02,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "content-22-april-2026.md": {
+        "path": "/sdcard/Download/Raju_Brain/content-22-april-2026.md",
+        "size_mb": 0.02,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "gemini-final-build-prompt.md": {
+        "path": "/sdcard/Download/Raju_Brain/gemini-final-build-prompt.md",
+        "size_mb": 0.04,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "gemini-fix-prompt-optionA.md": {
+        "path": "/sdcard/Download/Raju_Brain/gemini-fix-prompt-optionA.md",
+        "size_mb": 0.04,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "revised-sample-day-panchang-first.md": {
+        "path": "/sdcard/Download/Raju_Brain/revised-sample-day-panchang-first.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "sample-day-output.md": {
+        "path": "/sdcard/Download/Raju_Brain/sample-day-output.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "README_CN.md": {
+        "path": "/sdcard/Download/Raju_Brain/README_CN.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "docs.md": {
+        "path": "/sdcard/Download/Raju_Brain/docs.md",
+        "size_mb": 0.04,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "index.md": {
+        "path": "/sdcard/Download/Raju_Brain/index.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "MIGRATION_GUIDE.md": {
+        "path": "/sdcard/Download/Raju_Brain/MIGRATION_GUIDE.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "masterplan.md": {
+        "path": "/sdcard/Download/Raju_Brain/masterplan.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "content-pillars.md": {
+        "path": "/sdcard/Download/Raju_Brain/content-pillars.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "issue-1-summary.md": {
+        "path": "/sdcard/Download/Raju_Brain/issue-1-summary.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "RELEASE_PROCESS.md": {
+        "path": "/sdcard/Download/Raju_Brain/RELEASE_PROCESS.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "NOTICES.md": {
+        "path": "/sdcard/Download/Raju_Brain/NOTICES.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "README-crates.io.md": {
+        "path": "/sdcard/Download/Raju_Brain/README-crates.io.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "IMPLEMENTATION.md": {
+        "path": "/sdcard/Download/Raju_Brain/IMPLEMENTATION.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "DESIGN.md": {
+        "path": "/sdcard/Download/Raju_Brain/DESIGN.md",
+        "size_mb": 0.03,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "FAQ.md": {
+        "path": "/sdcard/Download/Raju_Brain/FAQ.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "LICENSE-APACHE.md": {
+        "path": "/sdcard/Download/Raju_Brain/LICENSE-APACHE.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "LICENSE-MIT.md": {
+        "path": "/sdcard/Download/Raju_Brain/LICENSE-MIT.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "lib.md": {
+        "path": "/sdcard/Download/Raju_Brain/lib.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "UNICODE.md": {
+        "path": "/sdcard/Download/Raju_Brain/UNICODE.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "copilot-instructions.md": {
+        "path": "/sdcard/Download/Raju_Brain/copilot-instructions.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "CLAUDE.md": {
+        "path": "/sdcard/Download/Raju_Brain/CLAUDE.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "bindgen.md": {
+        "path": "/sdcard/Download/Raju_Brain/bindgen.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "RELEASE-NOTES.md": {
+        "path": "/sdcard/Download/Raju_Brain/RELEASE-NOTES.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "cargo-example-derive.md": {
+        "path": "/sdcard/Download/Raju_Brain/cargo-example-derive.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "demo.md": {
+        "path": "/sdcard/Download/Raju_Brain/demo.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "escaped-positional.md": {
+        "path": "/sdcard/Download/Raju_Brain/escaped-positional.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "git-derive.md": {
+        "path": "/sdcard/Download/Raju_Brain/git-derive.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "git.md": {
+        "path": "/sdcard/Download/Raju_Brain/git.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "multicall-busybox.md": {
+        "path": "/sdcard/Download/Raju_Brain/multicall-busybox.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "pacman.md": {
+        "path": "/sdcard/Download/Raju_Brain/pacman.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "01_quick.md": {
+        "path": "/sdcard/Download/Raju_Brain/01_quick.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "02_app_settings.md": {
+        "path": "/sdcard/Download/Raju_Brain/02_app_settings.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "02_apps.md": {
+        "path": "/sdcard/Download/Raju_Brain/02_apps.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "02_crate.md": {
+        "path": "/sdcard/Download/Raju_Brain/02_crate.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "03_01_flag_bool.md": {
+        "path": "/sdcard/Download/Raju_Brain/03_01_flag_bool.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "03_02_option_mult.md": {
+        "path": "/sdcard/Download/Raju_Brain/03_02_option_mult.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "03_03_positional_mult.md": {
+        "path": "/sdcard/Download/Raju_Brain/03_03_positional_mult.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "03_06_required.md": {
+        "path": "/sdcard/Download/Raju_Brain/03_06_required.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "04_01_possible.md": {
+        "path": "/sdcard/Download/Raju_Brain/04_01_possible.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "custom.md": {
+        "path": "/sdcard/Download/Raju_Brain/custom.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "fn_parser.md": {
+        "path": "/sdcard/Download/Raju_Brain/fn_parser.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "CONTRIBUTORS.md": {
+        "path": "/sdcard/Download/Raju_Brain/CONTRIBUTORS.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "0.21-MIGRATION.md": {
+        "path": "/sdcard/Download/Raju_Brain/0.21-MIGRATION.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "POLICIES.md": {
+        "path": "/sdcard/Download/Raju_Brain/POLICIES.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "development.md": {
+        "path": "/sdcard/Download/Raju_Brain/development.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "style.md": {
+        "path": "/sdcard/Download/Raju_Brain/style.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "validation.md": {
+        "path": "/sdcard/Download/Raju_Brain/validation.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "error_and_recovery.md": {
+        "path": "/sdcard/Download/Raju_Brain/error_and_recovery.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "getting_started.md": {
+        "path": "/sdcard/Download/Raju_Brain/getting_started.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "meet_the_parsers.md": {
+        "path": "/sdcard/Download/Raju_Brain/meet_the_parsers.md",
+        "size_mb": 0.02,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "technical_notes.md": {
+        "path": "/sdcard/Download/Raju_Brain/technical_notes.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "tutorial.md": {
+        "path": "/sdcard/Download/Raju_Brain/tutorial.md",
+        "size_mb": 0.03,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "MAINTENANCE.md": {
+        "path": "/sdcard/Download/Raju_Brain/MAINTENANCE.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "spec.md": {
+        "path": "/sdcard/Download/Raju_Brain/spec.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "RELEASE_STEPS.md": {
+        "path": "/sdcard/Download/Raju_Brain/RELEASE_STEPS.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "bug_report.md": {
+        "path": "/sdcard/Download/Raju_Brain/bug_report.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "ADDING_NEW_PLATFORMS.md": {
+        "path": "/sdcard/Download/Raju_Brain/ADDING_NEW_PLATFORMS.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "is_supported.md": {
+        "path": "/sdcard/Download/Raju_Brain/is_supported.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "minimum_cpu_update_interval.md": {
+        "path": "/sdcard/Download/Raju_Brain/minimum_cpu_update_interval.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "pid.md": {
+        "path": "/sdcard/Download/Raju_Brain/pid.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "sid.md": {
+        "path": "/sdcard/Download/Raju_Brain/sid.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "supported_signals.md": {
+        "path": "/sdcard/Download/Raju_Brain/supported_signals.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      ".towncrier.template.md": {
+        "path": "/sdcard/Download/Raju_Brain/.towncrier.template.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "Architecture.md": {
+        "path": "/sdcard/Download/Raju_Brain/Architecture.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "async-await.md": {
+        "path": "/sdcard/Download/Raju_Brain/async-await.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "multiple-python-versions.md": {
+        "path": "/sdcard/Download/Raju_Brain/multiple-python-versions.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "numeric.md": {
+        "path": "/sdcard/Download/Raju_Brain/numeric.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "object.md": {
+        "path": "/sdcard/Download/Raju_Brain/object.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "thread-safety.md": {
+        "path": "/sdcard/Download/Raju_Brain/thread-safety.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "class.md": {
+        "path": "/sdcard/Download/Raju_Brain/class.md",
+        "size_mb": 0.05,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "conversions.md": {
+        "path": "/sdcard/Download/Raju_Brain/conversions.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "logging.md": {
+        "path": "/sdcard/Download/Raju_Brain/logging.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "exception.md": {
+        "path": "/sdcard/Download/Raju_Brain/exception.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "features.md": {
+        "path": "/sdcard/Download/Raju_Brain/features.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "getting-started.md": {
+        "path": "/sdcard/Download/Raju_Brain/getting-started.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "parallelism.md": {
+        "path": "/sdcard/Download/Raju_Brain/parallelism.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "python-from-rust.md": {
+        "path": "/sdcard/Download/Raju_Brain/python-from-rust.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "rust-from-python.md": {
+        "path": "/sdcard/Download/Raju_Brain/rust-from-python.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "trait-bounds.md": {
+        "path": "/sdcard/Download/Raju_Brain/trait-bounds.md",
+        "size_mb": 0.02,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "type-stub.md": {
+        "path": "/sdcard/Download/Raju_Brain/type-stub.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitSafe.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitSafe.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "TryFromBitSliceError.md": {
+        "path": "/sdcard/Download/Raju_Brain/TryFromBitSliceError.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "boxed.md": {
+        "path": "/sdcard/Download/Raju_Brain/boxed.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "Domain.md": {
+        "path": "/sdcard/Download/Raju_Brain/Domain.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "PartialElement.md": {
+        "path": "/sdcard/Download/Raju_Brain/PartialElement.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitField.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitField.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitField_Lsb0_load_be.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitField_Lsb0_load_be.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitField_Msb0.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitField_Msb0.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitField_Msb0_load_le.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitField_Msb0_load_le.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitField_load.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitField_load.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitField_load_be.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitField_load_be.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitField_load_le.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitField_load_le.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitField_store.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitField_store.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitField_store_be.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitField_store_be.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "impl_BitArray.md": {
+        "path": "/sdcard/Download/Raju_Brain/impl_BitArray.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "Read_BitSlice.md": {
+        "path": "/sdcard/Download/Raju_Brain/Read_BitSlice.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "Write_BitVec.md": {
+        "path": "/sdcard/Download/Raju_Brain/Write_BitVec.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "io.md": {
+        "path": "/sdcard/Download/Raju_Brain/io.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "resize.md": {
+        "path": "/sdcard/Download/Raju_Brain/resize.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "set.md": {
+        "path": "/sdcard/Download/Raju_Brain/set.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitEnd.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitEnd.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitIdx.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitIdx.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitIdxError.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitIdxError.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitSel.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitSel.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "bitvec.md": {
+        "path": "/sdcard/Download/Raju_Brain/bitvec.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "encode_bits.md": {
+        "path": "/sdcard/Download/Raju_Brain/encode_bits.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "make_elem.md": {
+        "path": "/sdcard/Download/Raju_Brain/make_elem.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitRegister.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitRegister.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "Lsb0.md": {
+        "path": "/sdcard/Download/Raju_Brain/Lsb0.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "verify_for_type.md": {
+        "path": "/sdcard/Download/Raju_Brain/verify_for_type.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "prelude.md": {
+        "path": "/sdcard/Download/Raju_Brain/prelude.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitRef.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitRef.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "GEMINI_PYTHON.md": {
+        "path": "/sdcard/Download/Raju_Brain/GEMINI_PYTHON.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "GEMINI_TS.md": {
+        "path": "/sdcard/Download/Raju_Brain/GEMINI_TS.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "good.md": {
+        "path": "/sdcard/Download/Raju_Brain/good.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "legacy-names.md": {
+        "path": "/sdcard/Download/Raju_Brain/legacy-names.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "missing-frontmatter.md": {
+        "path": "/sdcard/Download/Raju_Brain/missing-frontmatter.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "2026-05-15.md": {
+        "path": "/sdcard/Download/Raju_Brain/2026-05-15.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "agent-sort.md": {
+        "path": "/sdcard/Download/Raju_Brain/agent-sort.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "checkpoint.md": {
+        "path": "/sdcard/Download/Raju_Brain/checkpoint.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "e2e.md": {
+        "path": "/sdcard/Download/Raju_Brain/e2e.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "egc-plan.md": {
+        "path": "/sdcard/Download/Raju_Brain/egc-plan.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "flutter-build.md": {
+        "path": "/sdcard/Download/Raju_Brain/flutter-build.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "flutter-test.md": {
+        "path": "/sdcard/Download/Raju_Brain/flutter-test.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "gan-build.md": {
+        "path": "/sdcard/Download/Raju_Brain/gan-build.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "gan-design.md": {
+        "path": "/sdcard/Download/Raju_Brain/gan-design.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "go-build.md": {
+        "path": "/sdcard/Download/Raju_Brain/go-build.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "grok.md": {
+        "path": "/sdcard/Download/Raju_Brain/grok.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "hookify-help.md": {
+        "path": "/sdcard/Download/Raju_Brain/hookify-help.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "jira.md": {
+        "path": "/sdcard/Download/Raju_Brain/jira.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "learn.md": {
+        "path": "/sdcard/Download/Raju_Brain/learn.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "multi-backend.md": {
+        "path": "/sdcard/Download/Raju_Brain/multi-backend.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "multi-execute.md": {
+        "path": "/sdcard/Download/Raju_Brain/multi-execute.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "multi-plan.md": {
+        "path": "/sdcard/Download/Raju_Brain/multi-plan.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "pm2.md": {
+        "path": "/sdcard/Download/Raju_Brain/pm2.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "prp-implement.md": {
+        "path": "/sdcard/Download/Raju_Brain/prp-implement.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "prp-plan.md": {
+        "path": "/sdcard/Download/Raju_Brain/prp-plan.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "prp-prd.md": {
+        "path": "/sdcard/Download/Raju_Brain/prp-prd.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "refactor-clean.md": {
+        "path": "/sdcard/Download/Raju_Brain/refactor-clean.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "santa-loop.md": {
+        "path": "/sdcard/Download/Raju_Brain/santa-loop.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "sessions.md": {
+        "path": "/sdcard/Download/Raju_Brain/sessions.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "tdd.md": {
+        "path": "/sdcard/Download/Raju_Brain/tdd.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "test-coverage.md": {
+        "path": "/sdcard/Download/Raju_Brain/test-coverage.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "update-codemaps.md": {
+        "path": "/sdcard/Download/Raju_Brain/update-codemaps.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "README-es.md": {
+        "path": "/sdcard/Download/Raju_Brain/README-es.md",
+        "size_mb": 0.02,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "webgl-operators.md": {
+        "path": "/sdcard/Download/Raju_Brain/webgl-operators.md",
+        "size_mb": 0.03,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "webnn-operators.md": {
+        "path": "/sdcard/Download/Raju_Brain/webnn-operators.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "THREAT_MODEL.md": {
+        "path": "/sdcard/Download/Raju_Brain/THREAT_MODEL.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "README_20210527203617.md": {
+        "path": "/sdcard/Download/Raju_Brain/README_20210527203617.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "README_20210527212714.md": {
+        "path": "/sdcard/Download/Raju_Brain/README_20210527212714.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "README_20210527213345.md": {
+        "path": "/sdcard/Download/Raju_Brain/README_20210527213345.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "README_20210527214408.md": {
+        "path": "/sdcard/Download/Raju_Brain/README_20210527214408.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "Porting-Buffer.md": {
+        "path": "/sdcard/Download/Raju_Brain/Porting-Buffer.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "GOVERNANCE.md": {
+        "path": "/sdcard/Download/Raju_Brain/GOVERNANCE.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "notes.md": {
+        "path": "/sdcard/Download/Raju_Brain/notes.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "INCIDENT_RESPONSE_PROCESS.md": {
+        "path": "/sdcard/Download/Raju_Brain/INCIDENT_RESPONSE_PROCESS.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "FINAL-PROMPT-paste-in-claude-code.md": {
+        "path": "/sdcard/Download/Raju_Brain/FINAL-PROMPT-paste-in-claude-code.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "anant_anaadi_7day_plan.md": {
+        "path": "/sdcard/Download/Raju_Brain/anant_anaadi_7day_plan.md",
+        "size_mb": 0.06,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "claude-code-master-prompt.md": {
+        "path": "/sdcard/Download/Raju_Brain/claude-code-master-prompt.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "content-19-april-2026.md": {
+        "path": "/sdcard/Download/Raju_Brain/content-19-april-2026.md",
+        "size_mb": 0.02,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "discord-bot-claude-code-prompt.md": {
+        "path": "/sdcard/Download/Raju_Brain/discord-bot-claude-code-prompt.md",
+        "size_mb": 0.02,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "final-bot-upgrade-prompt.md": {
+        "path": "/sdcard/Download/Raju_Brain/final-bot-upgrade-prompt.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "soul.md": {
+        "path": "/sdcard/Download/Raju_Brain/soul.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "operators.md": {
+        "path": "/sdcard/Download/Raju_Brain/operators.md",
+        "size_mb": 0.03,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "AUTHORS.md": {
+        "path": "/sdcard/Download/Raju_Brain/AUTHORS.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "CHANGES.md": {
+        "path": "/sdcard/Download/Raju_Brain/CHANGES.md",
+        "size_mb": 0.02,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "release.md": {
+        "path": "/sdcard/Download/Raju_Brain/release.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "advaita.md": {
+        "path": "/sdcard/Download/Raju_Brain/advaita.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "manual.md": {
+        "path": "/sdcard/Download/Raju_Brain/manual.md",
+        "size_mb": 0.02,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "RELEASING.md": {
+        "path": "/sdcard/Download/Raju_Brain/RELEASING.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "ORG_CODE_OF_CONDUCT.md": {
+        "path": "/sdcard/Download/Raju_Brain/ORG_CODE_OF_CONDUCT.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "RELEASES.md": {
+        "path": "/sdcard/Download/Raju_Brain/RELEASES.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "internals.md": {
+        "path": "/sdcard/Download/Raju_Brain/internals.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "MIGRATE-2-to-3.md": {
+        "path": "/sdcard/Download/Raju_Brain/MIGRATE-2-to-3.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "quoting_warning.md": {
+        "path": "/sdcard/Download/Raju_Brain/quoting_warning.md",
+        "size_mb": 0.02,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "LICENSE-ZLIB.md": {
+        "path": "/sdcard/Download/Raju_Brain/LICENSE-ZLIB.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "msg.md": {
+        "path": "/sdcard/Download/Raju_Brain/msg.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "Ideas.md": {
+        "path": "/sdcard/Download/Raju_Brain/Ideas.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "general-purpose-issue.md": {
+        "path": "/sdcard/Download/Raju_Brain/general-purpose-issue.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "cargo-example.md": {
+        "path": "/sdcard/Download/Raju_Brain/cargo-example.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "interop_tests.md": {
+        "path": "/sdcard/Download/Raju_Brain/interop_tests.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "escaped-positional-derive.md": {
+        "path": "/sdcard/Download/Raju_Brain/escaped-positional-derive.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "find.md": {
+        "path": "/sdcard/Download/Raju_Brain/find.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "multicall-hostname.md": {
+        "path": "/sdcard/Download/Raju_Brain/multicall-hostname.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "03_01_flag_count.md": {
+        "path": "/sdcard/Download/Raju_Brain/03_01_flag_count.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "03_02_option.md": {
+        "path": "/sdcard/Download/Raju_Brain/03_02_option.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "03_03_positional.md": {
+        "path": "/sdcard/Download/Raju_Brain/03_03_positional.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "03_04_subcommands.md": {
+        "path": "/sdcard/Download/Raju_Brain/03_04_subcommands.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "03_05_default_values.md": {
+        "path": "/sdcard/Download/Raju_Brain/03_05_default_values.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "04_01_enum.md": {
+        "path": "/sdcard/Download/Raju_Brain/04_01_enum.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "04_02_parse.md": {
+        "path": "/sdcard/Download/Raju_Brain/04_02_parse.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "04_02_validate.md": {
+        "path": "/sdcard/Download/Raju_Brain/04_02_validate.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "04_03_relations.md": {
+        "path": "/sdcard/Download/Raju_Brain/04_03_relations.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "04_04_custom.md": {
+        "path": "/sdcard/Download/Raju_Brain/04_04_custom.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "03_06_optional.md": {
+        "path": "/sdcard/Download/Raju_Brain/03_06_optional.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "builtin.md": {
+        "path": "/sdcard/Download/Raju_Brain/builtin.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "implicit.md": {
+        "path": "/sdcard/Download/Raju_Brain/implicit.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "nom_recipes.md": {
+        "path": "/sdcard/Download/Raju_Brain/nom_recipes.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "reviewing.md": {
+        "path": "/sdcard/Download/Raju_Brain/reviewing.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "ui_tests.md": {
+        "path": "/sdcard/Download/Raju_Brain/ui_tests.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "unsafe_code.md": {
+        "path": "/sdcard/Download/Raju_Brain/unsafe_code.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "debugging.md": {
+        "path": "/sdcard/Download/Raju_Brain/debugging.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "intro.md": {
+        "path": "/sdcard/Download/Raju_Brain/intro.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "key_concepts.md": {
+        "path": "/sdcard/Download/Raju_Brain/key_concepts.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "recursion.md": {
+        "path": "/sdcard/Download/Raju_Brain/recursion.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "crates-io.md": {
+        "path": "/sdcard/Download/Raju_Brain/crates-io.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "NEWS.md": {
+        "path": "/sdcard/Download/Raju_Brain/NEWS.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "rules.md": {
+        "path": "/sdcard/Download/Raju_Brain/rules.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "feature_request.md": {
+        "path": "/sdcard/Download/Raju_Brain/feature_request.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "serde.md": {
+        "path": "/sdcard/Download/Raju_Brain/serde.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "reactor-refactor.md": {
+        "path": "/sdcard/Download/Raju_Brain/reactor-refactor.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "Code-of-Conduct.md": {
+        "path": "/sdcard/Download/Raju_Brain/Code-of-Conduct.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "pyclass-parameters.md": {
+        "path": "/sdcard/Download/Raju_Brain/pyclass-parameters.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "SUMMARY.md": {
+        "path": "/sdcard/Download/Raju_Brain/SUMMARY.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "advanced.md": {
+        "path": "/sdcard/Download/Raju_Brain/advanced.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "building-and-distribution.md": {
+        "path": "/sdcard/Download/Raju_Brain/building-and-distribution.md",
+        "size_mb": 0.03,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "call.md": {
+        "path": "/sdcard/Download/Raju_Brain/call.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "protocols.md": {
+        "path": "/sdcard/Download/Raju_Brain/protocols.md",
+        "size_mb": 0.02,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "tables.md": {
+        "path": "/sdcard/Download/Raju_Brain/tables.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "traits.md": {
+        "path": "/sdcard/Download/Raju_Brain/traits.md",
+        "size_mb": 0.02,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "tracing.md": {
+        "path": "/sdcard/Download/Raju_Brain/tracing.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "ecosystem.md": {
+        "path": "/sdcard/Download/Raju_Brain/ecosystem.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "free-threading.md": {
+        "path": "/sdcard/Download/Raju_Brain/free-threading.md",
+        "size_mb": 0.02,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "signature.md": {
+        "path": "/sdcard/Download/Raju_Brain/signature.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "function-calls.md": {
+        "path": "/sdcard/Download/Raju_Brain/function-calls.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "function.md": {
+        "path": "/sdcard/Download/Raju_Brain/function.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "migration.md": {
+        "path": "/sdcard/Download/Raju_Brain/migration.md",
+        "size_mb": 0.08,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "module.md": {
+        "path": "/sdcard/Download/Raju_Brain/module.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "calling-existing-code.md": {
+        "path": "/sdcard/Download/Raju_Brain/calling-existing-code.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "python-typing-hints.md": {
+        "path": "/sdcard/Download/Raju_Brain/python-typing-hints.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "types.md": {
+        "path": "/sdcard/Download/Raju_Brain/types.md",
+        "size_mb": 0.02,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitAccess.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitAccess.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "impl_BitSafe.md": {
+        "path": "/sdcard/Download/Raju_Brain/impl_BitSafe.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "access.md": {
+        "path": "/sdcard/Download/Raju_Brain/access.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitArray.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitArray.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "IntoIter.md": {
+        "path": "/sdcard/Download/Raju_Brain/IntoIter.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "api.md": {
+        "path": "/sdcard/Download/Raju_Brain/api.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "iter.md": {
+        "path": "/sdcard/Download/Raju_Brain/iter.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "array.md": {
+        "path": "/sdcard/Download/Raju_Brain/array.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitBox.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitBox.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitDomain.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitDomain.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitField_Lsb0.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitField_Lsb0.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitField_Lsb0_load_le.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitField_Lsb0_load_le.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitField_Lsb0_store_be.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitField_Lsb0_store_be.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitField_Lsb0_store_le.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitField_Lsb0_store_le.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitField_Msb0_load_be.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitField_Msb0_load_be.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitField_Msb0_store_be.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitField_Msb0_store_be.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitField_Msb0_store_le.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitField_Msb0_store_le.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitField_store_le.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitField_store_le.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "get.md": {
+        "path": "/sdcard/Download/Raju_Brain/get.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "Read_BitVec.md": {
+        "path": "/sdcard/Download/Raju_Brain/Read_BitVec.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "Write_BitSlice.md": {
+        "path": "/sdcard/Download/Raju_Brain/Write_BitSlice.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "sign.md": {
+        "path": "/sdcard/Download/Raju_Brain/sign.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "field.md": {
+        "path": "/sdcard/Download/Raju_Brain/field.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitMask.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitMask.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitPos.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitPos.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitArr_type.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitArr_type.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "bitarr_value.md": {
+        "path": "/sdcard/Download/Raju_Brain/bitarr_value.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "bits.md": {
+        "path": "/sdcard/Download/Raju_Brain/bits.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "internal.md": {
+        "path": "/sdcard/Download/Raju_Brain/internal.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "macros.md": {
+        "path": "/sdcard/Download/Raju_Brain/macros.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitElement.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitElement.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "elts.md": {
+        "path": "/sdcard/Download/Raju_Brain/elts.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "mem.md": {
+        "path": "/sdcard/Download/Raju_Brain/mem.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitOrder.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitOrder.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "LocalBits.md": {
+        "path": "/sdcard/Download/Raju_Brain/LocalBits.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "Msb0.md": {
+        "path": "/sdcard/Download/Raju_Brain/Msb0.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "order.md": {
+        "path": "/sdcard/Download/Raju_Brain/order.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitPtr.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitPtr.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitPtrRange.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitPtrRange.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitSpan.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitSpan.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "bitslice_from_raw_parts_mut.md": {
+        "path": "/sdcard/Download/Raju_Brain/bitslice_from_raw_parts_mut.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "drop_in_place.md": {
+        "path": "/sdcard/Download/Raju_Brain/drop_in_place.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "eq.md": {
+        "path": "/sdcard/Download/Raju_Brain/eq.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "hash.md": {
+        "path": "/sdcard/Download/Raju_Brain/hash.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "null_mut.md": {
+        "path": "/sdcard/Download/Raju_Brain/null_mut.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "bitslice_from_raw_parts.md": {
+        "path": "/sdcard/Download/Raju_Brain/bitslice_from_raw_parts.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "copy.md": {
+        "path": "/sdcard/Download/Raju_Brain/copy.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "null.md": {
+        "path": "/sdcard/Download/Raju_Brain/null.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "proxy.md": {
+        "path": "/sdcard/Download/Raju_Brain/proxy.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "read.md": {
+        "path": "/sdcard/Download/Raju_Brain/read.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "single.md": {
+        "path": "/sdcard/Download/Raju_Brain/single.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "slice_from_raw_parts.md": {
+        "path": "/sdcard/Download/Raju_Brain/slice_from_raw_parts.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "write_bytes.md": {
+        "path": "/sdcard/Download/Raju_Brain/write_bytes.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "ptr.md": {
+        "path": "/sdcard/Download/Raju_Brain/ptr.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "utils.md": {
+        "path": "/sdcard/Download/Raju_Brain/utils.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "bitop_assign.md": {
+        "path": "/sdcard/Download/Raju_Brain/bitop_assign.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "from_raw_parts_unchecked_mut.md": {
+        "path": "/sdcard/Download/Raju_Brain/from_raw_parts_unchecked_mut.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "Chunks.md": {
+        "path": "/sdcard/Download/Raju_Brain/Chunks.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "IterMut.md": {
+        "path": "/sdcard/Download/Raju_Brain/IterMut.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "IterOnes.md": {
+        "path": "/sdcard/Download/Raju_Brain/IterOnes.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "IterZeros.md": {
+        "path": "/sdcard/Download/Raju_Brain/IterZeros.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "SplitN.md": {
+        "path": "/sdcard/Download/Raju_Brain/SplitN.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "ops.md": {
+        "path": "/sdcard/Download/Raju_Brain/ops.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "FillStatus.md": {
+        "path": "/sdcard/Download/Raju_Brain/FillStatus.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "FromIterator_BitRef.md": {
+        "path": "/sdcard/Download/Raju_Brain/FromIterator_BitRef.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "Splice.md": {
+        "path": "/sdcard/Download/Raju_Brain/Splice.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "AsMutBits.md": {
+        "path": "/sdcard/Download/Raju_Brain/AsMutBits.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitView.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitView.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "view.md": {
+        "path": "/sdcard/Download/Raju_Brain/view.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "bind_java_type_0_overview.md": {
+        "path": "/sdcard/Download/Raju_Brain/bind_java_type_0_overview.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "jni_str.md": {
+        "path": "/sdcard/Download/Raju_Brain/jni_str.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "documentation.md": {
+        "path": "/sdcard/Download/Raju_Brain/documentation.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "ifma-notes.md": {
+        "path": "/sdcard/Download/Raju_Brain/ifma-notes.md",
+        "size_mb": 0.03,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "parallel-formulas.md": {
+        "path": "/sdcard/Download/Raju_Brain/parallel-formulas.md",
+        "size_mb": 0.02,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "write_volatile.md": {
+        "path": "/sdcard/Download/Raju_Brain/write_volatile.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "slice.md": {
+        "path": "/sdcard/Download/Raju_Brain/slice.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitSlice.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitSlice.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitSliceIndex.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitSliceIndex.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "format.md": {
+        "path": "/sdcard/Download/Raju_Brain/format.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "from_raw_parts_mut.md": {
+        "path": "/sdcard/Download/Raju_Brain/from_raw_parts_mut.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "from_raw_parts_unchecked.md": {
+        "path": "/sdcard/Download/Raju_Brain/from_raw_parts_unchecked.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "RChunksExactMut.md": {
+        "path": "/sdcard/Download/Raju_Brain/RChunksExactMut.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "RChunksMut.md": {
+        "path": "/sdcard/Download/Raju_Brain/RChunksMut.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "RSplit.md": {
+        "path": "/sdcard/Download/Raju_Brain/RSplit.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "RSplitMut.md": {
+        "path": "/sdcard/Download/Raju_Brain/RSplitMut.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "Split.md": {
+        "path": "/sdcard/Download/Raju_Brain/Split.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "SplitInclusive.md": {
+        "path": "/sdcard/Download/Raju_Brain/SplitInclusive.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "SplitInclusiveMut.md": {
+        "path": "/sdcard/Download/Raju_Brain/SplitInclusiveMut.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "SplitMut.md": {
+        "path": "/sdcard/Download/Raju_Brain/SplitMut.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "SplitNMut.md": {
+        "path": "/sdcard/Download/Raju_Brain/SplitNMut.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "Windows.md": {
+        "path": "/sdcard/Download/Raju_Brain/Windows.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "Drain.md": {
+        "path": "/sdcard/Download/Raju_Brain/Drain.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "Extend_BitRef.md": {
+        "path": "/sdcard/Download/Raju_Brain/Extend_BitRef.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "FromIterator_bool.md": {
+        "path": "/sdcard/Download/Raju_Brain/FromIterator_bool.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "IntoIterator.md": {
+        "path": "/sdcard/Download/Raju_Brain/IntoIterator.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "AsBits.md": {
+        "path": "/sdcard/Download/Raju_Brain/AsBits.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "file_sources.md": {
+        "path": "/sdcard/Download/Raju_Brain/file_sources.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "ISSUE_TEMPLATE.md": {
+        "path": "/sdcard/Download/Raju_Brain/ISSUE_TEMPLATE.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "wasm32-development.md": {
+        "path": "/sdcard/Download/Raju_Brain/wasm32-development.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "addr.md": {
+        "path": "/sdcard/Download/Raju_Brain/addr.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "copy_nonoverlapping.md": {
+        "path": "/sdcard/Download/Raju_Brain/copy_nonoverlapping.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "range.md": {
+        "path": "/sdcard/Download/Raju_Brain/range.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "read_unaligned.md": {
+        "path": "/sdcard/Download/Raju_Brain/read_unaligned.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "read_volatile.md": {
+        "path": "/sdcard/Download/Raju_Brain/read_volatile.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "slice_from_raw_parts_mut.md": {
+        "path": "/sdcard/Download/Raju_Brain/slice_from_raw_parts_mut.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "swap.md": {
+        "path": "/sdcard/Download/Raju_Brain/swap.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "swap_nonoverlapping.md": {
+        "path": "/sdcard/Download/Raju_Brain/swap_nonoverlapping.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "write.md": {
+        "path": "/sdcard/Download/Raju_Brain/write.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "write_bits.md": {
+        "path": "/sdcard/Download/Raju_Brain/write_bits.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "from_raw_parts.md": {
+        "path": "/sdcard/Download/Raju_Brain/from_raw_parts.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "ChunksExactMut.md": {
+        "path": "/sdcard/Download/Raju_Brain/ChunksExactMut.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "ChunksMut.md": {
+        "path": "/sdcard/Download/Raju_Brain/ChunksMut.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "NoAlias.md": {
+        "path": "/sdcard/Download/Raju_Brain/NoAlias.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "RChunksExact.md": {
+        "path": "/sdcard/Download/Raju_Brain/RChunksExact.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "RSplitN.md": {
+        "path": "/sdcard/Download/Raju_Brain/RSplitN.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "specialization.md": {
+        "path": "/sdcard/Download/Raju_Brain/specialization.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "threadsafe.md": {
+        "path": "/sdcard/Download/Raju_Brain/threadsafe.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "BitStore.md": {
+        "path": "/sdcard/Download/Raju_Brain/BitStore.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "vec.md": {
+        "path": "/sdcard/Download/Raju_Brain/vec.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "DERIVE.md": {
+        "path": "/sdcard/Download/Raju_Brain/DERIVE.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "RECIPES.md": {
+        "path": "/sdcard/Download/Raju_Brain/RECIPES.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "0.12-to-0.13.md": {
+        "path": "/sdcard/Download/Raju_Brain/0.12-to-0.13.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "0.22-MIGRATION.md": {
+        "path": "/sdcard/Download/Raju_Brain/0.22-MIGRATION.md",
+        "size_mb": 0.03,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "bind_java_type_3_advanced.md": {
+        "path": "/sdcard/Download/Raju_Brain/bind_java_type_3_advanced.md",
+        "size_mb": 0.02,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "jni_mangle.md": {
+        "path": "/sdcard/Download/Raju_Brain/jni_mangle.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "native_method.md": {
+        "path": "/sdcard/Download/Raju_Brain/native_method.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "question.md": {
+        "path": "/sdcard/Download/Raju_Brain/question.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "bug_fix.md": {
+        "path": "/sdcard/Download/Raju_Brain/bug_fix.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "replace.md": {
+        "path": "/sdcard/Download/Raju_Brain/replace.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "span.md": {
+        "path": "/sdcard/Download/Raju_Brain/span.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "write_unaligned.md": {
+        "path": "/sdcard/Download/Raju_Brain/write_unaligned.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "serdes.md": {
+        "path": "/sdcard/Download/Raju_Brain/serdes.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "ChunksExact.md": {
+        "path": "/sdcard/Download/Raju_Brain/ChunksExact.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "RChunks.md": {
+        "path": "/sdcard/Download/Raju_Brain/RChunks.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "RSplitNMut.md": {
+        "path": "/sdcard/Download/Raju_Brain/RSplitNMut.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "store.md": {
+        "path": "/sdcard/Download/Raju_Brain/store.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "Extend_bool.md": {
+        "path": "/sdcard/Download/Raju_Brain/Extend_bool.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "DEBUG.md": {
+        "path": "/sdcard/Download/Raju_Brain/DEBUG.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "UPGRADING.md": {
+        "path": "/sdcard/Download/Raju_Brain/UPGRADING.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "bind_java_type_1_properties.md": {
+        "path": "/sdcard/Download/Raju_Brain/bind_java_type_1_properties.md",
+        "size_mb": 0.03,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "bind_java_type_2_examples.md": {
+        "path": "/sdcard/Download/Raju_Brain/bind_java_type_2_examples.md",
+        "size_mb": 0.02,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "jni_sig.md": {
+        "path": "/sdcard/Download/Raju_Brain/jni_sig.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "msrv.md": {
+        "path": "/sdcard/Download/Raju_Brain/msrv.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "avx2-notes.md": {
+        "path": "/sdcard/Download/Raju_Brain/avx2-notes.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "CORE_RULES.md": {
+        "path": "/sdcard/Download/Raju_Brain/CORE_RULES.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "00_Mobile_Widget_Dashboard.md": {
+        "path": "/sdcard/Documents/SutraBrain/00_Mobile_Widget_Dashboard.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "00_Daily_Vault_Health.md": {
+        "path": "/sdcard/Documents/SutraBrain/00_Daily_Vault_Health.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "Master_Journal_Last_30_Sessions_2026.md": {
+        "path": "/sdcard/Documents/SutraBrain/Master_Journal_Last_30_Sessions_2026.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "00_Mobile_Widget_Setup_Guide.md": {
+        "path": "/sdcard/Documents/SutraBrain/00_Mobile_Widget_Setup_Guide.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "00_Master_Ecosystem_Blueprint_2026.md": {
+        "path": "/sdcard/Documents/SutraBrain/00_Master_Ecosystem_Blueprint_2026.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "00_Operator_Core.md": {
+        "path": "/sdcard/Documents/SutraBrain/00_Operator_Core.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "00_Sutra_Mandala_9x9_Matrix.md": {
+        "path": "/sdcard/Documents/SutraBrain/00_Sutra_Mandala_9x9_Matrix.md",
+        "size_mb": 0.01,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "00_Triage_Queue.md": {
+        "path": "/sdcard/Documents/SutraBrain/00_Triage_Queue.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "00_Vault_Naming_Contract.md": {
+        "path": "/sdcard/Documents/SutraBrain/00_Vault_Naming_Contract.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "00_Daily_Task_Dashboard.md": {
+        "path": "/sdcard/Documents/SutraBrain/00_Daily_Task_Dashboard.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "00_Quick_Inbox.md": {
+        "path": "/sdcard/Documents/SutraBrain/00_Quick_Inbox.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      },
+      "00_Ecosystem_Master_Dashboard.md": {
+        "path": "/sdcard/Documents/SutraBrain/00_Ecosystem_Master_Dashboard.md",
+        "size_mb": 0.0,
+        "status": "INDEXED_PANINIAN_SMRIITI"
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+// SutraOS 3.0 Sovereign Native OS Engine Source
+// Written 100% in SutraLang 3.0 Paninian Syntax
+
+ek Karta engine_name maan "SutraOS 3.0 Sovereign Native OS"
+ek Karta architecture maan "ARM64 Paninian State Machine Engine"
+ek Karta memory_mode maan "Zero-GC Arena Memory Allocator"
+
+Karma boot Karana SutraOSBoot
+Karma telemetry Karana SysTelemetry
+Karma poly_signal Karana PolyQuantGate
+Karma research_vault Karana AnantAnaadiVault
+Karma memory_sync Karana SmritiSync
+Karma scheduler Karana ExpanderScheduler
+Karma page_table Karana NyayaSandbox
+Karma supervisor Karana KshamaSupervisor
+Karma video_engine Karana DrishyaEngine
+Karma event_loop Karana PravahLoop

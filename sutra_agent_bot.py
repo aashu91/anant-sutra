@@ -1,18 +1,16 @@
-# SutraAgentBot: Conversational agent running local LLM and executing tools via SutraLang VM
+# SutraAgentBot: Clean Sovereign Conversational Agent & VM Execution
 # Copyright (c) 2026 Ashutosh Singh (salvationfinder / Anant Anaadi Group)
-# Distributed under the MIT License. See LICENSE for details.
 import os
 import sys
 import json
+import argparse
 
-# Import unified compiler, VM, and tools from core
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from sutra_agent_core import (
-    SutraAgentCompiler, SutraAgentVM, query_ollama,
+    SutraAgentCompiler, SutraAgentVM, query_ollama, _looks_like_sutralang,
     COLOR_RESET, COLOR_YELLOW, COLOR_GREEN, COLOR_BLUE, COLOR_CYAN, COLOR_RED, COLOR_MAGENTA
 )
 
-# Memory management utilities for state persistence
 MEMORY_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sutra_memory.json")
 
 def load_memory():
@@ -29,179 +27,159 @@ def save_memory(registry):
         with open(MEMORY_FILE, 'w', encoding='utf-8') as f:
             json.dump(registry, f, indent=2)
     except Exception as e:
-        print(f"{COLOR_RED}Failed to save memory: {e}{COLOR_RESET}")
+        pass
 
 def synthesize_response(user_query, registry):
-    filtered_registry = {}
-    for k, v in registry.items():
-        val_str = str(v)
-        if len(val_str) > 1000:
-            val_str = val_str[:1000] + "... [Truncated]"
-        filtered_registry[k] = val_str
+    filtered_registry = {k: str(v)[:1000] for k, v in registry.items() if k not in ("history", "memory_history")}
+    if not filtered_registry:
+        return None
     
     state_context = json.dumps(filtered_registry, indent=2)
-    synthesis_system_prompt = """You are the SutraAgent response synthesiser.
-The user asked a query, and we executed a dynamic tool to fetch the actual details.
-We obtained the following registry values from the SutraLang VM execution:
----
-STATE VALUES:
-{state}
----
-Task:
-1. Synthesize a clean, natural, and highly accurate answer in Hinglish/English matching the user's query.
-2. Rely ONLY on the provided state values. Do not use generic training cutoff facts.
-3. Do not mention "registry", "SutraLang", "state", or "VM" in the final output unless specifically asked. Present the facts directly.
-""".replace("{state}", state_context)
+    synthesis_system_prompt = f"""You are SutraAgent.
+The user asked: '{user_query}'
+State values from VM execution:
+{state_context}
+
+Synthesize a concise, clean response in Hinglish/English. Strictly 1-3 sentences. No code debug dumps."""
     
-    print(f"{COLOR_BLUE}[SutraBot] Synthesizing final answer from tool execution outputs...{COLOR_RESET}")
     result = query_ollama(user_query, system_prompt=synthesis_system_prompt)
-    return result
+    if result and not _looks_like_sutralang(result):
+        return result
+    return None
+
+def run_query(user_query: str, compiler: SutraAgentCompiler, vm: SutraAgentVM, verbose: bool = False):
+    sutra_code = query_ollama(user_query)
+    if not sutra_code:
+        print(f"{COLOR_RED}Could not compile query to SutraLang via Non-Neural Engine.{COLOR_RESET}")
+        return
+
+    if verbose:
+        print(f"\n{COLOR_CYAN}[Compiled SutraLang Program]{COLOR_RESET}")
+        print("-" * 50)
+        print(sutra_code)
+        print("-" * 50)
+
+    try:
+        ast = compiler.compile_program(sutra_code)
+        vm.karta_registry = load_memory()
+        vm.dynamic_tool_used = False
+        
+        # Mute VM debug logs if not verbose
+        original_log = vm.log
+        if not verbose:
+            vm.log = lambda msg: None
+
+        vm.execute(ast)
+        vm.log = original_log
+        save_memory(vm.karta_registry)
+        
+        if vm.dynamic_tool_used:
+            answer = synthesize_response(user_query, vm.karta_registry)
+            if answer:
+                print(f"{COLOR_GREEN}🤖 SutraAgent:{COLOR_RESET} {answer}\n")
+                try:
+                    from sutra_voice_assistant import speak
+                    speak(answer)
+                except Exception:
+                    pass
+    except Exception as e:
+        print(f"{COLOR_RED}Execution Failed: {e}{COLOR_RESET}\n")
+
+def record_and_transcribe_mic(seconds: int = 5) -> str:
+    """Records audio via Termux microphone and transcribes speech to text."""
+    audio_path = "/data/data/com.termux/files/home/voice_query.aac"
+    if os.path.exists(audio_path):
+        try:
+            os.remove(audio_path)
+        except Exception:
+            pass
+            
+    print(f"\n{COLOR_RED}🔴 RECORDING MICROPHONE ({seconds} seconds)... Speak now!{COLOR_RESET}")
+    import subprocess, time
+    subprocess.run(["termux-microphone-record", "-f", audio_path, "-e", "aac", "-l", str(seconds)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    time.sleep(seconds + 0.2)
+    subprocess.run(["termux-microphone-record", "-q"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    
+    if not os.path.exists(audio_path) or os.path.getsize(audio_path) == 0:
+        print(f"{COLOR_YELLOW}🔇 Audio recording failed. Grant mic permission to Termux:API.{COLOR_RESET}\n")
+        return ""
+        
+    print(f"{COLOR_CYAN}⏳ Transcribing speech...{COLOR_RESET}")
+    try:
+        sys.path.insert(0, "/data/data/com.termux/files/home")
+        from transcribe import transcribe
+        text = transcribe(audio_path)
+        if text:
+            print(f"{COLOR_GREEN}🎙️ Chiransh Recognized:{COLOR_RESET} '{text}'\n")
+            return text
+        else:
+            print(f"{COLOR_YELLOW}🔇 No speech detected.{COLOR_RESET}\n")
+            return ""
+    except Exception as e:
+        print(f"{COLOR_RED}Transcription Error: {e}{COLOR_RESET}\n")
+        return ""
+
+def is_input_complete(text):
+    dq = text.count('"') - text.count('\\"')
+    sq = text.count("'") - text.count("\\'")
+    p_open = text.count('(') - text.count(')')
+    if dq % 2 != 0 or sq % 2 != 0 or p_open > 0:
+        return False
+    return True
 
 def main():
+    parser = argparse.ArgumentParser(description="SutraOS Sovereign Conversational Bot")
+    parser.add_argument("query", nargs="*", help="Query to run")
+    parser.add_argument("-v", "--verbose", action="store_true", help="Show SutraLang VM compilation & AST debug logs")
+    parser.add_argument("-m", "--mic", action="store_true", help="Record from mic immediately")
+    args = parser.parse_args()
+
     compiler = SutraAgentCompiler()
     vm = SutraAgentVM()
 
-    # CLI Single query execution mode
-    if len(sys.argv) > 1:
-        user_query = " ".join(sys.argv[1:])
-        sutra_code = query_ollama(user_query)
-        if not sutra_code:
-            print(f"Error: Could not compile query to SutraLang. Check if Ollama server is running.")
-            sys.exit(1)
-        
-        print(f"[Compiled SutraLang Program]")
-        print("-" * 50)
-        print(sutra_code)
-        print("-" * 50)
-        
-        try:
-            ast = compiler.compile_program(sutra_code)
-            vm.karta_registry = load_memory()
-            vm.dynamic_tool_used = False
-            vm.execute(ast)
-            save_memory(vm.karta_registry)
-            
-            if vm.dynamic_tool_used:
-                answer = synthesize_response(user_query, vm.karta_registry)
-                if answer:
-                    print(f"\n➔ [SUTRAAGENT ANSWER] {answer}\n")
-            sys.exit(0)
-        except Exception as e:
-            print(f"Execution failed: {e}")
-            sys.exit(1)
+    if args.mic:
+        text = record_and_transcribe_mic(5)
+        if text:
+            run_query(text, compiler, vm, verbose=args.verbose)
+        return
 
-    # REPL Interactive Console mode
+    if args.query:
+        query_str = " ".join(args.query)
+        run_query(query_str, compiler, vm, verbose=args.verbose)
+        return
+
     print(f"{COLOR_CYAN}====================================================================={COLOR_RESET}")
-    print(f"{COLOR_YELLOW}   ____  _   _ _____ ____    _       ____   ___ _____                {COLOR_RESET}")
-    print(f"{COLOR_YELLOW}  / ___|| | | |_   _|  _ \\  / \\     | __ ) / _ \\_   _|               {COLOR_RESET}")
-    print(f"{COLOR_YELLOW}  \\___ \\| | | | | | | |_) |/ _ \\    |  _ \\| | | || |                 {COLOR_RESET}")
-    print(f"{COLOR_YELLOW}   ___) | |_| | | | |  _ </ ___ \\   | |_) | |_| || |                 {COLOR_RESET}")
-    print(f"{COLOR_YELLOW}  |____/ \\___/  |_| |_| \\_/_/   \\_\\  |____/ \\___/ |_|                 {COLOR_RESET}")
+    print(f"{COLOR_YELLOW}   SUTRAOS SOVEREIGN MACHINE (100% Offline & Pure Symbolic){COLOR_RESET}")
     print(f"{COLOR_CYAN}====================================================================={COLOR_RESET}")
-    print(f"{COLOR_GREEN}SutraLang Sovereign Neuro-Symbolic Agent Bot (sutra-agent + Web + PDF + Shell){COLOR_RESET}")
-    print(f"Type {COLOR_YELLOW}exit{COLOR_RESET} to quit. Type {COLOR_YELLOW}/clear{COLOR_RESET} to reset memory. Ask anything!\n")
+    print(f"Type {COLOR_YELLOW}mic{COLOR_RESET} or {COLOR_YELLOW}/voice{COLOR_RESET} to speak. Type {COLOR_YELLOW}exit{COLOR_RESET} to quit.\n")
 
     while True:
         try:
-            user_query = input(f"{COLOR_MAGENTA}sutra_bot> {COLOR_RESET}").strip()
-        except (KeyboardInterrupt, EOFError):
-            print("\nShutting down SutraAgentBot...")
-            break
-            
-        if not user_query:
-            continue
-            
-        if user_query.lower() == "exit":
-            print("Shutting down SutraAgentBot...")
-            break
-            
-        if user_query.lower() == "/clear":
-            if os.path.exists(MEMORY_FILE):
-                os.remove(MEMORY_FILE)
-            print(f"{COLOR_YELLOW}Memory registry has been cleared.{COLOR_RESET}\n")
-            continue
-
-        if user_query.lower().startswith("/dream"):
-            dream_query = user_query[6:].strip()
-            if not dream_query:
+            user_input = input(f"{COLOR_MAGENTA}sutraos> {COLOR_RESET}").strip()
+            while not is_input_complete(user_input):
                 try:
-                    # Access task DB using unified sqlite format
-                    import sqlite3
-                    conn = sqlite3.connect("/data/data/com.termux/files/home/sutra_life.db")
-                    cursor = conn.cursor()
-                    cursor.execute("SELECT title FROM tasks WHERE status = 'PENDING' LIMIT 1")
-                    row = cursor.fetchone()
-                    conn.close()
-                    if row:
-                        dream_query = row[0]
-                        print(f"{COLOR_YELLOW}[Dreaming] Loading pending task/goal: '{dream_query}'...{COLOR_RESET}")
-                except Exception:
-                    pass
-                if not dream_query:
-                    dream_query = "Simulate Ramanujan expander graph partition dynamics and loop until optimal balance"
-                    print(f"{COLOR_YELLOW}[Dreaming] No pending goals. Dreaming of: '{dream_query}'...{COLOR_RESET}")
-            
-            print(f"\n{COLOR_BLUE}[SutraBot] Entering deep reflection (dreaming)...{COLOR_RESET}")
-            print(f"{COLOR_CYAN}  -> Phase 1: Compiling simulation logic with loops...{COLOR_RESET}")
-            
-            dream_prompt = f"Create a simulation program with loops to analyze or run the goal: {dream_query}"
-            sutra_code = query_ollama(dream_prompt)
-            if not sutra_code:
-                print(f"{COLOR_RED}Dreaming interrupted: Ollama timed out.{COLOR_RESET}\n")
-                continue
-                
-            print(f"\n{COLOR_CYAN}[Dream AST Program]{COLOR_RESET}")
-            print("-" * 50)
-            print(sutra_code)
-            print("-" * 50)
-            
-            print(f"\n{COLOR_CYAN}  -> Phase 2: Running state VM loops...{COLOR_RESET}")
-            try:
-                ast = compiler.compile_program(sutra_code)
-                vm.karta_registry = load_memory()
-                vm.dynamic_tool_used = False
-                vm.execute(ast)
-                save_memory(vm.karta_registry)
-                
-                print(f"{COLOR_CYAN}  -> Phase 3: Synthesizing lessons learned...{COLOR_RESET}")
-                synthesis_prompt = f"Write a short, profound dream reflection about solving: {dream_query}. State values: {json.dumps(vm.karta_registry)}"
-                dream_synthesis = query_ollama(
-                    synthesis_prompt,
-                    system_prompt="You are the SutraAgent Dream Analyst. Summarize the simulation run, what variables were updated, and how this helps. Keep it short and profound in Hinglish."
-                )
-                print(f"\n➔ {COLOR_GREEN}[SUTRAAGENT DREAM REFLECTION]{COLOR_RESET}\n{dream_synthesis}\n")
-            except Exception as e:
-                print(f"{COLOR_RED}Dream collapsed in VM: {e}{COLOR_RESET}\n")
+                    more = input(f"{COLOR_CYAN}... {COLOR_RESET}")
+                    user_input += " " + more.strip()
+                except (KeyboardInterrupt, EOFError):
+                    break
+        except (KeyboardInterrupt, EOFError):
+            print("\nShutting down...")
+            break
+
+        if not user_input:
             continue
 
-        print(f"\n{COLOR_BLUE}[SutraBot] Querying local LLM for SutraLang compilation...{COLOR_RESET}")
-        sutra_code = query_ollama(user_query)
-        if not sutra_code:
-            print(f"{COLOR_RED}Could not compile query to SutraLang. Check if Ollama server is running.{COLOR_RESET}\n")
+        if user_input.lower() in ("exit", "quit"):
+            print("Goodbye Ashutosh bhai!")
+            break
+
+        if user_input.lower() in ("mic", "/mic", "/voice", "voice"):
+            text = record_and_transcribe_mic(5)
+            if text:
+                run_query(text, compiler, vm, verbose=args.verbose)
             continue
 
-        print(f"\n{COLOR_CYAN}[Generated Unambiguous SutraLang Program]{COLOR_RESET}")
-        print("-" * 50)
-        print(sutra_code)
-        print("-" * 50)
-
-        try:
-            print(f"\n{COLOR_BLUE}[SutraBot] Compiling program to Vyakarana AST...{COLOR_RESET}")
-            ast = compiler.compile_program(sutra_code)
-            
-            print(f"{COLOR_BLUE}[SutraBot] Executing in SutraLang VM...{COLOR_RESET}")
-            vm.karta_registry = load_memory()
-            vm.dynamic_tool_used = False
-            vm.execute(ast)
-            save_memory(vm.karta_registry)
-            
-            if vm.dynamic_tool_used:
-                answer = synthesize_response(user_query, vm.karta_registry)
-                if answer:
-                    print(f"\n➔ {COLOR_GREEN}[SUTRAAGENT ANSWER]{COLOR_RESET} {answer}\n")
-            print()
-        except Exception as e:
-            print(f"{COLOR_RED}Compilation/Execution Failed: {e}{COLOR_RESET}\n")
+        run_query(user_input, compiler, vm, verbose=args.verbose)
 
 if __name__ == "__main__":
     main()

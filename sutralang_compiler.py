@@ -18,24 +18,25 @@ class SutraCompiler:
         line = re.sub(r'(\b(?:variable\s+banao|variable|banao\s+variable|print|show|darshan|dikhao|jab\s+tak|while)\s+)"([a-zA-Z0-9_]+)"', r'\1\2', line, flags=re.IGNORECASE)
         line = re.sub(r'"([a-zA-Z0-9_]+)"(\s+(?:ko|me|se|aur|value|maan|with|as|sum|difference|product|division|concatenation)\b)', r'\1\2', line, flags=re.IGNORECASE)
 
+        STRING_VAL_PATTERN = r'(?:"(?:[^"\\]|\\.)*")|[\w\d]+'
         match_create = re.search(
-            r'ek\s+variable\s+banao\s+(\w+)\s+(?:value|maan)\s+((?:"[^"]*")|[\w\d]+)',
+            r'ek\s+variable\s+banao\s+(\w+)\s+(?:value|maan)\s+(' + STRING_VAL_PATTERN + r')',
             line, re.IGNORECASE
         ) or re.search(
-            r'create\s+variable\s+(\w+)\s+with\s+(?:value|maan)\s+((?:"[^"]*")|[\w\d]+)',
+            r'create\s+variable\s+(\w+)\s+with\s+(?:value|maan)\s+(' + STRING_VAL_PATTERN + r')',
             line, re.IGNORECASE
         ) or re.search(
-            r'banao\s+variable\s+(\w+)\s+(?:value|maan)\s+((?:"[^"]*")|[\w\d]+)',
+            r'banao\s+variable\s+(\w+)\s+(?:value|maan)\s+(' + STRING_VAL_PATTERN + r')',
             line, re.IGNORECASE
         ) or re.search(
-            r'ek\s+variable\s+(\w+)\s+(?:value|maan)\s+((?:"[^"]*")|[\w\d]+)',
+            r'ek\s+variable\s+(\w+)\s+(?:value|maan)\s+(' + STRING_VAL_PATTERN + r')',
             line, re.IGNORECASE
         )
         if match_create:
             name = match_create.group(1)
             val_str = match_create.group(2)
             if val_str.startswith('"') and val_str.endswith('"'):
-                val = val_str[1:-1]
+                val = val_str[1:-1].replace('\\"', '"').replace('\\\\', '\\')
             else:
                 try:
                     val = int(val_str)
@@ -132,7 +133,22 @@ class SutraCompiler:
             if groups:
                 return {"Kriya": "Darshanam", "Karma": groups[0]}
 
+
+        # Pattern 5: Astra Subagent Kinetic Video Synthesizer (Astra)
+        match_astra = re.search(r'(\w+)\s+ko\s+(\w+)\s+(?:se|se\s+banao)\s+astra', line, re.IGNORECASE) or \
+                      re.search(r'generate\s+astra\s+(\w+)\s+with\s+(\w+)', line, re.IGNORECASE) or \
+                      re.search(r'(\w+)\s+ko\s+astra\s+se\s+banao', line, re.IGNORECASE) or \
+                      re.search(r'(\w+)\s+ko\s+(\w+)\s+se\s+banao\s+astra', line, re.IGNORECASE)
+        if match_astra:
+            groups = [g for g in match_astra.groups() if g is not None]
+            if len(groups) >= 2:
+                return {"Kriya": "Astra", "Karma": groups[0], "Karana": groups[1], "Maan": 4}
+            elif len(groups) == 1:
+                return {"Kriya": "Astra", "Karma": groups[0], "Karana": "yantra", "Maan": 4}
+
         return None
+
+
 
     def compile_program(self, text):
         lines = text.split("\n")

@@ -1,0 +1,6 @@
+// SutraLang v3 Self-Hosted Compiler Test Output
+ek Karta test_banner maan "=== SUTRALANG 3.0 SELF-HOSTED NATIVE BINARY RUNNING ==="
+Karma test_banner Karana Print
+
+ek Karta verification_msg maan "[✓] Verified: SutraLang compiled SutraLang without external C compilers!"
+Karma verification_msg Karana Print

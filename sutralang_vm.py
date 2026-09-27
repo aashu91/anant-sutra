@@ -84,7 +84,10 @@ class SutraVM:
         karma = step.get("Karma")
         if karma in self.karta_registry:
             val = self.karta_registry[karma]
-            print(f"\n➔ \033[92m[DARSHANAM OUTPUT]\033[0m {karma} = {val}\n")
+            if isinstance(val, str) and len(val) > 10 and " " in val:
+                print(f"\n➔ \033[92m[DARSHANAM OUTPUT]\033[0m {val}\n")
+            else:
+                print(f"\n➔ \033[92m[DARSHANAM OUTPUT]\033[0m {karma} = {val}\n")
         else:
             s = str(karma)
             if s.startswith('"') and s.endswith('"'):
@@ -136,7 +139,23 @@ class SutraVM:
         if val2 == 0:
             raise ZeroDivisionError("Division by zero in Bhagaphalam.")
         self.karta_registry[karta] = val1 // val2
-        self.log(f"Bhagaphalam: Set '{karta}' to {val1} / {val2} = {self.karta_registry[karta]}")
+        self.log(f"Bhagaphalam: Set '{karta}' to {val1} // {val2} = {self.karta_registry[karta]}")
+
+    # 10. Astra (अस्त्र) - Kinetic Video Synthesizer Kriya
+    def kriya_astra(self, step):
+        from sutra_astra_engine import AstraEngine
+        karma = step.get("Karma", "sutra_astra_render.mp4")
+        karana = step.get("Karana", "yantra")
+        duration = self.resolve_value(step.get("Maan", 4)) or 4
+        
+        output_file = str(karma)
+        if not output_file.endswith(".mp4"):
+            output_file += ".mp4"
+            
+        astra = AstraEngine(width=1080, height=1920, fps=30)
+        res_file = astra.render_video(visual_type=str(karana), duration_sec=duration, output_file=output_file)
+        self.karta_registry[karma] = res_file
+        self.log(f"\033[92mAstra: Generated Sovereign Video '{karma}' -> {res_file}\033[0m")
 
     # 10. Sandh (String Join)
     def kriya_sandh(self, step):

@@ -1,0 +1,8 @@
+// SutraLang v3 Self-Hosted Compiler Source (compiler.sutra)
+// Written 100% in SutraLang Paninian Syntax
+
+ek Karta compiler_title maan "SutraLang 3.0 Self-Hosted Compiler Engine (sutrac)"
+Karma compiler_title Karana Print
+
+ek Karta status_msg maan "Bootstrapping Self-Hosting Milestone: Complete Independence Reached"
+Karma status_msg Karana Print

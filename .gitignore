@@ -1,5 +1,21 @@
 # Compiled binaries
 sutra
+sutrac
+sutraos
+sutrapak
+*_bin
+*_out
+test_phase1
+test_phase3
+test_phase5
+sutra_verify
+sutrac_boot
+sutrac_banner_bin
+
+# Media & Large Files
+*.mp4
+*.png
+*.db
 
 # Python cache
 __pycache__/
@@ -18,7 +34,10 @@ rules_db/
 .swans_stamps.json
 backtest_results.json
 sutra_memory.json
+sutra_autonomous.log
 temp.sutra
 temp_workspace/
 helpdesk_workspace/
 darshana/
+.sutrachain/
+

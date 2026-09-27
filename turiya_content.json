@@ -1,0 +1,41 @@
+{
+  "2026-07-22": [
+    {
+      "post_idx": 1,
+      "topic": "Geopolitics: Truth Behind the Border Satellite Imagery",
+      "verdict": "debunked",
+      "slides": [
+        {
+          "type": "cover",
+          "title": "GEOPOLITICAL MYTH EXPOSED",
+          "subtitle": "Truth Behind the Border Satellite Imagery",
+          "tagline": "TURIYA.WORLD FACT CHECK"
+        },
+        {
+          "type": "claim",
+          "title": "The Misleading Claim",
+          "body": "A viral post claims that satellite images show a new troop build-up near the disputed border region. The post has garnered over 2.4 million views, creating high diplomatic tensions. But is it real?",
+          "source": "Viral social media posts & media accounts"
+        },
+        {
+          "type": "osint",
+          "title": "OSINT Investigation",
+          "body": "Using public satellite archives and geolocation data, we matched the landscape features. The coordinate details reveal:\n1. The image is actually from a military training exercise in 2021.\n2. The geographic coordinates place it 150km away from the active border line.\n3. Reverse image mapping confirms the original publisher.",
+          "proof": "Geolocation details: 34.256° N, 78.432° E"
+        },
+        {
+          "type": "nyaya",
+          "title": "Nyaya Logical Syllogism",
+          "syllogism": "Pratijna: The viral border image is misleading.\nHetu: Because it shows coordinate metadata and terrain matching a 2021 exercise.\nUdaharana: Any image containing metadata of a past exercise represents historical state, not current build-up.\nUpanaya: This image is historical.\nNigamana: Therefore, the claim of current build-up is false."
+        },
+        {
+          "type": "verdict",
+          "title": "The Final Verdict",
+          "verdict_status": "debunked",
+          "body": "The narrative of immediate escalation is entirely fabricated. Do not share unverified rumors. Real intelligence requires systematic verification.",
+          "cta": "Seek Truth. Reject Rumors. | turiya.world"
+        }
+      ]
+    }
+  ]
+}

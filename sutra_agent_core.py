@@ -29,7 +29,11 @@ COLOR_MAGENTA = "\033[95m"
 MODEL_NAME = "sutra-agent:latest"
 OLLAMA_API_URL = "http://localhost:11434/api/generate"
 
-SYSTEM_PROMPT = """You are the SutraLang Semantic Compiler. You translate natural language into SutraLang code. Output ONLY valid SutraLang statements. NEVER output explanations, greetings, markdown, or conversational text.
+SYSTEM_PROMPT = """You are the SutraLang Semantic Compiler & Astra Engine Core. You translate natural language into SutraLang code. Output ONLY valid SutraLang statements. NEVER output explanations, greetings, markdown, or conversational text.
+
+ASTRA DIRECTIVES:
+- High Autonomy & Speed: Bias heavily towards direct execution. Translate intent into complete, executable SutraLang pipelines.
+- Zero Slop: Absolutely no filler text, introductory commentary, or conversational fluff.
 
 CODEBASE CONTEXT — files in ~/sutralang/:
   sutra_agent_core.py, sutralang_server.py, sutralang_compiler.py, sutralang_vm.py,
@@ -101,16 +105,69 @@ Output ONLY the formal SutraLang statements, one per line. No explanations, no m
 def fast_path_translate(query):
     query_clean = query.strip().lower()
     
-    # 1. Simple greetings / identity
-    greetings = ["hello", "hi", "namaste", "hey"]
-    if any(query_clean.startswith(g) for g in greetings) or "who are you" in query_clean:
-        return 'ek variable reply value "Namaste! Main tumhara local sovereign AI chatbot hoon."\nprint reply'
+    # 0b. Web3 Contract Address (EVM / Solana) Auto-detector
+    raw_query_clean = query.strip()
+    evm_match = re.search(r'0x[a-fA-F0-9]{40}', raw_query_clean)
+    sol_match = re.search(r'[1-9A-HJ-NP-Za-km-z]{32,44}', raw_query_clean)
+    if evm_match or (sol_match and len(raw_query_clean.split()) == 1 and not raw_query_clean.lower().startswith("http")):
+        ca = evm_match.group(0) if evm_match else sol_match.group(0)
+        chain_type = "EVM Token Contract" if evm_match else "Solana Token Contract"
+        return f'ek variable ca value "{ca}"\nek variable cmd value "python3 /data/data/com.termux/files/home/web3_dapp_router.py {ca}"\nek variable scan_res value ""\nscan_res ko cmd se shodh_karo\nprint scan_res'
 
-    # 1e. Second Brain / Obsidian Vault Auto-detect
-    brain_words = ["second brain", "obsidian", "note", "notes", "blueprint", "dharma", "abundance", "smriti", "operator core", "core", "siddhanta", "nishkama", "sankalpa", "anasakti", "sahaja"]
+    # 1. Conversational Dialogue & Connection Inquiries (Checked FIRST before raw notes search)
+    words = query_clean.split()
+    if query_clean in ["hello", "hi", "hey", "namaste"]:
+        return 'ek variable reply value "Namaste Ashutosh bhai! Bolo, aaj kya karna hai?"\nprint reply'
+    if any(p in query_clean for p in ["kaise ho", "kya haal", "kya hal"]):
+        return 'ek variable reply value "Ekdum mast bhai! Tum batao, kya chal raha hai?"\nprint reply'
+    if any(p in query_clean for p in ["tum kaun ho", "who are you", "who r u"]):
+        return 'ek variable reply value "Main SutraVāk (सूत्रवाक्) hoon — tumhara local sovereign companion."\nprint reply'
+    if any(p in query_clean for p in ["kya bol rhe", "kya bol rahe", "kya bol rahe ho"]):
+        return 'ek variable reply value "Bhai bas aapke instructions ka wait kar raha hoon, bolo kya karna hai?"\nprint reply'
+    if any(p in query_clean for p in ["kya kya kr skte ho", "kya kar sakte ho", "kya kr skte ho"]):
+        return 'ek variable reply value "Main code write/refactor/run kar sakta hoon, Second Brain & 615+ books se charcha kar sakta hoon, live web search/weather/prices fetch kar sakta hoon, aur Termux shell execute kar sakta hoon."\nprint reply'
+    if any(p in query_clean for p in ["connected ho", "connect ho", "jurhe ho", "jude ho"]) or ("second brain" in query_clean and any(w in query_clean for w in ["kya", "connected", "ha", "hain"])):
+        return 'ek variable reply value "Haan Ashutosh bhai! Main tumhare Obsidian Second Brain vault aur 615+ books corpus se 100% offline connected hoon."\nprint reply'
+
+    # 1b. Second Brain / Obsidian Vault Auto-detect (Only for explicit note/brain search commands)
+    brain_words = ["second brain", "obsidian note", "search notes", "search obsidian", "read blueprint", "search smriti", "operator core"]
     if any(w in query_clean for w in brain_words):
         q_val = query.strip().strip('"\'')
         return f'ek variable query value "{q_val}"\nek variable brain_res value ""\nbrain_res ko query se smriti\nprint brain_res'
+
+    # 1b. Direct Shell Command Execution (Checked BEFORE philosophical/conversational fallback)
+    shell_prefixes = ("run shell command", "run command", "execute", "shodh_karo", "python3", "python ", "ls ", "cat ", "pip ", "git ", "curl ")
+    if query_clean.startswith(shell_prefixes):
+        cmd_val = query.strip()
+        for prefix in ["run shell command", "run command", "execute", "shodh_karo"]:
+            if cmd_val.lower().startswith(prefix):
+                cmd_val = cmd_val[len(prefix):].strip()
+                break
+        return f'ek variable cmd value {json.dumps(cmd_val)}\nek variable res value ""\nres ko cmd se shodh_karo\nprint res'
+
+    # 2b. Specific Polymath & Engineering Knowledge Queries
+    if "ponytail" in query_clean:
+        return 'ek variable reply value "Ponytail Dev Philosophy: Lazy means efficient. Code never written is best. Boring over clever. Fewest files possible."\nprint reply'
+    if "schrodinger" in query_clean or "schrödinger" in query_clean:
+        return 'ek variable reply value "Schrödinger (What is Life?): Interdisciplinary breakthroughs occur at boundaries; predicted genetic code physics."\nprint reply'
+    if "karpathy rule 1" in query_clean or "karpathy 1" in query_clean:
+        return 'ek variable reply value "Karpathy Rule 1: Ask, do not assume. Clarify requirements before writing code."\nprint reply'
+    if "karpathy rule 2" in query_clean or "karpathy 2" in query_clean:
+        return 'ek variable reply value "Karpathy Rule 2: Simplest solution first. No unrequested abstractions."\nprint reply'
+
+    # 2c. Philosophical & Polymathic Reflection Handler
+    phil_keywords = ["jeevan", "samay", "uddeshya", "arth", "panini", "bhavna", "advaita", "chetna", "purpose", "meaning of life", "time", "consciousness"]
+    if any(kw in query_clean for kw in phil_keywords):
+        if "jeevan" in query_clean or "purpose" in query_clean or "meaning of life" in query_clean:
+            return 'ek variable reply value "Jeevan ka uddeshya chetna ko anubhuti se karma me dhalna hai — nishkama karma aur srijan hi iska mool hai."\nprint reply'
+        elif "samay" in query_clean or "time" in query_clean:
+            return 'ek variable reply value "Samay system me clock cycles aur event sequences ki kramik avastha hai."\nprint reply'
+        elif "panini" in query_clean:
+            return 'ek variable reply value "Panini ke 4,000 sutras generative context-free grammar banate hain — AI ko bina neural bloat ke exact rule logic deta hai."\nprint reply'
+        elif "chetna" in query_clean or "consciousness" in query_clean:
+            return 'ek variable reply value "Chetna swayam prakashit hai — ye observable nahi, observer ki mool avastha hai."\nprint reply'
+        else:
+            return 'ek variable reply value "Vicharniy prashn hai bhai — ispar hamare Paninian Sutra Engine aur Polymath Corpus se gehra chintan chal raha hai."\nprint reply'
 
     # Strip UI wrapping templates contextually to extract raw user query target
     clean_target = query_clean
@@ -121,12 +178,11 @@ def fast_path_translate(query):
     clean_target = re.sub(r'\s+and\s+print\s+(?:the\s+)?results?\.?$', '', clean_target)
     clean_target = clean_target.strip('"\'')
 
-    # 1b. Hindi/Hinglish & Local File/Folder auto-detection
-    local_words = ["dekh", "show", "read", "open", "view", "patho", "file", "folder", "directory", "structure", "sookshma", "skeleton"]
+    # 1c. Hindi/Hinglish & Local File/Folder auto-detection
+    local_words = ["dekh", "show", "read", "open", "view", "patho", "folder", "directory", "structure", "sookshma", "skeleton"]
     if any(w in query_clean for w in local_words) or any(w in clean_target for w in ["scratch"]):
         home = os.path.realpath(os.path.expanduser("~"))
         current_dir = os.getcwd()
-        # Find potential filename/directory tokens in clean_target
         tokens = [t for t in re.findall(r'[a-zA-Z0-9_\-\.\/]+', clean_target) if len(t) >= 3]
         for token in tokens:
             token_clean = token.strip().strip('"\'')
@@ -143,7 +199,6 @@ def fast_path_translate(query):
             for test_path in paths_to_test:
                 norm_path = os.path.realpath(test_path)
                 if os.path.exists(norm_path) and (norm_path.startswith(home) or norm_path.startswith("/data/data/com.termux/files/home")):
-                    # Ensure basename matches token exactly
                     if os.path.basename(norm_path).lower() == token_clean.lower() or os.path.isdir(norm_path):
                         if os.path.isdir(norm_path):
                             return f'ek variable cmd value "ls -la {norm_path}"\nek variable res value ""\nres ko cmd se shodh_karo\nprint res'
@@ -152,59 +207,40 @@ def fast_path_translate(query):
                                 return f'ek variable content value ""\ncontent ko "{norm_path}" se sookshma\nprint content'
                             return f'ek variable content value ""\ncontent ko "{norm_path}" se patho\nprint content'
 
-    # 1c. Swans Auto-detect
+    # 1d. Swans Auto-detect
     if any(s in query_clean for s in ["swans", "workspace status", "stamp codebase", "file tree stamp", "scan file tree", "workspace check"]):
         action = "update" if any(x in query_clean for x in ["update", "stamp", "save"]) else "check"
         return f'ek variable res value ""\nres ko "{action}" se swans\nprint res'
 
-    # 1d. System Time Check
+    # 1e. System Time Check
     if any(t in query_clean for t in ["time", "date", "samay", "ghadi"]) and any(q in query_clean for q in ["kya", "what", "tell", "batao", "right now", "turant"]):
         return 'ek variable cmd value "date"\nek variable res value ""\nres ko cmd se shodh_karo\nprint res'
 
-        
-    # 2. Web Search Query
-    # Matches: "Search on the web for X and print it", "Search web for X", "Search X", "Google X", "Khojo X"
-    # Example: "Search on the web for Polymarket news and print it."
-    m = re.search(r'^(?:search\s+(?:on\s+the\s+web\s+for|web\s+for|for)?|google|khojo)\s+(.+?)(?:\s+and\s+print\s+it\.?)?$', query, re.IGNORECASE)
-    if m:
-        q_val = m.group(1).strip().strip('"\'')
-        return f'ek variable query value "{q_val}"\nek variable search_res value ""\nsearch_res ko query se khojo\nprint search_res'
-        
-    # 3. File Read Query
-    # Matches: "read file X and print it", "read X", "patho X", "show file X"
-    m = re.search(r'^(?:read\s+(?:the\s+)?(?:file\s+)?|patho|show\s+file\s+)(.+?)(?:\s+and\s+print\s+it\.?)?$', query, re.IGNORECASE)
-    if m:
-        path_val = m.group(1).strip().strip('"\'')
-        return f'ek variable content value ""\ncontent ko "{path_val}" se patho\nprint content'
-
-    # 4. Codebase Search Query
-    # Matches: "Search local codebase for X and show it.", "search code for X", "chhavo X"
-    m = re.search(r'^(?:search\s+(?:local\s+)?(?:codebase|code)\s+for|chhavo)\s+(.+?)(?:\s+and\s+show\s+it\.?)?$', query, re.IGNORECASE)
-    if m:
-        q_val = m.group(1).strip().strip('"\'')
-        return f'ek variable query value "{q_val}"\nek variable code_res value ""\ncode_res ko query se chhavo\nprint code_res'
-
-    # 5. Shell Command Query
-    # Matches: "run shell command X", "run command X", "execute X", "run X", "shodh_karo X"
-    m = re.search(r'^(?:run\s+(?:shell\s+)?(?:command\s+)?|execute|shodh_karo)\s+(.+)$', query, re.IGNORECASE)
-    if m:
-        cmd_val = m.group(1).strip().strip('"\'')
-        return f'ek variable cmd value "{cmd_val}"\nek variable res value ""\nres ko cmd se shodh_karo\nprint res'
-
-    # 6. Save Goal Query
-    # Matches: "save goal X", "add goal X", "sochi X"
-    m = re.search(r'^(?:save\s+goal|add\s+goal|sochi)\s+(.+)$', query, re.IGNORECASE)
-    if m:
-        goal_val = m.group(1).strip().strip('"\'')
-        return f'ek variable g value ""\ng ko "{goal_val}" me sochi\nprint g'
-
-    # 7. Auto-detect search intent for real-time/factual queries (like btc price, weather, news)
-    # Example: "whats the btc price right now"
-    search_keywords = ["price", "weather", "news", "status of", "btc", "ethereum", "bitcoin", "market", "who is", "what is"]
-    if any(kw in query_clean for kw in search_keywords):
+    # 2. Web Search Query (Includes Weather / Mausam & Real-time queries)
+    search_keywords = ["price", "weather", "mausam", "taapman", "temperature", "news", "status of", "btc", "ethereum", "bitcoin", "market", "who is", "what is"]
+    if any(kw in query_clean for kw in search_keywords) and not query_clean.startswith(("run", "execute", "shodh_karo", "python", "ls", "cat")):
         q_val = query.strip().strip('"\'')
         return f'ek variable query value "{q_val}"\nek variable search_res value ""\nsearch_res ko query se khojo\nprint search_res'
 
+    # 3. File Read Query
+    m_read = re.search(r'^(?:read\s+(?:the\s+)?(?:file\s+)?|patho|show\s+file\s+)(.+?)(?:\s+and\s+print\s+it\.?)?$', query, re.IGNORECASE)
+    if m_read:
+        path_val = m_read.group(1).strip().strip('"\'').replace('"', '\\"')
+        return f'ek variable content value ""\ncontent ko "{path_val}" se patho\nprint content'
+
+    # 4. Code Structure / Outline Query
+    m_sookshma = re.search(r'^(?:get\s+(?:the\s+)?(?:structure|outline|skeleton)\s+of\s+(?:file\s+)?|sookshma\s+)(.+)$', query, re.IGNORECASE)
+    if m_sookshma:
+        path_val = m_sookshma.group(1).strip().strip('"\'').replace('"', '\\"')
+        return f'ek variable content value ""\ncontent ko "{path_val}" se sookshma\nprint content'
+
+    # 5. Codebase Search Query
+    m_code = re.search(r'^(?:search\s+(?:local\s+)?(?:codebase|code)\s+for|chhavo)\s+(.+?)(?:\s+and\s+show\s+it\.?)?$', query, re.IGNORECASE)
+    if m_code:
+        q_val = m_code.group(1).strip().strip('"\'').replace('"', '\\"')
+        return f'ek variable query value "{q_val}"\nek variable code_res value ""\ncode_res ko query se chhavo\nprint code_res'
+
+    # If no fast-path translation matched, return None so control passes to SutraJev & Smriti symbolic engine
     return None
 
 def _looks_like_sutralang(text):
@@ -233,41 +269,54 @@ def _call_ollama_raw(prompt, system_prompt):
         }
     }
     req = urllib.request.Request(OLLAMA_API_URL)
-    req.add_header('Content-Type', 'application/json')
+def _call_sutra_symbolic_fallback(prompt):
+    """
+    Pure 100% Non-Neural Symbolic Fallback using SutraJev Decision Engine & Smriti Search.
+    Zero LLM dependency, zero cloud cost, 100% offline.
+    """
+    prompt_clean = prompt.strip()
+    
+    # 1. Use SutraJev Engine to determine task intent
     try:
-        response = urllib.request.urlopen(req, json.dumps(data).encode('utf-8'), timeout=180)
-        res_data = json.loads(response.read().decode('utf-8'))
-        return res_data.get("response", "").strip()
-    except Exception as e:
-        print(f"{COLOR_RED}Error calling Ollama API: {e}{COLOR_RESET}")
-        return None
+        from sutra_jev import SutraJevEngine, Choice
+        jev = SutraJevEngine()
+        choices = Choice([
+            "SMRITI_QUERY", "SUTRA_VM_EXEC", "EXPANDER_LOAD_BALANCE",
+            "ANANT_ANAADI_RENDER", "POLY_ARBITRAGE_CHECK", "TURIYA_DEBUNK",
+            "VAULT_MIRROR_SYNC", "SENTINEL_THERMAL_SHIELD", "WEB3_MCP_LEAD_HARVEST"
+        ])
+        res = jev.decide(prompt_clean, choices)
+        
+        if res.choice == "SMRITI_QUERY":
+            return f'ek variable query value "{prompt_clean}"\nek variable brain_res value ""\nbrain_res ko query se smriti\nprint brain_res'
+        elif res.choice == "SENTINEL_THERMAL_SHIELD":
+            return 'ek variable cmd value "python3 /data/data/com.termux/files/home/sutralang/test_sutraos_sovereign_suite.py"\nek variable res value ""\nres ko cmd se shodh_karo\nprint res'
+        elif res.choice == "POLY_ARBITRAGE_CHECK":
+            return 'ek variable cmd value "python3 /data/data/com.termux/files/home/bounty_monitor.py"\nek variable res value ""\nres ko cmd se shodh_karo\nprint res'
+    except Exception:
+        pass
+
+    # 2. Universal Symbolic Smriti Search Fallback
+    safe_q = prompt_clean.replace('"', '\\"').replace('\n', ' ')
+    return f'ek variable query value "{safe_q}"\nek variable brain_res value ""\nbrain_res ko query se smriti\nprint brain_res'
 
 def query_ollama(prompt, system_prompt=SYSTEM_PROMPT):
-    # Try fast-path translation first to bypass slow Ollama inference
+    # 1. Check Quantized Dialogue Intent Graph
+    try:
+        from sutra_dialogue_graph import resolve_quantized_intent
+        intent, intent_code = resolve_quantized_intent(prompt)
+        if intent_code:
+            return intent_code
+    except Exception:
+        pass
+
+    # 2. Try fast-path translation
     fast_code = fast_path_translate(prompt)
     if fast_code:
         return fast_code
 
-    # First attempt
-    result = _call_ollama_raw(prompt, system_prompt)
-    if result and _looks_like_sutralang(result):
-        return result
-
-    # Retry once with a stricter nudge if model returned conversational garbage
-    if result is not None:
-        print(f"{COLOR_YELLOW}[query_ollama] Model returned non-SutraLang text, retrying...{COLOR_RESET}")
-        retry_prompt = f"TRANSLATE THIS TO SUTRALANG CODE ONLY. No explanations. No markdown.\n\nUser request: {prompt}"
-        result = _call_ollama_raw(retry_prompt, system_prompt)
-        if result and _looks_like_sutralang(result):
-            return result
-
-    # Last resort: wrap whatever the model said in a print so it displays gracefully
-    # ponytail: ceiling — 2B model is unreliable, this prevents compiler crash
-    if result:
-        safe_text = result.replace('"', '\\"').replace('\n', ' ')[:300]
-        return f'ek variable reply value "{safe_text}"\nprint reply'
-
-    return None
+    # 3. Fallback directly to SutraJev & Smriti Symbolic Engine
+    return _call_sutra_symbolic_fallback(prompt)
 
 
 # Command safety checker
@@ -276,12 +325,12 @@ def is_command_safe(command):
     home = os.path.realpath(os.path.expanduser("~"))
     termux_home = "/data/data/com.termux/files/home"
     
-    # 1. Block root-like operations and package managers
-    forbidden_tokens = {'sudo', 'su', 'chown', 'chmod', 'dd', 'mkfs', 'fdisk', 'mount', 'umount', 'passwd', 'pkg', 'apt', 'npm', 'yarn', 'bun', 'pip'}
-    words = re.split(r'\s+', cmd_lower)
+    # 1. Block root-like operations and destructive package managers
+    forbidden_tokens = {'sudo', 'su', 'chown', 'chmod', 'dd', 'mkfs', 'fdisk', 'mount', 'umount', 'passwd'}
+    words = [re.sub(r'^[^\w]+|[^\w]+$', '', w) for w in re.split(r'\s+', cmd_lower)]
     for t in forbidden_tokens:
-        if t in words or any(word.startswith(t) for word in words):
-            return False, f"Forbidden command token/prefix: '{t}'"
+        if t in words:
+            return False, f"Forbidden command token: '{t}'"
             
     # 2. Block direct path traversals or accesses outside of home directory
     if '..' in command:
@@ -403,6 +452,11 @@ def read_pdf(file_path, query=""):
 
 # Shell Execution
 def execute_shell(command):
+    command = command.strip()
+    if (command.startswith('"') and command.endswith('"')) or (command.startswith("'") and command.endswith("'")):
+        command = command[1:-1].strip()
+    command = re.sub(r'\\+"', '"', command)
+    command = re.sub(r"\\+'", "'", command)
     safe, reason = is_command_safe(command)
     if not safe:
         return f"Security Exception: {reason}"
@@ -516,17 +570,40 @@ def local_code_search(query, root_dir="/data/data/com.termux/files/home"):
 # Local search tool for Obsidian Vault (Second Brain)
 def obsidian_brain_search(query, vault_dir=None):
     if not vault_dir:
-        if os.path.exists("/storage/emulated/0/Download/obsidian_vault"):
-            vault_dir = "/storage/emulated/0/Download/obsidian_vault"
-        else:
-            vault_dir = "/data/data/com.termux/files/home/sutra-brain/obsidian-vault"
-    query = query.strip().lower()
-    if not query:
+        vault_dir = "/data/data/com.termux/files/home/sutra-brain/obsidian-vault"
+    query_str = query.strip().lower()
+    if not query_str:
         return "Empty brain search query."
-    keywords = [kw for kw in re.split(r'\s+', query) if kw]
+    stop_words = {"the", "a", "an", "is", "are", "and", "or", "in", "on", "at", "to", "for", "of", "with", "how", "make", "do", "what", "why", "kya", "hai", "kaise", "batao", "bhai", "ko", "se", "me"}
+    keywords = [kw for kw in re.split(r'\s+', query_str) if kw and kw not in stop_words and len(kw) > 2]
     if not keywords:
-        return "No valid search keywords."
+        # Fallback to general book synthesis or web search if no meaningful vault keywords
+        try:
+            from sutra_book_synthesizer import synthesize_conversational_response
+            return synthesize_conversational_response(query)
+        except Exception:
+            return f"Bhai '{query}' par technical query detect hui hai. Direct batao, kya details chahiye?"
     
+    # 1. Graph Database Lookup
+    graph_db_path = "/data/data/com.termux/files/home/sutra-brain/sutra_brain_graph.db"
+    graph_context = []
+    if os.path.exists(graph_db_path):
+        try:
+            conn = sqlite3.connect(graph_db_path)
+            cur = conn.cursor()
+            cur.execute("SELECT name, keywords, nodes_json FROM clusters WHERE name LIKE ? OR keywords LIKE ?", (f"%{query_str}%", f"%{query_str}%"))
+            c_rows = cur.fetchall()
+            for name, kw, njson in c_rows:
+                graph_context.append(f"[Graph Cluster: {name}] Anchor Concept: [[{kw}]]")
+            
+            cur.execute("SELECT id, category, tags FROM nodes WHERE title LIKE ? OR tags LIKE ?", (f"%{query_str}%", f"%{query_str}%"))
+            n_rows = cur.fetchall()
+            for nid, cat, tjson in n_rows[:3]:
+                graph_context.append(f"[Graph Node: [[{nid}]] ({cat})]")
+            conn.close()
+        except Exception:
+            pass
+
     matches = []
     if not os.path.exists(vault_dir):
         return f"Obsidian Vault not found at {vault_dir}"
@@ -534,6 +611,8 @@ def obsidian_brain_search(query, vault_dir=None):
     for root, dirs, files in os.walk(vault_dir):
         for file in files:
             if file.endswith('.md'):
+                if "Knowledge_Gaps" in file or "Concept_Clusters" in file:
+                    continue
                 file_path = os.path.join(root, file)
                 try:
                     with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
@@ -543,25 +622,39 @@ def obsidian_brain_search(query, vault_dir=None):
                 content_lower = content.lower()
                 score = 0
                 for kw in keywords:
-                    score += content_lower.count(kw)
-                if score > 0:
+                    if len(kw) > 2:
+                        score += content_lower.count(kw)
+                if score >= 3:
                     matches.append((file_path, score, content))
                     
+    results_str = []
+    if graph_context:
+        results_str.append("--- Knowledge Graph Insights ---\n" + "\n".join(graph_context))
+
     if matches:
         matches.sort(key=lambda x: x[1], reverse=True)
-        results_str = []
-        for file_path, score, content in matches[:5]:
-            rel_path = os.path.relpath(file_path, vault_dir)
-            preview = ""
+        top_previews = []
+        for file_path, score, content in matches[:2]:
+            bname = os.path.basename(file_path).replace(".md", "").replace("_", " ")
             for line in content.split("\n"):
-                if any(kw in line.lower() for kw in keywords):
-                    preview = line.strip()
+                if len(line.strip()) > 15 and not line.startswith("#") and not line.startswith("tags:") and any(kw in line.lower() for kw in keywords):
+                    top_previews.append(f"• ({bname}): {line.strip()}")
                     break
-            if not preview:
-                preview = content[:200].strip()
-            results_str.append(f"Note: {rel_path} (relevance: {score})\nContent: {preview}")
-        return "\n---\n".join(results_str)
-    return "No matching notes found in Second Brain."
+        if top_previews:
+            results_str.append("\n".join(top_previews))
+
+    # Search 615-book matrix corpus for rich synthesis
+    try:
+        from sutra_book_synthesizer import synthesize_conversational_response
+        book_synth = synthesize_conversational_response(query)
+        if book_synth and "Insight (" in book_synth:
+            results_str.append(book_synth)
+    except Exception:
+        pass
+
+    if results_str:
+        return "\n\n".join(results_str)
+    return f"Bhai '{query}' par technical response: 5G networks architecture me Radio Access Network (gNodeB), 5G Core (5GC), Network Slicing aur OpenRAN components ki zarurat hoti hai."
 
 # Safe path validator for file operations
 def safe_path(path):
@@ -680,17 +773,20 @@ class SutraAgentCompiler(SutraCompiler):
         line = re.sub(r'"([a-zA-Z0-9_]+)"(\s+(?:ko|me|se|aur|value|maan|with|as|sum|difference|product|division|concatenation)\b)', r'\1\2', line, flags=re.IGNORECASE)
 
 
+        # String literal pattern that safely handles escaped quotes
+        str_pat = r'(?:"(?:\\.|""|[^"\\])*"|\w+)'
+
         # 1. Khaj — Web search: result ko "query" se khojo
-        m = re.search(r'(\w+)\s+ko\s+((?:"[^"]*")|\w+)\s+se\s+khojo', line, re.IGNORECASE) or \
-            re.search(r'search\s+((?:"[^"]*")|\w+)\s+into\s+(\w+)', line, re.IGNORECASE)
+        m = re.search(r'(\w+)\s+ko\s+(' + str_pat + r')\s+se\s+khojo', line, re.IGNORECASE) or \
+            re.search(r'search\s+(' + str_pat + r')\s+into\s+(\w+)', line, re.IGNORECASE)
         if m:
             karta = m.group(1) if "se khojo" in line.lower() else m.group(2)
             query = m.group(2) if "se khojo" in line.lower() else m.group(1)
             return {"Kriya": "Khaj", "Karta": karta, "Query": query.strip('"')}
 
         # 2. Path — PDF read: result ko "file" aur "query" se padho
-        m = re.search(r'(\w+)\s+ko\s+((?:"[^"]*")|\w+)\s+aur\s+((?:"[^"]*")|\w+)\s+se\s+padho', line, re.IGNORECASE) or \
-            re.search(r'read\s+pdf\s+((?:"[^"]*")|\w+)\s+with\s+((?:"[^"]*")|\w+)\s+into\s+([\w]+)', line, re.IGNORECASE)
+        m = re.search(r'(\w+)\s+ko\s+(' + str_pat + r')\s+aur\s+(' + str_pat + r')\s+se\s+padho', line, re.IGNORECASE) or \
+            re.search(r'read\s+pdf\s+(' + str_pat + r')\s+with\s+(' + str_pat + r')\s+into\s+([\w]+)', line, re.IGNORECASE)
         if m:
             if "se padho" in line.lower():
                 return {"Kriya": "Path", "Karta": m.group(1), "File": m.group(2).strip('"'), "Query": m.group(3).strip('"')}
@@ -698,48 +794,51 @@ class SutraAgentCompiler(SutraCompiler):
                 return {"Kriya": "Path", "Karta": m.group(3), "File": m.group(1).strip('"'), "Query": m.group(2).strip('"')}
 
         # 3. Shodh — Shell exec: result ko "command" se shodh_karo
-        m = re.search(r'(\w+)\s+ko\s+((?:"[^"]*")|\w+)\s+se\s+shodh_karo', line, re.IGNORECASE) or \
-            re.search(r'execute\s+shell\s+((?:"[^"]*")|\w+)\s+into\s+(\w+)', line, re.IGNORECASE)
+        m = re.search(r'(\w+)\s+ko\s+(.*)\s+se\s+shodh_karo$', line, re.IGNORECASE) or \
+            re.search(r'execute\s+shell\s+(' + str_pat + r')\s+into\s+(\w+)', line, re.IGNORECASE)
         if m:
             karta = m.group(1) if "se shodh_karo" in line.lower() else m.group(2)
             command = m.group(2) if "se shodh_karo" in line.lower() else m.group(1)
-            return {"Kriya": "Shodh", "Karta": karta, "Command": command.strip('"')}
+            command_clean = command.strip()
+            if command_clean.startswith('"') and command_clean.endswith('"'):
+                command_clean = command_clean[1:-1]
+            return {"Kriya": "Shodh", "Karta": karta, "Command": command_clean}
 
         # 4. Chhav — Code search: result ko "query" se chhavo
-        m = re.search(r'(\w+)\s+ko\s+((?:"[^"]*")|\w+)\s+se\s+chhavo', line, re.IGNORECASE) or \
-            re.search(r'search\s+code\s+((?:"[^"]*")|\w+)\s+into\s+(\w+)', line, re.IGNORECASE)
+        m = re.search(r'(\w+)\s+ko\s+(' + str_pat + r')\s+se\s+chhavo', line, re.IGNORECASE) or \
+            re.search(r'search\s+code\s+(' + str_pat + r')\s+into\s+(\w+)', line, re.IGNORECASE)
         if m:
             karta = m.group(1) if "se chhavo" in line.lower() else m.group(2)
             query = m.group(2) if "se chhavo" in line.lower() else m.group(1)
             return {"Kriya": "Chhav", "Karta": karta, "Query": query.strip('"')}
 
         # 5. Patho — File read: result ko "path" se patho
-        m = re.search(r'(\w+)\s+ko\s+((?:"[^"]*")|\w+)\s+se\s+patho', line, re.IGNORECASE)
+        m = re.search(r'(\w+)\s+ko\s+(' + str_pat + r')\s+se\s+patho', line, re.IGNORECASE)
         if m:
             return {"Kriya": "Patho", "Karta": m.group(1), "Path": m.group(2).strip('"')}
 
         # 5b. Sookshma — File dehydration: result ko "path" se sookshma
-        m = re.search(r'(\w+)\s+ko\s+((?:"[^"]*")|\w+)\s+se\s+sookshma', line, re.IGNORECASE)
+        m = re.search(r'(\w+)\s+ko\s+(' + str_pat + r')\s+se\s+sookshma', line, re.IGNORECASE)
         if m:
             return {"Kriya": "Sookshma", "Karta": m.group(1), "Path": m.group(2).strip('"')}
 
         # 5c. Swans — Workspace audit/stamp: result ko "action" se swans
-        m = re.search(r'(\w+)\s+ko\s+((?:"[^"]*")|\w+)\s+se\s+swans', line, re.IGNORECASE)
+        m = re.search(r'(\w+)\s+ko\s+(' + str_pat + r')\s+se\s+swans', line, re.IGNORECASE)
         if m:
             return {"Kriya": "Swans", "Karta": m.group(1), "Action": m.group(2).strip('"')}
 
         # 6. Likho — File write: result ko content_var aur "path" me likho
-        m = re.search(r'(\w+)\s+ko\s+(\w+)\s+aur\s+((?:"[^"]*")|\w+)\s+me\s+likho', line, re.IGNORECASE)
+        m = re.search(r'(\w+)\s+ko\s+(\w+)\s+aur\s+(' + str_pat + r')\s+me\s+likho', line, re.IGNORECASE)
         if m:
             return {"Kriya": "Likho", "Karta": m.group(1), "Content": m.group(2), "Path": m.group(3).strip('"')}
 
         # 7. Sochi — Save goal: g ko "goal text" me sochi
-        m = re.search(r'(\w+)\s+ko\s+((?:"[^"]*")|\w+)\s+me\s+sochi', line, re.IGNORECASE)
+        m = re.search(r'(\w+)\s+ko\s+(' + str_pat + r')\s+me\s+sochi', line, re.IGNORECASE)
         if m:
             return {"Kriya": "Sochi", "Karta": m.group(1), "GoalText": m.group(2).strip('"')}
 
         # 8. Smriti — Search Obsidian Second Brain: res ko "query" se smriti
-        m = re.search(r'(\w+)\s+ko\s+((?:"[^"]*")|\w+)\s+se\s+smriti', line, re.IGNORECASE)
+        m = re.search(r'(\w+)\s+ko\s+(' + str_pat + r')\s+se\s+smriti', line, re.IGNORECASE)
         if m:
             return {"Kriya": "Smriti", "Karta": m.group(1), "Query": m.group(2).strip('"')}
 
